@@ -1,10 +1,5 @@
 # https://adventofcode.com/2023/day/3
 
-# test_input : list[str] = [
-
-# ]
-
-
 # f = open("Puzzle03_test.txt")
 f = open("Puzzle03_input.txt")
 M = f.read().splitlines()
