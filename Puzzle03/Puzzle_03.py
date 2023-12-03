@@ -114,8 +114,78 @@ pn = list(pn)
 # print(pn)
 s = sum(pn)
 
-print(s) # 535235
+# print(s) # 535235
 
 ################################
 # Part (b)
 ################################
+
+# A gear is any * symbol that is adjacent to exactly two part numbers.
+# Its gear ratio is the result of multiplying those two numbers together.
+
+def find_stars(M):
+  star_coords = []
+  height = len(M)
+  width  = len(M[0])
+  for row in range(1, height-1):
+    for col in range(1, width-1):
+      if M[row][col] == "*":
+        star_coords.append((row,col))
+  return star_coords
+
+def find_and_locate_numbers(M):
+  '''Find all numbers in matrix M; return them and their locations'''
+  op = [[]] # initialise with one blank row corresponding to the row of padding in M
+  height = len(M)
+  width  = len(M[0])
+  for row in range(1, height-1):
+    op_row = []
+    col = 1
+    while col < width:
+      if not isdigit(M[row][col]):
+        col += 1
+      else:
+        x = gather_number(M, row, col)
+        op_row.append([x, row, col, col+len(x)-1])
+        col += len(x)  # jump the pointer ahead
+    op.append(op_row)
+  return op
+
+# show(find_and_locate_numbers(M))
+
+
+NUMBER_LOCS = find_and_locate_numbers(M)
+
+def isadj(pos, range_start, range_end) -> bool:
+  return (range_start <= pos+1) & (range_end >= pos-1)
+
+def find_adj_numbers(row, col):
+  '''Given coords in M, find all numbers adjacent to that position'''
+  op = []
+  for r in range(row-1, row+2): # only check the current row and those immediately above and below
+    for entry in NUMBER_LOCS[r]: # check every number recorded in these rows
+      n = entry[0]
+      range_start = entry[2]
+      range_end   = entry[3]
+      if isadj(col, range_start, range_end):
+        op.append(n)
+  return op
+
+# print(find_adj_numbers(9,6))
+
+# print(find_stars(M))
+
+
+# What is the sum of all of the gear ratios in your engine schematic?
+
+op = 0
+for star in find_stars(M):
+  (row,col) = star
+  adj = find_adj_numbers(row, col)
+  # print(star, adj, len(adj))
+  if len(adj) == 2:
+    x = int(adj[0])
+    y = int(adj[1])
+    op += x*y
+
+print(op) # 79844424
