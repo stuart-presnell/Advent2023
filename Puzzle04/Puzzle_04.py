@@ -46,9 +46,24 @@ def card_score(card:str):
 counter = 0
 for line in input:
   counter += card_score(line)
-print(counter) # 19855
+# print(counter) # 19855
 
 ################################
 # Part (b)
 ################################
 
+# We start with one copy of each card
+cards_in_hand = dict.fromkeys(range(1,len(input)+1), 1)
+
+# print(cards_in_hand)
+
+i = 0
+for card in input:
+  i += 1   # i is the number of the current card
+  number_of_wins = len(card_wins(card))
+  for x in range(1, number_of_wins+1):
+    cards_in_hand[i+x] += cards_in_hand[i]   # for each copy of the current card, we win a copy of the next `number_of_wins` cards
+
+# print(cards_in_hand)
+total = sum(list(cards_in_hand.values()))
+print(total) # 10378710
