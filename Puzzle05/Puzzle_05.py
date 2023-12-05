@@ -2,8 +2,8 @@
 
 import re
 
-# f = open("Puzzle05_test.txt")
-f = open("Puzzle05_input.txt")
+f = open("Puzzle05_test.txt")
+# f = open("Puzzle05_input.txt")
 input = f.read().splitlines()
 f.close()
 
@@ -21,11 +21,31 @@ def parse_nums(s:str) -> list[int]:
 
 # show(input[:10])
 
-seed_line = input[0]
-seed_line = seed_line.split(": ")[1]
-seed_line = parse_nums(seed_line)
+# The almanac starts by listing which seeds need to be planted: seeds 79, 14, 55, and 13.
 
-# chunk the rest of the file
+# The rest of the almanac contains a list of maps which describe 
+# how to convert numbers from a source category into numbers in a destination category.
+
+# the section that starts with seed-to-soil map: 
+# describes how to convert a seed number (the source) to a soil number (the destination).
+
+# Rather than list every source number and its corresponding destination number one by one, 
+# the maps describe entire ranges of numbers that can be converted.
+# Each line within a map contains three numbers: 
+# the destination range start, the source range start, and the range length.
+
+# 50 98 2 => source range [98, 99] -> destination range [50, 51]
+# seed number 98 corresponds to soil number 50 and seed number 99 corresponds to soil number 51.
+
+# 52 50 48 => source range [50, 50+48-1] -> destination range [52, 52+48-1]
+# So, seed number 53 corresponds to soil number 55.
+
+# Any source numbers that aren't mapped correspond to the same destination number. So, seed number 10 corresponds to soil number 10.
+
+################################
+
+
+# chunk the rest of the file after the first line
 maps_str_list=[]
 current_map=[]
 for line in input[2:]:  # skip the 'seeds' line and the blank line after it
@@ -76,36 +96,6 @@ def chain_conversions(x:int, map_list):
     op.append(y)
   return op
 
-locations=[]
-for seed in seed_line:
-  loc = chain_conversions(seed, maps)[-1]
-  locations.append(loc)
-
-print(min(locations))
-
-
-################################
-
-# The almanac starts by listing which seeds need to be planted: seeds 79, 14, 55, and 13.
-
-# The rest of the almanac contains a list of maps which describe 
-# how to convert numbers from a source category into numbers in a destination category.
-
-# the section that starts with seed-to-soil map: 
-# describes how to convert a seed number (the source) to a soil number (the destination).
-
-# Rather than list every source number and its corresponding destination number one by one, 
-# the maps describe entire ranges of numbers that can be converted.
-# Each line within a map contains three numbers: 
-# the destination range start, the source range start, and the range length.
-
-# 50 98 2 => source range [98, 99] -> destination range [50, 51]
-# seed number 98 corresponds to soil number 50 and seed number 99 corresponds to soil number 51.
-
-# 52 50 48 => source range [50, 50+48-1] -> destination range [52, 52+48-1]
-# So, seed number 53 corresponds to soil number 55.
-
-# Any source numbers that aren't mapped correspond to the same destination number. So, seed number 10 corresponds to soil number 10.
 
 ################################
 # Part (a)
@@ -115,7 +105,23 @@ print(min(locations))
 # until you can find its corresponding location number.
 # What is the lowest location number that corresponds to any of the initial seed numbers?
 
+seed_line = input[0]
+seed_line = seed_line.split(": ")[1]
+seed_line = parse_nums(seed_line)
+
+locations=[]
+for seed in seed_line:
+  loc = chain_conversions(seed, maps)[-1]
+  locations.append(loc)
+
+print(min(locations))
+
+
 ################################
 # Part (b)
 ################################
 
+# The values on the initial seeds: line come in pairs. Within each pair, the first value is the start of the range and the second value is the length of the range. So, in the first line of the example above:
+
+# seeds: 79 14 55 13
+# This line describes two ranges of seed numbers to be planted in the garden. The first range starts with seed number 79 and contains 14 values: 79, 80, ..., 91, 92. The second range starts with seed number 55 and contains 13 values: 55, 56, ..., 66, 67.
