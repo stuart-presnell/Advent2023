@@ -153,7 +153,7 @@ def amalgamate_ranges(L):
     if not current_range:
       current_range = item
       continue
-    if item[0] == current_range[1] + 1:
+    if current_range[0] <= item[0] <= current_range[1] + 1:
       current_range[1] = item[1]
     else:
       op.append(current_range)
@@ -201,25 +201,15 @@ seed_line = input[0]
 seed_line = seed_line.split(": ")[1]
 seed_line = parse_nums(seed_line)
 
-rl = [[x,x] for x in seed_line]
-print(rl)
-print()
+# rl = [[x,x] for x in seed_line]
+# # print(rl)
+# # print()
 
-x = chain_conversions(rl, maps2)
-print(x)
+# x = chain_conversions(rl, maps2)
+# # print(x)
 
-x.sort()
-print(x[0][0]) # 265018614
-
-
-
-################################################################################################
-################################################################################################
-raise SystemExit
-################################################################################################
-################################################################################################
-
-
+# x.sort()
+# # print(x[0][0]) # 265018614
 
 ################################
 # Part (b)
@@ -241,93 +231,23 @@ raise SystemExit
 
 # print(seed_line)
 
-#  Ranges of seed numbers to check, formatted as (start, end) inclusive
-seed_ranges = [(seed_line[i], seed_line[i]+seed_line[i+1]-1) for i in range(0,len(seed_line), 2)]
+#  Ranges of seed numbers to check, formatted as [start, end] inclusive
+seed_ranges = [[seed_line[i], seed_line[i]+seed_line[i+1]-1] for i in range(0,len(seed_line), 2)]
+
 seed_ranges.sort()
+show(seed_ranges)
 
-# show(seed_ranges)
-
-
-
-def parse_map_b(M:list[str]):
-  '''Given a list of strings denoting a conversion table with a header line, 
-  return the conversion table'''
-  table = []
-  for line in M[1:]:  # skip header line
-    table.append(parse_nums(line))
-  return table
-
-def reparse_map(M):
-  '''Given a conversion table in the form [dst, src, rng],
-  return a lookup table in the form [src_start, src_end, offset]'''
-
-  return [[s, s+r-1, d-s] for [d,s,r] in M]
-
-
-# maps = [parse_map_b(M) for M in maps_str_list]
-# maps = [reparse_map(M) for M in maps]
-# maps = [sorted(M) for M in maps]
-
-# for M in maps:
-#   show(M)
-
-
-
-
-# Now we've sorted the conversion tables in order of start-range
-
-def convert_b(x:int, table:list[list[int]]) -> int:
-  '''Given a number and a conversion table, return the converted number'''
-  if (x < table[0][0]):  # if x is below the start of the first range, return unchanged
-    return x
-  elif (x >= table[-1][0] + table[-1][1]): # if x is above the end of the last range
-    return x
-  # Otherwise find its place in the table
-  for row in table:
-    [s,r,offset] = row
-    if (s <= x <= s + r - 1): # if x is in the current range 
-      return x + offset
-  # If we haven't found the position of x yet, an error has occurred
-  raise ValueError
-
-
-
-
-
-
-def chain_conversions_b(x:int, map_list):
-  for M in map_list:
-    x = convert_b(x, M)
-  return x
-
-# start_time = time.perf_counter()
-# for i in range(100000):
-#   chain_conversions_b(seed_ranges[0][0] + 1, maps)
-# end_time = time.perf_counter()
-
-
-# start_time = time.perf_counter()
-# locations=[]
-# for (start, l) in seed_ranges:
-#   for i in range(l):
-#     seed = start + i
-#     loc = chain_conversions_b(seed, maps)
-#     locations.append(loc)
-# end_time = time.perf_counter()
-
-
-# print(len(locations))
-# print(min(locations))
-
-
-
-
+op = []
+for line in seed_ranges:
+  x = chain_conversions([line], maps2)
+  op.append(x[0][0])
+op.sort()
+print(op[0]) # 63179500
 
 
 
 ################################################################################################
 ################################################################################################
-raise SystemExit
 ################################################################################################
 ################################################################################################
 
@@ -336,37 +256,114 @@ raise SystemExit
 # This was ok for part (a), 
 # but would have led to 1.5 hour runtimes to process 2.3 billion seeds for part (b)!
 
-# def parse_map(M:list[str]):
+
+# def parse_map_b(M:list[str]):
 #   '''Given a list of strings denoting a conversion table with a header line, 
-#   return a dictionary recording the source, destination, and the conversion table'''
-#   op = {}
-#   header = re.split(("-|\ "), M[0])
-#   op['source'] = header[0]
-#   op['dest'] = header[2]
+#   return the conversion table'''
 #   table = []
 #   for line in M[1:]:  # skip header line
-#     d = {}
-#     [d['dst'], d['src'], d['rng']] = parse_nums(line)
-#     table.append(d)
-#   op['table'] = table
-#   return op
+#     table.append(parse_nums(line))
+#   return table
+
+# def reparse_map(M):
+#   '''Given a conversion table in the form [dst, src, rng],
+#   return a lookup table in the form [src_start, src_end, offset]'''
+
+#   return [[s, s+r-1, d-s] for [d,s,r] in M]
 
 
-# maps = [parse_map(M) for M in maps_str_list]
+# # maps = [parse_map_b(M) for M in maps_str_list]
+# # maps = [reparse_map(M) for M in maps]
+# # maps = [sorted(M) for M in maps]
 
-# # print(maps[1])
+# # for M in maps:
+# #   show(M)
 
-# def convert(x:int, table:list[dict]) -> int:
+
+
+
+# # Now we've sorted the conversion tables in order of start-range
+
+# def convert_b(x:int, table:list[list[int]]) -> int:
 #   '''Given a number and a conversion table, return the converted number'''
+#   if (x < table[0][0]):  # if x is below the start of the first range, return unchanged
+#     return x
+#   elif (x >= table[-1][0] + table[-1][1]): # if x is above the end of the last range
+#     return x
+#   # Otherwise find its place in the table
 #   for row in table:
-#     if (x >= row['src']) & (x <= row['src'] + row['rng'] - 1):
-#       return x - row['src'] + row['dst']
-#   return x  # if input doesn't fit any of the source ranges, return it unchanged
+#     [s,r,offset] = row
+#     if (s <= x <= s + r - 1): # if x is in the current range 
+#       return x + offset
+#   # If we haven't found the position of x yet, an error has occurred
+#   raise ValueError
 
 
-# def chain_conversions(x:int, map_list):
-#   op = [x]
+
+
+
+
+# def chain_conversions_b(x:int, map_list):
 #   for M in map_list:
-#     y = convert(op[-1], M['table'])
-#     op.append(y)
-#   return op
+#     x = convert_b(x, M)
+#   return x
+
+# # start_time = time.perf_counter()
+# # for i in range(100000):
+# #   chain_conversions_b(seed_ranges[0][0] + 1, maps)
+# # end_time = time.perf_counter()
+
+
+# # start_time = time.perf_counter()
+# # locations=[]
+# # for (start, l) in seed_ranges:
+# #   for i in range(l):
+# #     seed = start + i
+# #     loc = chain_conversions_b(seed, maps)
+# #     locations.append(loc)
+# # end_time = time.perf_counter()
+
+
+# # print(len(locations))
+# # print(min(locations))
+
+
+
+
+
+
+
+# # def parse_map(M:list[str]):
+# #   '''Given a list of strings denoting a conversion table with a header line, 
+# #   return a dictionary recording the source, destination, and the conversion table'''
+# #   op = {}
+# #   header = re.split(("-|\ "), M[0])
+# #   op['source'] = header[0]
+# #   op['dest'] = header[2]
+# #   table = []
+# #   for line in M[1:]:  # skip header line
+# #     d = {}
+# #     [d['dst'], d['src'], d['rng']] = parse_nums(line)
+# #     table.append(d)
+# #   op['table'] = table
+# #   return op
+
+
+# # maps = [parse_map(M) for M in maps_str_list]
+
+# # # print(maps[1])
+
+# # def convert(x:int, table:list[dict]) -> int:
+# #   '''Given a number and a conversion table, return the converted number'''
+# #   for row in table:
+# #     if (x >= row['src']) & (x <= row['src'] + row['rng'] - 1):
+# #       return x - row['src'] + row['dst']
+# #   return x  # if input doesn't fit any of the source ranges, return it unchanged
+
+
+# # def chain_conversions(x:int, map_list):
+# #   op = [x]
+# #   for M in map_list:
+# #     y = convert(op[-1], M['table'])
+# #     op.append(y)
+# #   return op
