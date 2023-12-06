@@ -2,8 +2,8 @@
 
 from math import sqrt, floor, ceil
 
-# f = open("Puzzle06_test.txt")
-f = open("Puzzle06_input.txt")
+f = open("Puzzle06_test.txt")
+# f = open("Puzzle06_input.txt")
 input = f.read().splitlines()
 f.close()
 
@@ -31,19 +31,6 @@ def rotate90(M):
 # and also the best distance ever recorded in that race. 
 # To guarantee you win the grand prize, you need to make sure you go farther in each race 
 # than the current record holder.
-
-# Time:      7  15   30
-# Distance:  9  40  200
-# This document describes three races:
-
-# Each column in this document describes a race, that lasts `Time` ms and the record is `Distance` mm.
-
-input = [parse_nums(line.split(":")[1]) for line in input]
-input = rotate90(input)
-print("D, T")
-show(input)
-
-# Now formatted as one race per row, [Distance, Time]
 
 # Your toy boat has a starting speed of zero millimeters per millisecond. 
 # For each whole millisecond you spend at the beginning of the race holding down the button, 
@@ -75,6 +62,28 @@ def round_down(x):
     '''Next integer below x; if x is a whole number in float form, return x-1'''
     return floor(x) - int(ceil(x) == floor(x))
 
+
+
+################################
+# Part (a)
+################################
+
+# Determine the number of ways you can beat the record in each race
+# What do you get if you multiply these numbers together?
+
+# Time:      7  15   30
+# Distance:  9  40  200
+# This document describes three races:
+
+# Each column in this document describes a race, that lasts `Time` ms and the record is `Distance` mm.
+
+input = [parse_nums(line.split(":")[1]) for line in input]
+input = rotate90(input)
+print("D, T")
+show(input)
+
+# Now formatted as one race per row, [Distance, Time]
+
 op = []
 count = 1
 for [D,T] in input:
@@ -92,19 +101,8 @@ for [D,T] in input:
 print(op)
 print(count)
 
-# for [D,T] in input:
-#   (lo,hi) = solve_quad(T,D)
-#   print(floor(hi)-ceil(lo)+1)
-
-
-################################
-# Part (a)
-################################
-
-# Determine the number of ways you can beat the record in each race
-# What do you get if you multiply these numbers together?
-
 ################################
 # Part (b)
 ################################
 
+# There's really only one race - ignore the spaces between the numbers on each line.
