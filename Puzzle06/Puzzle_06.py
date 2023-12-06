@@ -1,7 +1,9 @@
 # https://adventofcode.com/2023/day/6
 
-f = open("Puzzle06_test.txt")
-# f = open("Puzzle06_input.txt")
+from math import sqrt, floor, ceil
+
+# f = open("Puzzle06_test.txt")
+f = open("Puzzle06_input.txt")
 input = f.read().splitlines()
 f.close()
 
@@ -36,19 +38,71 @@ def rotate90(M):
 
 # Each column in this document describes a race, that lasts `Time` ms and the record is `Distance` mm.
 
-# show(input)
 input = [parse_nums(line.split(":")[1]) for line in input]
-show(input)
-
 input = rotate90(input)
+print("D, T")
 show(input)
 
 # Now formatted as one race per row, [Distance, Time]
+
+# Your toy boat has a starting speed of zero millimeters per millisecond. 
+# For each whole millisecond you spend at the beginning of the race holding down the button, 
+# the boat's speed increases by one millimeter per millisecond.
+
+# Given a target of T ms
+# If we hold the button for t ms we'll move at speed t for (T-t) ms, 
+# covering distance (T-t) * t mm
+
+def dist_covered(T,t):
+  return (T-t) * t
+
+# D = 40
+# T = 15
+
+# This describes a parabola; we want to know where it's above a line (T-t) * t > D
+# t^2 - Tt + D = 0
+# T +- \sqrt(T^2 - 4D) / 2
+
+def solve_quad(T,D):
+  rt = sqrt(T**2 - 4*D)
+  return ((T - rt)/2, (T + rt)/2)
+
+def round_up(x):
+    '''Next integer above x; if x is a whole number in float form, return x+1'''
+    return ceil(x) + int(ceil(x) == floor(x))
+
+def round_down(x):
+    '''Next integer below x; if x is a whole number in float form, return x-1'''
+    return floor(x) - int(ceil(x) == floor(x))
+
+op = []
+count = 1
+for [D,T] in input:
+  # for t in range(T+1):
+  #   print(t, dist_covered(T,t))
+  # print()
+  (lo,hi) = solve_quad(T,D)  # these are the real numbers at which the parabola = D
+  #  We need the next integer above lo and the integer below hi
+  # print(lo,hi)
+  # print(round_up(lo),round_down(hi))
+  r = round_down(hi) - round_up(lo) + 1
+  op.append(r)
+  count = count * r
+
+print(op)
+print(count)
+
+# for [D,T] in input:
+#   (lo,hi) = solve_quad(T,D)
+#   print(floor(hi)-ceil(lo)+1)
+
 
 ################################
 # Part (a)
 ################################
 
+# Determine the number of ways you can beat the record in each race
+# What do you get if you multiply these numbers together?
 
 ################################
 # Part (b)
