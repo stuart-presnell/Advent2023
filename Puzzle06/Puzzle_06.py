@@ -1,9 +1,10 @@
 # https://adventofcode.com/2023/day/6
 
 from math import sqrt, floor, ceil
+import re
 
-f = open("Puzzle06_test.txt")
-# f = open("Puzzle06_input.txt")
+# f = open("Puzzle06_test.txt")
+f = open("Puzzle06_input.txt")
 input = f.read().splitlines()
 f.close()
 
@@ -77,32 +78,48 @@ def round_down(x):
 
 # Each column in this document describes a race, that lasts `Time` ms and the record is `Distance` mm.
 
-input = [parse_nums(line.split(":")[1]) for line in input]
-input = rotate90(input)
-print("D, T")
-show(input)
+# input = [parse_nums(line.split(":")[1]) for line in input]
+# input = rotate90(input)
+# print("D, T")
+# show(input)
 
-# Now formatted as one race per row, [Distance, Time]
+# # Now formatted as one race per row, [Distance, Time]
 
-op = []
-count = 1
-for [D,T] in input:
-  # for t in range(T+1):
-  #   print(t, dist_covered(T,t))
-  # print()
-  (lo,hi) = solve_quad(T,D)  # these are the real numbers at which the parabola = D
-  #  We need the next integer above lo and the integer below hi
-  # print(lo,hi)
-  # print(round_up(lo),round_down(hi))
-  r = round_down(hi) - round_up(lo) + 1
-  op.append(r)
-  count = count * r
+# op = []
+# count = 1
+# for [D,T] in input:
+#   # for t in range(T+1):
+#   #   print(t, dist_covered(T,t))
+#   # print()
+#   (lo,hi) = solve_quad(T,D)  # these are the real numbers at which the parabola = D
+#   #  We need the next integer above lo and the integer below hi
+#   # print(lo,hi)
+#   # print(round_up(lo),round_down(hi))
+#   r = round_down(hi) - round_up(lo) + 1
+#   op.append(r)
+#   count = count * r
 
-print(op)
-print(count)
+# print(op)
+# print(count)
 
 ################################
 # Part (b)
 ################################
 
 # There's really only one race - ignore the spaces between the numbers on each line.
+
+show(input)
+input = [line.split(":")[1] for line in input]
+[T,D] = [int(line.replace(" ","")) for line in input]
+# input = rotate90(input)
+# print("D, T")
+print(T)
+print(D)
+
+(lo,hi) = solve_quad(T,D)  # these are the real numbers at which the parabola = D
+#   #  We need the next integer above lo and the integer below hi
+print(lo,hi)
+print(round_up(lo),round_down(hi))
+r = round_down(hi) - round_up(lo) + 1
+print(r) # 43364472
+
