@@ -159,22 +159,22 @@ def hand_type_b(ctr):
 #   print()
 
 
-# Now we repeat what we did in part (a), but with the new type-assignment function
+# # Now we repeat what we did in part (a), but with the new type-assignment function
 
-# # prepend hand-type values
-input = [[-hand_type_b(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
+# # # prepend hand-type values
+# input = [[-hand_type_b(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
 
-# # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
-# # `reverse=True`, so the lowest scoring card is placed first
-# # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
-input.sort(key = itemgetter(0,1), reverse=True)
-input.reverse()
-# show(input)
+# # # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
+# # # `reverse=True`, so the lowest scoring card is placed first
+# # # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
+# input.sort(key = itemgetter(0,1), reverse=True)
+# input.reverse()
+# # show(input)
 
-# # list the bids in order, each paired with its rank
-winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
+# # # list the bids in order, each paired with its rank
+# winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
 
-winnings = [rank * bid for (rank,bid) in list(winnings_list)]
-print(sum(winnings)) # 
+# winnings = [rank * bid for (rank,bid) in list(winnings_list)]
+# print(sum(winnings)) # 
 
 # 251137914 -- too high
