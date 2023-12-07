@@ -109,4 +109,69 @@ def hand_type(ctr):
 # Part (b)
 ################################
 
+# J cards are now the weakest individual cards
+card_vals['J'] = 1
 
+
+
+# J cards can pretend to be whatever card is best for the purpose of determining hand type; 
+# for example, QJJQ2 is now considered four of a kind. 
+# However, for the purpose of breaking ties between two hands of the same type, 
+# J is always treated as J, not the card it's pretending to be: 
+# JKKK2 is weaker than QQQQ2 because J is weaker than Q.
+
+
+def hand_type_b(ctr):
+  '''Given the Counter derived from a hand, return its rank (1 highest, 7 lowest)'''
+  if ctr['J'] < 1:        # If 'J' is not in the hand, use the original function
+    return hand_type(ctr)
+  else:
+    j = ctr['J']
+    del ctr['J']  # remove the 'J' entry from ctr
+    possible_types = []
+    for k in card_vals.keys():
+      temp_ctr = ctr.copy()
+      temp_ctr[k] += j       # Let the Js pretend to be of type k
+      new_score = hand_type(temp_ctr)
+      possible_types.append(new_score)  # record what type such a hand would have
+    return min(possible_types)
+
+# h1 = input[1]
+# ctr = h1[1]
+# # print(h1)
+# # print(ctr['J'])
+
+# print(ctr)
+
+# new_ctr = ctr
+# del new_ctr['J']
+# print(new_ctr)
+# print(ctr)
+
+
+# for [hand, ctr, bid] in input:
+#   print(ctr.keys())
+#   x = hand_type_b(ctr)
+#   print(type_name[x])
+#   print()
+
+
+# Now we repeat what we did in part (a), but with the new type-assignment function
+
+# # prepend hand-type values
+input = [[-hand_type_b(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
+
+# # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
+# # `reverse=True`, so the lowest scoring card is placed first
+# # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
+input.sort(key = itemgetter(0,1), reverse=True)
+input.reverse()
+# show(input)
+
+# # list the bids in order, each paired with its rank
+winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
+
+winnings = [rank * bid for (rank,bid) in list(winnings_list)]
+print(sum(winnings)) # 
+
+# 251137914 -- too high
