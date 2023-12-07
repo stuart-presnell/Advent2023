@@ -3,8 +3,8 @@
 from collections import Counter
 from operator import itemgetter
 
-# f = open("Puzzle07_test.txt")
-f = open("Puzzle07_input.txt")
+f = open("Puzzle07_test.txt")
+# f = open("Puzzle07_input.txt")
 input = f.read().splitlines()
 f.close()
 
@@ -121,16 +121,19 @@ card_vals['J'] = 1
 # JKKK2 is weaker than QQQQ2 because J is weaker than Q.
 
 
+
+# This first attempt at re-scoring according to the new rules
+# assumes that it's always best for all Js to switch to the same other type
 def hand_type_b(ctr):
   '''Given the Counter derived from a hand, return its rank (1 highest, 7 lowest)'''
   if ctr['J'] < 1:        # If 'J' is not in the hand, use the original function
     return hand_type(ctr)
   else:
     j = ctr['J']
-    del ctr['J']  # remove the 'J' entry from ctr
     possible_types = []
     for k in card_vals.keys():
       temp_ctr = ctr.copy()
+      del temp_ctr['J']  # remove the 'J' entry from temp_ctr
       temp_ctr[k] += j       # Let the Js pretend to be of type k
       new_score = hand_type(temp_ctr)
       possible_types.append(new_score)  # record what type such a hand would have
