@@ -64,11 +64,6 @@ input = [[[card_vals[x] for x in hand], Counter(hand), bid] for [hand,bid] in in
 
 type_name = ["","Five of a kind","Four of a kind","Full house","Three of a kind","Two pair","One pair","High card"]
 
-
-################################
-# Part (a)
-################################
-
 def hand_type(ctr):
   '''Given the Counter derived from a hand, return its rank (1 highest, 7 lowest)'''
   counts = sorted(list(ctr.values()))
@@ -90,30 +85,28 @@ def hand_type(ctr):
     case 5:       
       return 7    # High card (23456)
 
-# for [hand,ctr,bid] in input:
-#   x = hand_type(ctr)
-#   print(hand, type_name[x])
+################################
+# Part (a)
+################################
 
-# hands = [hand for [hand, ctr, bid] in input]
-# show(sorted(hands, reverse=True))
+# # prepend hand-type values
+# input = [[-hand_type(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
 
-# prepend hand-type values
-input = [[-hand_type(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
-# show(input)
+# # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
+# # `reverse=True`, so the lowest scoring card is placed first
+# # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
+# input.sort(key = itemgetter(0,1), reverse=True)
+# input.reverse()
+# # show(input)
 
-# Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
-# `reverse=True`, so the lowest scoring card is placed first
-# From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
-input.sort(key = itemgetter(0,1), reverse=True)
-input.reverse()
-# show(input)
+# # list the bids in order, each paired with its rank
+# winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
 
-# list the bids in order, each paired with its rank
-winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
-
-winnings = [rank * bid for (rank,bid) in list(winnings_list)]
-print(sum(winnings)) # 251216224
+# winnings = [rank * bid for (rank,bid) in list(winnings_list)]
+# print(sum(winnings)) # 251216224
 
 ################################
 # Part (b)
 ################################
+
+
