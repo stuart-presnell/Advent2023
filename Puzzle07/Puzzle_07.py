@@ -40,18 +40,11 @@ card_vals['Q'] = 12
 card_vals['K'] = 13
 card_vals['A'] = 14 # Don't forget, aces are high, not low!
 
-
 # parse each input line as `hand`:list[str] and `bid`:int
 input = [line.split() for line in input]
 input = [[list(hand),int(bid)] for [hand,bid] in input]
 input = [[[card_vals[x] for x in hand], Counter(hand), bid] for [hand,bid] in input]
 # show(input)
-
-# h1 = input[0][0]
-# print(h1)
-# h1_vals = [card_vals[x] for x in h1]
-# print(h1_vals)
-
 
 # Every hand is exactly one type. From strongest to weakest, they are:
 # 1:  Five of a kind, 
@@ -69,13 +62,12 @@ input = [[[card_vals[x] for x in hand], Counter(hand), bid] for [hand,bid] in in
 # 7:  High card, 
 # where all cards' labels are distinct: 23456
 
-# h1 = input[0][0]
-# print(h1)
-# cards_held = set(h1)
-# for card in cards_held:
-#   print(h1.count(card))
-
 type_name = ["","Five of a kind","Four of a kind","Full house","Three of a kind","Two pair","One pair","High card"]
+
+
+################################
+# Part (a)
+################################
 
 def hand_type(ctr):
   '''Given the Counter derived from a hand, return its rank (1 highest, 7 lowest)'''
@@ -121,13 +113,6 @@ winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
 
 winnings = [rank * bid for (rank,bid) in list(winnings_list)]
 print(sum(winnings)) # 251216224
-
-# 251899959 --- too high
-
-################################
-# Part (a)
-################################
-
 
 ################################
 # Part (b)
