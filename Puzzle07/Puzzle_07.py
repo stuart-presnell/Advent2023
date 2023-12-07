@@ -3,7 +3,10 @@
 from collections import Counter
 from operator import itemgetter
 
-# f = open("Puzzle07_test.txt")
+f = open("Puzzle07_test.txt")
+test_input = f.read().splitlines()
+f.close()
+
 f = open("Puzzle07_input.txt")
 input = f.read().splitlines()
 f.close()
@@ -40,31 +43,21 @@ card_vals['Q'] = 12
 card_vals['K'] = 13
 card_vals['A'] = 14 # Don't forget, aces are high, not low!
 
-# parse each input line as `hand`:list[str] and `bid`:int
-input = [line.split() for line in input]
-input = [[list(hand),int(bid)] for [hand,bid] in input]
-# show(input)
-
 # Every hand is exactly one type. From strongest to weakest, they are:
-# 1:  Five of a kind, 
-# where all five cards have the same label: AAAAA
-# 2:  Four of a kind, 
-# where four cards have the same label and one card has a different label: AA8AA
-# 3:  Full house,
-#  where three cards have the same label, and the remaining two cards share a different label: 23332
-# 4:  Three of a kind, 
-# where three cards have the same label, and the remaining two cards are each different from any other card in the hand: TTT98
-# 5:  Two pair, 
-# where two cards share one label, two other cards share a second label, and the remaining card has a third label: 23432
-# 6:  One pair, 
-# where two cards share one label, and the other three cards have a different label from the pair and each other: A23A4
-# 7:  High card, 
-# where all cards' labels are distinct: 23456
-
-type_name = ["","Five of a kind","Four of a kind","Full house","Three of a kind","Two pair","One pair","High card"]
+type_name = ["",
+"Five of a kind",
+"Four of a kind",
+"Full house",
+"Three of a kind",
+"Two pair",
+"One pair",
+"High card"
+]
 
 def hand_type(ctr):
-  '''Given the Counter derived from a hand, return its rank (1 highest, 7 lowest)'''
+  '''Given the Counter derived from a hand, 
+  e.g. Counter({'K': 2, '7': 2, '6': 1})
+  return its rank (1 highest, 7 lowest)'''
   counts = sorted(list(ctr.values()))
   match len(ctr):
     case 1:       
@@ -88,22 +81,33 @@ def hand_type(ctr):
 # Part (a)
 ################################
 
-# # prepend hand-type values
-# input = [[[card_vals[x] for x in hand], Counter(hand), bid] for [hand,bid] in input]
-# input = [[-hand_type(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
+def main_a(ip):
+  # parse each input line as `hand`:list[str] and `bid`:int
+  ip = [line.split() for line in ip]
+  ip = [[list(hand), int(bid)] for [hand,bid] in ip]
+  # make a Counter from each hand, e.g. Counter({'K': 2, '7': 2, '6': 1}), and insert this
+  ip = [[hand, Counter(hand), bid] for [hand,bid] in ip]
 
-# # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
-# # `reverse=True`, so the lowest scoring card is placed first
-# # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
-# input.sort(key = itemgetter(0,1), reverse=True)
-# input.reverse()
-# # show(input)
+  # map cards to numerical values
+  ip = [[[card_vals[x] for x in hand], ctr, bid] for [hand,ctr,bid] in ip]
+  # prepend hand-type values
+  ip = [[-hand_type(ctr), hand,ctr,bid] for [hand,ctr,bid] in ip]
 
-# # list the bids in order, each paired with its rank
-# winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
+  # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
+  # `reverse=True`, so the lowest scoring card is placed first
+  # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
+  ip.sort(key = itemgetter(0,1), reverse=True)
+  ip.reverse()
 
-# winnings = [rank * bid for (rank,bid) in list(winnings_list)]
-# print(sum(winnings)) # 251216224
+  # list the bids in order, each paired with its rank
+  winnings_list = enumerate([bid for [_,_,_,bid] in ip], start=1)
+
+  winnings = [rank * bid for (rank,bid) in list(winnings_list)]
+  print(sum(winnings)) # 251216224
+
+main_a(test_input)  # 6440
+main_a(input)       # 251216224
+
 
 ################################
 # Part (b)
@@ -112,20 +116,18 @@ def hand_type(ctr):
 # J cards are now the weakest individual cards
 card_vals['J'] = 1
 
-
-
 # J cards can pretend to be whatever card is best for the purpose of determining hand type; 
 # for example, QJJQ2 is now considered four of a kind. 
 # However, for the purpose of breaking ties between two hands of the same type, 
 # J is always treated as J, not the card it's pretending to be: 
 # JKKK2 is weaker than QQQQ2 because J is weaker than Q.
 
-
-
-# This first attempt at re-scoring according to the new rules
-# assumes that it's always best for all Js to switch to the same other type
+# This re-scoring function uses the fact that 
+# it's always best for all Js to switch to the same other type
 def hand_type_b(ctr):
-  '''Given the Counter derived from a hand, return its rank (1 highest, 7 lowest)'''
+  '''Given the Counter derived from a hand, 
+  e.g. Counter({'K': 2, '7': 2, '6': 1})
+  return its rank (1 highest, 7 lowest)'''
   if ctr['J'] < 1:        # If 'J' is not in the hand, use the original function
     return hand_type(ctr)
   else:
@@ -139,49 +141,36 @@ def hand_type_b(ctr):
       possible_types.append(new_score)  # record what type such a hand would have
     return min(possible_types)
 
-# h1 = input[1]
-# ctr = h1[1]
-# # print(h1)
-# # print(ctr['J'])
 
-# print(ctr)
+def main_b(ip):
+  # parse each input line as `hand`:list[str] and `bid`:int
+  ip = [line.split() for line in ip]
+  ip = [[list(hand), int(bid)] for [hand,bid] in ip]
+  # make a Counter from each hand, e.g. Counter({'K': 2, '7': 2, '6': 1}), and insert this
+  ip = [[hand, Counter(hand), bid] for [hand,bid] in ip]
 
-# new_ctr = ctr
-# del new_ctr['J']
-# print(new_ctr)
-# print(ctr)
+  # map cards to numerical values
+  ip = [[[card_vals[x] for x in hand], ctr, bid] for [hand,ctr,bid] in ip]
+  # Note: previously I was doing all the above processing of cards at the start of the file.
+  # But of course this failed to respond to the change in J's value in part (b)!
 
-# for [hand, ctr, bid] in input:
-#   print(ctr.keys())
-#   x = hand_type_b(ctr)
-#   print(type_name[x])
-#   print()
+  # # Now we repeat what we did in part (a), but with the new type-assignment function
 
+  # # # prepend hand-type values
+  ip = [[-hand_type_b(ctr), hand,ctr,bid] for [hand,ctr,bid] in ip]
 
+  # # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
+  # # `reverse=True`, so the lowest scoring card is placed first
+  # # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
+  ip.sort(key = itemgetter(0,1), reverse=True)
+  ip.reverse()
+  # show(input)
 
-# Note: previously I was mapping cards to values in the pre-processing phase of the code
-#  But of course this failed to respond to the change in J's value in part (b)!
-input = [[[card_vals[x] for x in hand], Counter(hand), bid] for [hand,bid] in input]
-# show(input)
+  # # list the bids in order, each paired with its rank
+  winnings_list = enumerate([bid for [_,_,_,bid] in ip], start=1)
 
+  winnings = [rank * bid for (rank,bid) in list(winnings_list)]
+  print(sum(winnings))
 
-# # Now we repeat what we did in part (a), but with the new type-assignment function
-
-# # # prepend hand-type values
-input = [[-hand_type_b(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
-
-
-# # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
-# # `reverse=True`, so the lowest scoring card is placed first
-# # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
-input.sort(key = itemgetter(0,1), reverse=True)
-input.reverse()
-# show(input)
-
-# # list the bids in order, each paired with its rank
-winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
-
-winnings = [rank * bid for (rank,bid) in list(winnings_list)]
-print(sum(winnings)) # 250825971
-
-# 251137914 -- too high
+main_b(test_input)  # 5905
+main_b(input)       # 250825971
