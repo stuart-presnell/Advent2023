@@ -34,11 +34,11 @@ def rotate90(M):
 # The relative strength of each card follows this order, where A is the highest and 2 is the lowest.
 
 card_vals = {str(x):x for x in range(2,10)}
-card_vals['A'] = 1
 card_vals['T'] = 10
 card_vals['J'] = 11
 card_vals['Q'] = 12
 card_vals['K'] = 13
+card_vals['A'] = 14 # Don't forget, aces are high, not low!
 
 
 # parse each input line as `hand`:list[str] and `bid`:int
@@ -119,15 +119,10 @@ input.reverse()
 # list the bids in order, each paired with its rank
 winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
 
-# for rank,bid in winnings_list:
-#   print(rank)
-
-
 winnings = [rank * bid for (rank,bid) in list(winnings_list)]
-print(sum(winnings)) 
+print(sum(winnings)) # 251216224
 
 # 251899959 --- too high
-
 
 ################################
 # Part (a)
