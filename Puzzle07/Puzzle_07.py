@@ -3,8 +3,8 @@
 from collections import Counter
 from operator import itemgetter
 
-f = open("Puzzle07_test.txt")
-# f = open("Puzzle07_input.txt")
+# f = open("Puzzle07_test.txt")
+f = open("Puzzle07_input.txt")
 input = f.read().splitlines()
 f.close()
 
@@ -43,7 +43,6 @@ card_vals['A'] = 14 # Don't forget, aces are high, not low!
 # parse each input line as `hand`:list[str] and `bid`:int
 input = [line.split() for line in input]
 input = [[list(hand),int(bid)] for [hand,bid] in input]
-input = [[[card_vals[x] for x in hand], Counter(hand), bid] for [hand,bid] in input]
 # show(input)
 
 # Every hand is exactly one type. From strongest to weakest, they are:
@@ -90,6 +89,7 @@ def hand_type(ctr):
 ################################
 
 # # prepend hand-type values
+# input = [[[card_vals[x] for x in hand], Counter(hand), bid] for [hand,bid] in input]
 # input = [[-hand_type(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
 
 # # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
@@ -151,7 +151,6 @@ def hand_type_b(ctr):
 # print(new_ctr)
 # print(ctr)
 
-
 # for [hand, ctr, bid] in input:
 #   print(ctr.keys())
 #   x = hand_type_b(ctr)
@@ -159,22 +158,30 @@ def hand_type_b(ctr):
 #   print()
 
 
+
+# Note: previously I was mapping cards to values in the pre-processing phase of the code
+#  But of course this failed to respond to the change in J's value in part (b)!
+input = [[[card_vals[x] for x in hand], Counter(hand), bid] for [hand,bid] in input]
+# show(input)
+
+
 # # Now we repeat what we did in part (a), but with the new type-assignment function
 
 # # # prepend hand-type values
-# input = [[-hand_type_b(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
+input = [[-hand_type_b(ctr), hand,ctr,bid] for [hand,ctr,bid] in input]
 
-# # # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
-# # # `reverse=True`, so the lowest scoring card is placed first
-# # # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
-# input.sort(key = itemgetter(0,1), reverse=True)
-# input.reverse()
-# # show(input)
 
-# # # list the bids in order, each paired with its rank
-# winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
+# # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
+# # `reverse=True`, so the lowest scoring card is placed first
+# # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
+input.sort(key = itemgetter(0,1), reverse=True)
+input.reverse()
+# show(input)
 
-# winnings = [rank * bid for (rank,bid) in list(winnings_list)]
-# print(sum(winnings)) # 
+# # list the bids in order, each paired with its rank
+winnings_list = enumerate([bid for [_,_,_,bid] in input], start=1)
+
+winnings = [rank * bid for (rank,bid) in list(winnings_list)]
+print(sum(winnings)) # 250825971
 
 # 251137914 -- too high
