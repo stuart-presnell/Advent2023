@@ -1,13 +1,5 @@
 # https://adventofcode.com/2023/day/8
 
-f = open("Puzzle08_test.txt")
-test_input = f.read().splitlines()
-f.close()
-
-f = open("Puzzle08_input.txt")
-input = f.read().splitlines()
-f.close()
-
 def show(x):
   for line in x:
     print(line)
@@ -27,6 +19,14 @@ def rotate90(M):
             for i in range(len(M[-1]))]
 
 ################################
+
+f = open("Puzzle08_test.txt")
+test_input = f.read().splitlines()
+f.close()
+
+f = open("Puzzle08_input.txt")
+input = f.read().splitlines()
+f.close()
 
 ################################
 # Part (a)
