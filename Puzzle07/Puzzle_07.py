@@ -54,7 +54,41 @@ type_name = ["",
 "High card"
 ]
 
-def hand_type(ctr):
+
+def compute_winnings(ip, scoring_function):
+  '''Given a text input representing hands and bids, 
+  and a scoring function assigning a hand type to each hand,
+  return the total winnings'''
+  # parse each input line as `hand`:list[str] and `bid`:int
+  ip = [line.split() for line in ip]
+  ip = [[list(hand), int(bid)] for [hand,bid] in ip]
+  # make a Counter from each hand, e.g. Counter({'K': 2, '7': 2, '6': 1}), and insert this
+  ip = [[hand, Counter(hand), bid] for [hand,bid] in ip]
+
+  # map cards to numerical values
+  ip = [[[card_vals[x] for x in hand], ctr, bid] for [hand,ctr,bid] in ip]
+  # prepend hand-type values
+  ip = [[-scoring_function(ctr), hand,ctr,bid] for [hand,ctr,bid] in ip]
+
+  # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
+  # `reverse=True`, so the lowest scoring card is placed first
+  # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
+  ip.sort(key = itemgetter(0,1), reverse=True)
+  ip.reverse()
+
+  # list the bids in order, each paired with its rank
+  winnings_list = enumerate([bid for [_,_,_,bid] in ip], start=1)
+
+  winnings = [rank * bid for (rank,bid) in list(winnings_list)]
+  print(sum(winnings))
+
+
+
+################################
+# Part (a)
+################################
+
+def hand_type_a(ctr):
   '''Given the Counter derived from a hand, 
   e.g. Counter({'K': 2, '7': 2, '6': 1})
   return its rank (1 highest, 7 lowest)'''
@@ -77,33 +111,8 @@ def hand_type(ctr):
     case 5:       
       return 7    # High card (23456)
 
-################################
-# Part (a)
-################################
-
 def main_a(ip):
-  # parse each input line as `hand`:list[str] and `bid`:int
-  ip = [line.split() for line in ip]
-  ip = [[list(hand), int(bid)] for [hand,bid] in ip]
-  # make a Counter from each hand, e.g. Counter({'K': 2, '7': 2, '6': 1}), and insert this
-  ip = [[hand, Counter(hand), bid] for [hand,bid] in ip]
-
-  # map cards to numerical values
-  ip = [[[card_vals[x] for x in hand], ctr, bid] for [hand,ctr,bid] in ip]
-  # prepend hand-type values
-  ip = [[-hand_type(ctr), hand,ctr,bid] for [hand,ctr,bid] in ip]
-
-  # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
-  # `reverse=True`, so the lowest scoring card is placed first
-  # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
-  ip.sort(key = itemgetter(0,1), reverse=True)
-  ip.reverse()
-
-  # list the bids in order, each paired with its rank
-  winnings_list = enumerate([bid for [_,_,_,bid] in ip], start=1)
-
-  winnings = [rank * bid for (rank,bid) in list(winnings_list)]
-  print(sum(winnings)) # 251216224
+  return compute_winnings(ip, hand_type_a)
 
 main_a(test_input)  # 6440
 main_a(input)       # 251216224
@@ -129,7 +138,7 @@ def hand_type_b(ctr):
   e.g. Counter({'K': 2, '7': 2, '6': 1})
   return its rank (1 highest, 7 lowest)'''
   if ctr['J'] < 1:        # If 'J' is not in the hand, use the original function
-    return hand_type(ctr)
+    return hand_type_a(ctr)
   else:
     j = ctr['J']
     possible_types = []
@@ -137,40 +146,13 @@ def hand_type_b(ctr):
       temp_ctr = ctr.copy()
       del temp_ctr['J']  # remove the 'J' entry from temp_ctr
       temp_ctr[k] += j       # Let the Js pretend to be of type k
-      new_score = hand_type(temp_ctr)
+      new_score = hand_type_a(temp_ctr)
       possible_types.append(new_score)  # record what type such a hand would have
     return min(possible_types)
 
 
 def main_b(ip):
-  # parse each input line as `hand`:list[str] and `bid`:int
-  ip = [line.split() for line in ip]
-  ip = [[list(hand), int(bid)] for [hand,bid] in ip]
-  # make a Counter from each hand, e.g. Counter({'K': 2, '7': 2, '6': 1}), and insert this
-  ip = [[hand, Counter(hand), bid] for [hand,bid] in ip]
-
-  # map cards to numerical values
-  ip = [[[card_vals[x] for x in hand], ctr, bid] for [hand,ctr,bid] in ip]
-  # Note: previously I was doing all the above processing of cards at the start of the file.
-  # But of course this failed to respond to the change in J's value in part (b)!
-
-  # # Now we repeat what we did in part (a), but with the new type-assignment function
-
-  # # # prepend hand-type values
-  ip = [[-hand_type_b(ctr), hand,ctr,bid] for [hand,ctr,bid] in ip]
-
-  # # Sort the hands, first by hand type, then by highest 1st card, highest 2nd card, etc.
-  # # `reverse=True`, so the lowest scoring card is placed first
-  # # From https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
-  ip.sort(key = itemgetter(0,1), reverse=True)
-  ip.reverse()
-  # show(input)
-
-  # # list the bids in order, each paired with its rank
-  winnings_list = enumerate([bid for [_,_,_,bid] in ip], start=1)
-
-  winnings = [rank * bid for (rank,bid) in list(winnings_list)]
-  print(sum(winnings))
+  return compute_winnings(ip, hand_type_b)
 
 main_b(test_input)  # 5905
 main_b(input)       # 250825971
