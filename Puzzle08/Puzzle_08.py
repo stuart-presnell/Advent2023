@@ -3,6 +3,12 @@
 from itertools import takewhile, dropwhile
 from math import lcm
 from functools import reduce
+from time import perf_counter
+
+TIMING = False
+if TIMING: start_time = perf_counter()
+
+
 
 def show(x):
   for line in x:
@@ -120,6 +126,12 @@ main_b(test_input_1)  # 2
 main_b(test_input_2)  # 6
 main_b(test_input_b)  # 6
 main_b(input)         # 13385272668829
+
+################################
+if TIMING:
+  end_time = perf_counter()
+  print()
+  print("Time taken: ", (end_time - start_time)*1000, "ms")
 
 ################################
 ################################
