@@ -52,29 +52,46 @@ def parse_ip(ip_file):
     tree[node] = [left,right]
   return (route_code, tree)
 
+# (route_code, tree) = parse_ip(test_input_1)
+
 # print(tree)
+
+def X_nodes(t, X):
+  return [item for item in t.keys() if item[2]==X]
+
+# print(X_nodes(tree, 'A'))
 
 # Starting with AAA, you need to look up the next element 
 # based on the next left/right instruction in your input.
+
+def next_step(route_code, tree, i, current_node, verbose=False):
+  if verbose: print(current_node, end='\n')
+  step = i%len(route_code)    # loop around when we fall off the end of the string
+  # look up where to go next
+  if verbose: print(route_code[step])
+  if route_code[step] == 'L':
+    next_node = tree[current_node][0]
+  elif route_code[step] == 'R':
+    next_node = tree[current_node][1]
+  else:
+    raise ValueError
+  # return where we're going
+  return next_node
+
+# x = next_step(route_code, tree, 0, 'AAA')
+# print(x)
+# x = next_step(route_code, tree, 1, 'CCC')
+# print(x)
 
 # Starting at AAA, follow the left/right instructions. How many steps are required to reach ZZZ?
 
 def follow_route(route_code, tree, verbose = False):
   current_node = 'AAA'
   i = 0
-  n = len(route_code)
+  # n = len(route_code)
   nodes_visited = []
   while current_node != 'ZZZ':
-    if verbose: print(current_node, end='\n')
-    step = i%n    # loop around when we fall off the end of the string
-    # look up where to go next
-    if verbose: print(route_code[step])
-    if route_code[step] == 'L':
-      next_node = tree[current_node][0]
-    elif route_code[step] == 'R':
-      next_node = tree[current_node][1]
-    else:
-      raise ValueError
+    next_node = next_step(route_code, tree, i, current_node)
     # record where we're going, then step there
     nodes_visited.append(next_node)
     current_node = next_node
@@ -82,6 +99,7 @@ def follow_route(route_code, tree, verbose = False):
   if verbose: print(current_node, end='\n\n')
   return nodes_visited
 
+# print(follow_route(route_code, tree))
 
 def main_a(ip_file, verbose = False):
   (route_code, tree) = parse_ip(ip_file)
