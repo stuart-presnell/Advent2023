@@ -68,11 +68,8 @@ def next_step(route_code, tree, i, current_node, verbose=False):
 
 def follow_route(route_code, tree, stop_criterion, current_node = None, verbose = False):
   '''Given instructions for how to step and a tree to step through, 
-  a function reporting whether to stop,
-  [and optionally a starting point, or 'AAA'],
-  return the number of steps taken until reaching a node ending in 'Z'.
-  (This is ok for part )
-  '''
+  a function reporting whether to stop, [and optionally a starting point, or 'AAA'],
+  return the number of steps taken until reaching a stopping node.'''
   if not current_node:
     current_node = 'AAA'
   i = 0
