@@ -48,9 +48,6 @@ def parse_ip(ip_file):
     tree[node] = [left,right]
   return (route_code, tree)
 
-# (route_code, tree) = parse_ip(test_input_1)
-# print(tree)
-
 # Starting with AAA, you need to look up the next element 
 # based on the next left/right instruction in your input.
 
@@ -100,9 +97,9 @@ def main_a(ip_file, verbose = False):
   nv = follow_route(route_code, tree, verbose)
   print(len(nv))
 
-main_a(test_input_1)  # 2
-main_a(test_input_2)  # 6
-main_a(input)         # 12083
+# main_a(test_input_1)  # 2
+# main_a(test_input_2)  # 6
+# main_a(input)         # 12083
 
 ################################
 # Part (b)
@@ -111,10 +108,38 @@ main_a(input)         # 12083
 def X_nodes(t, X):
   return [item for item in t.keys() if item[2]==X]
 
+# (route_code, tree) = parse_ip(test_input_2)
+# print(tree)
+
 # print(X_nodes(tree, 'A'))
 
-# def main_b(ip_file):
-#   pass
+# current_nodes = X_nodes(tree, 'A')
+# print(current_nodes)
 
-# main_b(test_input)  # 
-# main_b(input)       # 
+
+def all_end_Z(L):
+  return all([item[-1] == 'Z' for item in L])
+
+def follow_route_b(route_code, tree, verbose = False):
+  current_nodes = X_nodes(tree, 'A')
+  i = 0
+  # n = len(route_code)
+  # nodes_visited = []
+  while not all_end_Z(current_nodes):
+    # step every current node simultaneously
+    next_nodes = [next_step(route_code, tree, i, node) for node in current_nodes]
+    if verbose: print(next_nodes)
+    current_nodes = next_nodes
+    i += 1
+  return i
+
+
+def main_b(ip_file):
+  (route_code, tree) = parse_ip(ip_file)
+  x = follow_route_b(route_code, tree)
+  print(x, end='\n\n')
+
+main_b(test_input_1)  # 2
+main_b(test_input_2)  # 6
+main_b(test_input_b)  # 6
+main_b(input)       # 
