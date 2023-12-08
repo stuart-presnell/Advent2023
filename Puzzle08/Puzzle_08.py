@@ -109,7 +109,7 @@ def X_nodes(t, X):
   return [item for item in t.keys() if item[2]==X]
 
 # For each starting node, find how long it takes to reach a stopping node
-# Then take the lowest comon multiple of these cycles
+# Then take the lowest common multiple of these cycles
 def main_b(ip_file):
   (route_code, tree) = parse_ip(ip_file)
   x = [follow_route(route_code, tree, ends_Z, node) for node in X_nodes(tree, 'A')]
@@ -125,6 +125,7 @@ main_b(input)         # 13385272668829
 ################################
 
 # Original attempt at part (b): keep a list of current nodes and update them all together
+# Since the answer is ~13.4 trillion, this method was insufficiently quick
 
 # def all_end_Z(L):
 #   return all([item[-1] == 'Z' for item in L])
