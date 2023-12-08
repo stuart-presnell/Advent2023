@@ -20,8 +20,12 @@ def rotate90(M):
 
 ################################
 
-f = open("Puzzle08_test.txt")
-test_input = f.read().splitlines()
+f = open("Puzzle08_test_1.txt")
+test_input_1 = f.read().splitlines()
+f.close()
+
+f = open("Puzzle08_test_2.txt")
+test_input_2 = f.read().splitlines()
 f.close()
 
 f = open("Puzzle08_input.txt")
@@ -31,6 +35,9 @@ f.close()
 ################################
 # Part (a)
 ################################
+
+
+show(test_input_1)
 
 # def main_a(ip):
 #   pass
