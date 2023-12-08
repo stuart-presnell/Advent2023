@@ -38,10 +38,6 @@ f = open("Puzzle08_input.txt")
 input = f.read().splitlines()
 f.close()
 
-################################
-# Part (a)
-################################
-
 def parse_ip(ip_file):
   route_code = list(takewhile(lambda x: x != "", ip_file))[0]
   tree_list = list(dropwhile(lambda x: x != "", ip_file))[1:]  # Remove blank line at start
@@ -53,13 +49,7 @@ def parse_ip(ip_file):
   return (route_code, tree)
 
 # (route_code, tree) = parse_ip(test_input_1)
-
 # print(tree)
-
-def X_nodes(t, X):
-  return [item for item in t.keys() if item[2]==X]
-
-# print(X_nodes(tree, 'A'))
 
 # Starting with AAA, you need to look up the next element 
 # based on the next left/right instruction in your input.
@@ -82,6 +72,10 @@ def next_step(route_code, tree, i, current_node, verbose=False):
 # print(x)
 # x = next_step(route_code, tree, 1, 'CCC')
 # print(x)
+
+################################
+# Part (a)
+################################
 
 # Starting at AAA, follow the left/right instructions. How many steps are required to reach ZZZ?
 
@@ -113,6 +107,11 @@ main_a(input)         # 12083
 ################################
 # Part (b)
 ################################
+
+def X_nodes(t, X):
+  return [item for item in t.keys() if item[2]==X]
+
+# print(X_nodes(tree, 'A'))
 
 # def main_b(ip_file):
 #   pass
