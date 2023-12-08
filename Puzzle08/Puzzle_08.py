@@ -30,6 +30,10 @@ f = open("Puzzle08_test_2.txt")
 test_input_2 = f.read().splitlines()
 f.close()
 
+f = open("Puzzle08_test_b.txt")
+test_input_b = f.read().splitlines()
+f.close()
+
 f = open("Puzzle08_input.txt")
 input = f.read().splitlines()
 f.close()
@@ -87,7 +91,6 @@ def main_a(ip_file, verbose = False):
 main_a(test_input_1)  # 2
 main_a(test_input_2)  # 6
 main_a(input)         # 12083
-
 
 ################################
 # Part (b)
