@@ -2,6 +2,7 @@
 
 from itertools import takewhile, dropwhile
 from math import lcm
+from functools import reduce
 
 def show(x):
   for line in x:
@@ -63,13 +64,24 @@ def next_step(route_code, tree, i, current_node, verbose=False):
     next_node = tree[current_node][1]
   else:
     raise ValueError
-  # return where we're going
   return next_node
 
-# x = next_step(route_code, tree, 0, 'AAA')
-# print(x)
-# x = next_step(route_code, tree, 1, 'CCC')
-# print(x)
+def follow_route(route_code, tree, stop_criterion, current_node = None, verbose = False):
+  '''Given instructions for how to step and a tree to step through, 
+  a function reporting whether to stop,
+  [and optionally a starting point, or 'AAA'],
+  return the number of steps taken until reaching a node ending in 'Z'.
+  (This is ok for part )
+  '''
+  if not current_node:
+    current_node = 'AAA'
+  i = 0
+  while not stop_criterion(current_node):
+    next_node = next_step(route_code, tree, i, current_node)
+    current_node = next_node
+    i += 1
+  if verbose: print(current_node, end='\n\n')
+  return i
 
 ################################
 # Part (a)
@@ -77,77 +89,59 @@ def next_step(route_code, tree, i, current_node, verbose=False):
 
 # Starting at AAA, follow the left/right instructions. How many steps are required to reach ZZZ?
 
-def follow_route(route_code, tree, current_node = None, verbose = False):
-  if not current_node:
-    current_node = 'AAA'
-  i = 0
-  # n = len(route_code)
-  nodes_visited = []
-  while current_node != 'ZZZ':
-    next_node = next_step(route_code, tree, i, current_node)
-    # record where we're going, then step there
-    nodes_visited.append(next_node)
-    current_node = next_node
-    i += 1
-  if verbose: print(current_node, end='\n\n')
-  return nodes_visited
-
-# print(follow_route(route_code, tree))
+def is_ZZZ(s):
+  return s == 'ZZZ'
 
 def main_a(ip_file):
   (route_code, tree) = parse_ip(ip_file)
-  nv = follow_route(route_code, tree)
-  print(len(nv))
+  i = follow_route(route_code, tree, is_ZZZ)
+  print(i)
 
-# main_a(test_input_1)  # 2
-# main_a(test_input_2)  # 6
-# main_a(input)         # 12083
+main_a(test_input_1)  # 2
+main_a(test_input_2)  # 6
+main_a(input)         # 12083
 
 ################################
 # Part (b)
 ################################
 
+def ends_Z(s):
+  return s[-1] == 'Z'
+
 def X_nodes(t, X):
   return [item for item in t.keys() if item[2]==X]
 
-def all_end_Z(L):
-  return all([item[-1] == 'Z' for item in L])
-
-def follow_route_b(route_code, tree, current_nodes = None, verbose = False):
-  if not current_nodes:
-    current_nodes = X_nodes(tree, 'A')
-  i = 0
-  # n = len(route_code)
-  # nodes_visited = []
-  while not all_end_Z(current_nodes):
-    # step every current node simultaneously
-    next_nodes = [next_step(route_code, tree, i, node) for node in current_nodes]
-    if verbose: print(next_nodes)
-    current_nodes = next_nodes
-    i += 1
-  return i
-
-(route_code, tree) = parse_ip(input)
-
-# for node in X_nodes(tree, 'Z'):
-#   print(node + " -> " + str(tree[node])) 
-
-print(X_nodes(tree, 'A'))
-
-
-for node in X_nodes(tree, 'A'):
-  x = follow_route_b(route_code, tree, [node], verbose = False)
-  print(x, end='\n')
-
-x = lcm(20513,18827,17141,22199,12083,13207)
-print(x)
-
+# For each starting node, find how long it takes to reach a stopping node
+# Then take the lowest comon multiple of these cycles
 def main_b(ip_file):
   (route_code, tree) = parse_ip(ip_file)
-  x = follow_route_b(route_code, tree)
-  print(x, end='\n\n')
+  x = [follow_route(route_code, tree, ends_Z, node) for node in X_nodes(tree, 'A')]
+  l = reduce(lcm, x)
+  print(l)
 
-# main_b(test_input_1)  # 2
-# main_b(test_input_2)  # 6
-# main_b(test_input_b)  # 6
-# main_b(input)         # 13385272668829
+main_b(test_input_1)  # 2
+main_b(test_input_2)  # 6
+main_b(test_input_b)  # 6
+main_b(input)         # 13385272668829
+
+################################
+################################
+
+# Original attempt at part (b): keep a list of current nodes and update them all together
+
+# def all_end_Z(L):
+#   return all([item[-1] == 'Z' for item in L])
+
+# def follow_route_b(route_code, tree, current_nodes = None, verbose = False):
+#   if not current_nodes:
+#     current_nodes = X_nodes(tree, 'A')
+#   i = 0
+#   # n = len(route_code)
+#   # nodes_visited = []
+#   while not all_end_Z(current_nodes):
+#     # step every current node simultaneously
+#     next_nodes = [next_step(route_code, tree, i, node) for node in current_nodes]
+#     if verbose: print(next_nodes)
+#     current_nodes = next_nodes
+#     i += 1
+#   return i
