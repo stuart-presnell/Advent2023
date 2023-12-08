@@ -1,6 +1,7 @@
 # https://adventofcode.com/2023/day/8
 
 from itertools import takewhile, dropwhile
+from math import lcm
 
 def show(x):
   for line in x:
@@ -76,8 +77,9 @@ def next_step(route_code, tree, i, current_node, verbose=False):
 
 # Starting at AAA, follow the left/right instructions. How many steps are required to reach ZZZ?
 
-def follow_route(route_code, tree, verbose = False):
-  current_node = 'AAA'
+def follow_route(route_code, tree, current_node = None, verbose = False):
+  if not current_node:
+    current_node = 'AAA'
   i = 0
   # n = len(route_code)
   nodes_visited = []
@@ -92,9 +94,9 @@ def follow_route(route_code, tree, verbose = False):
 
 # print(follow_route(route_code, tree))
 
-def main_a(ip_file, verbose = False):
+def main_a(ip_file):
   (route_code, tree) = parse_ip(ip_file)
-  nv = follow_route(route_code, tree, verbose)
+  nv = follow_route(route_code, tree)
   print(len(nv))
 
 # main_a(test_input_1)  # 2
@@ -108,20 +110,12 @@ def main_a(ip_file, verbose = False):
 def X_nodes(t, X):
   return [item for item in t.keys() if item[2]==X]
 
-# (route_code, tree) = parse_ip(test_input_2)
-# print(tree)
-
-# print(X_nodes(tree, 'A'))
-
-# current_nodes = X_nodes(tree, 'A')
-# print(current_nodes)
-
-
 def all_end_Z(L):
   return all([item[-1] == 'Z' for item in L])
 
-def follow_route_b(route_code, tree, verbose = False):
-  current_nodes = X_nodes(tree, 'A')
+def follow_route_b(route_code, tree, current_nodes = None, verbose = False):
+  if not current_nodes:
+    current_nodes = X_nodes(tree, 'A')
   i = 0
   # n = len(route_code)
   # nodes_visited = []
@@ -133,13 +127,27 @@ def follow_route_b(route_code, tree, verbose = False):
     i += 1
   return i
 
+(route_code, tree) = parse_ip(input)
+
+# for node in X_nodes(tree, 'Z'):
+#   print(node + " -> " + str(tree[node])) 
+
+print(X_nodes(tree, 'A'))
+
+
+for node in X_nodes(tree, 'A'):
+  x = follow_route_b(route_code, tree, [node], verbose = False)
+  print(x, end='\n')
+
+x = lcm(20513,18827,17141,22199,12083,13207)
+print(x)
 
 def main_b(ip_file):
   (route_code, tree) = parse_ip(ip_file)
   x = follow_route_b(route_code, tree)
   print(x, end='\n\n')
 
-main_b(test_input_1)  # 2
-main_b(test_input_2)  # 6
-main_b(test_input_b)  # 6
-main_b(input)       # 
+# main_b(test_input_1)  # 2
+# main_b(test_input_2)  # 6
+# main_b(test_input_b)  # 6
+# main_b(input)         # 13385272668829
