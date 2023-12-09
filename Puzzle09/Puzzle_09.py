@@ -37,6 +37,10 @@ def diffs(L):
 def all_zeros(L):
   return set(L) == {0}
 
+################################
+# Part (a)
+################################
+
 def next_entry(L):
   # print(L)
   ends = []
@@ -46,27 +50,40 @@ def next_entry(L):
     # print(L)
   return sum(ends)
 
-
-################################
-# Part (a)
-################################
-
 def main_a(ip):
   print(sum([next_entry(line) for line in ip]))
 
-main_a(test_input)  # 114
-main_a(input)       # 1887980197
+# main_a(test_input)  # 114
+# main_a(input)       # 1887980197
 
 
 ################################
 # Part (b)
 ################################
 
-# def main_b(ip):
-#   pass
+def alternating_sum(L):
+  return(sum([(-1)**i * L[i] for i in range(len(L))]))
 
-# main_b(test_input)  # 
-# main_b(input)       # 
+def prev_entry(L):
+  # print(L)
+  starts = []
+  while not all_zeros(L):
+    starts.append(L[0])
+    L = diffs(L)
+    # print(L)
+  return alternating_sum(starts)
+
+# for line in test_input:
+#   print(prev_entry(line))
+
+def main_b(ip):
+  print(sum([prev_entry(line) for line in ip]))
+    # print(([prev_entry(line) for line in ip]))
+
+
+
+main_b(test_input)  # 2
+main_b(input)       # 990
 
 
 ################################
