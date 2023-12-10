@@ -121,11 +121,6 @@ def accessibility_criterion(M, here, other) -> bool:
       raise ValueError(str(here) + " contains `" + h + "` which is not a recognised pipe section.")
 
 
-
-# How many steps along the loop does it take 
-# to get from the starting position `S`` to the point farthest from the starting position?
-# https://en.wikipedia.org/wiki/Dijkstras_algorithm
-
 def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 1, verbose = False):
   ht = len(matrix)
   wd = len(matrix[0])
@@ -205,6 +200,10 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
 # Part (a)
 ################################
 
+# How many steps along the loop does it take 
+# to get from the starting position `S`` to the point farthest from the starting position?
+# https://en.wikipedia.org/wiki/Dijkstras_algorithm
+
 def main_a(matrix):
   # show(matrix)
   S = find_X('S', matrix)
@@ -231,6 +230,8 @@ print(main_a(test_input4))  # 8
 ################################
 # Part (b)
 ################################
+
+# How many tiles are enclosed by the loop?
 
 # def main_b(ip):
 #   pass
