@@ -256,6 +256,8 @@ t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
 
 boundary_chars:set[str] = {'|','-','L','J','7','F','S'}
 
+cleaned_matrix = clean_input(matrix, t)
+
 # TODO: UNIFY THIS WITH `clean_input` SO WE CAN DO EVERYTHING IN ONE PASS
 def inside_outside(M):
   '''Given a cleaned matrix containing just boundary and dots,
@@ -270,9 +272,9 @@ def inside_outside(M):
 
 # showM(t,4)
 # print()
-showM(clean_input(matrix, t),0)
+showM(cleaned_matrix, 0)
 print()
-showM(inside_outside(clean_input(matrix, t)), 0)
+showM(inside_outside(cleaned_matrix), 0)
 
 # def main_b(ip):
 #   pass
