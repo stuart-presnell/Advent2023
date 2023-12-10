@@ -70,33 +70,58 @@ def neighbours(x,y):
 
 print(neighbours(0,3))
 
+def neighbour_rel(here, other) -> str:
+  '''Given two points, determine whether `other` is to the NSWE of `here`; return as character'''
+  (Hx,Hy) = here
+  (Ox,Oy) = other
+  if   (Ox == Hx) & (Oy == Hy - 1):  # same row, prev col => W
+    return 'W'
+  elif (Ox == Hx) & (Oy == Hy + 1):  # same row, next col => E
+    return 'E'
+  elif (Oy == Hy) & (Ox == Hx - 1):  # same col, prev row => N
+    return 'N'
+  elif (Oy == Hy) & (Ox == Hx + 1):  # same col, next row => S
+    return 'S'
+  else:
+    raise ValueError("Points " + str(here) + " and " + str(other) + " are not NSWE neighbours")
+
+
+
+
 def accessibility_criterion(here, other) -> bool:
   '''This is used in `Dijkstra` as follows:
   Given a pair of coordinates `here`, we first get a list of all NSWE neighbours in the matrix
   as a list of pairs of coordinates, e.g. from `(0,3)` this might be `[(1, 3), (0, 2), (0, 4)]`.
   Now for each of these pairs we have to decide whether it's accessible from `here`.'''
+  # ASSUMING THAT THE PIPE NETWORK IS CLOSED, SO NEIGHBOURING PIPES CONNECT TO EACH OTHER
+  # e.g. if `here` = '-' then `other` to the left is '-', 'L', 'F', or 'S'
+  # Thus whether `other` is accessible depends only on the pipe shape at `here`
+  # ALSO ASSUMING THAT `other` IS A NSWE NEIGHBOUR OF `here`
+
   # First, extract the coords of the two points given, and see what's at those points
   (Hx,Hy) = here
   h = matrix[Hx][Hy]
-  (Ox,Oy) = other
-  o = matrix[Ox][Oy]
-  match h:  # Whether `other` is accessible depends on the pipe shape at `here`
+  rel = neighbour_rel(here, other)  # In what direction is `other` from `here`?
+  match h:  
     case '.':
       raise ValueError(str(here) + " is outside the pipe network!")
-    case '|':
-      pass
     case '-':
-      pass
+      return (rel == 'W') | (rel == 'E') 
+    case '|':
+      return (rel == 'N') | (rel == 'S') 
     case 'L':
-      pass
+      return (rel == 'N') | (rel == 'E') 
     case 'J':
-      pass
+      return (rel == 'N') | (rel == 'W') 
     case '7':
-      pass
+      return (rel == 'S') | (rel == 'W') 
     case 'F':
-      pass
-    case 'S':
-      pass
+      return (rel == 'S') | (rel == 'E') 
+    # We don't know what pipe piece is under an `S` square, 
+    # but on the assumption that the pipe network is all connected sensibly
+    # we just need to check that we could get *to* `here` *from* `other`.
+    case 'S':  
+      return accessibility_criterion(other, here)
     case _:
       raise ValueError(str(here) + " contains `" + h + "` which is not a recognised pipe section.")
 
