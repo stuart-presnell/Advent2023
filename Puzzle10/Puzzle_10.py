@@ -126,7 +126,7 @@ def accessibility_criterion(here, other) -> bool:
 # to get from the starting position `S`` to the point farthest from the starting position?
 # https://en.wikipedia.org/wiki/Dijkstras_algorithm
 
-def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 1):
+def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 1, verbose = False):
   ht = len(matrix)
   wd = len(matrix[0])
 
@@ -168,14 +168,14 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     # select the unvisited node that is marked with the smallest tentative distance; 
     # mark it as visited
     (T, (x,y)) = unvisited.pop_item_with_priority()  # T is the current tentative distance of this node
-    print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
+    if verbose: print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
     unvis_neighbours = [(a,b) for (a,b) in accessible_neighbours(x,y) if is_unvisited((a,b))]
-    # print(unvis_neighbours)
+    if verbose: print(unvis_neighbours)
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
       # reset its tentative distance to t+1 if that's less than its current value
       if T+1 < t_dist[a][b]: 
-        print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+1))
+        if verbose: print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+1))
         t_dist[a][b] = T+1
         # replace the point (a,b) in `unvisited` with new tentative distance T+1
         unvisited.add_item((a,b), T+1)  
