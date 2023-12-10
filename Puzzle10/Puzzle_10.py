@@ -54,10 +54,6 @@ def find_X(X, list_of_strings):
       return (row,col)
   raise ValueError(X + " was not found in the input")
 
-S = find_X('S', test_input)
-print(S)
-
-
 # Now we have to define the accessibility criterion for this maze
 matrix = test_input
 ht = len(matrix)
@@ -67,8 +63,6 @@ def neighbours(x,y):
   '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
   raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
   return [(a,b) for (a,b) in raw_neighbours if (0 <= a < ht) and (0 <= b < wd)]
-
-print(neighbours(0,3))
 
 def neighbour_rel(here, other) -> str:
   '''Given two points, determine whether `other` is to the NSWE of `here`; return as character'''
@@ -103,8 +97,6 @@ def accessibility_criterion(here, other) -> bool:
   h = matrix[Hx][Hy]
   rel = neighbour_rel(here, other)  # In what direction is `other` from `here`?
   match h:  
-    case '.':
-      raise ValueError(str(here) + " is outside the pipe network!")
     case '-':
       return (rel == 'W') | (rel == 'E') 
     case '|':
@@ -122,10 +114,16 @@ def accessibility_criterion(here, other) -> bool:
     # we just need to check that we could get *to* `here` *from* `other`.
     case 'S':  
       return accessibility_criterion(other, here)
+    case '.':
+      return False  # We can't get out of the network, and we can't get back in from '.'
     case _:
       raise ValueError(str(here) + " contains `" + h + "` which is not a recognised pipe section.")
 
-print(accessibility_criterion((1,3), (1,2)))
+
+# X = (1,3)
+# print("X: ", X, test_input[X[0]][X[1]])
+# for N in neighbours(*X):
+#   print(N, neighbour_rel(X,N), accessibility_criterion(X, N))
 
 
 # How many steps along the loop does it take 
