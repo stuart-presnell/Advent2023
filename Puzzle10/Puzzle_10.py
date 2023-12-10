@@ -284,7 +284,7 @@ def reveal_character(M, here):
 
 def inside_outside(M):
   '''Given a cleaned matrix containing just boundary and dots,
-  mark each dot as 'O' or 'I' depending on whether it's Outside or Inside the loop'''
+  mark each dot as '*' if it's inside the loop'''
   for row in range(len(M)):
     # Reset INSIDE at the start of each row
     INSIDE = False
