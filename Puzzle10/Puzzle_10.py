@@ -183,7 +183,6 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
   # If we have a destination END in mind:
   # Keep taking steps until the destination node END is marked as visited
   if END:
-    (ENDx,ENDy) = END
     while is_unvisited(END):
       update_one_step()
     # Now we've visited END, return the matrix of shortest paths
