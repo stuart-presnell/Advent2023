@@ -55,22 +55,22 @@ def find_X(X, list_of_strings):
 # to get from the starting position `S`` to the point farthest from the starting position?
 # https://en.wikipedia.org/wiki/Dijkstras_algorithm
 
-def Dijkstra(height, START, END, criterion = lambda other,here: other <= here + 1):
-  ht = len(height)
-  wd = len(height[0])
+def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 1):
+  ht = len(matrix)
+  wd = len(matrix[0])
 
-  # During each step, you can move exactly one square up, down, left, or right.
+  # During each step, you can move exactly one square up, down, left, or right...
   def neighbours(x,y):
     '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
     raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
     return [(a,b) for (a,b) in raw_neighbours if (0 <= a < ht) and (0 <= b < wd)]
 
-  # The elevation of the destination square can be at most one higher than your current square
+  # ...but not every neighbour square is accessible; `criterion` tells us which are
   def accessible_neighbours(x,y):
     '''Given a pair of coordinates,
     return a list of the neighbours that are accessible per the adjacency criterion
     by default: whose height is at most one higher than [x,y]'''
-    return [(a,b) for (a,b) in neighbours(x,y) if criterion(height[a][b], height[x][y])]
+    return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix[a][b], matrix[x][y])]
 
   # Assign to every node a tentative distance value, initialised to infinity
   t_dist  = [[inf for _ in range(wd)] for _ in range(ht)]
@@ -94,7 +94,8 @@ def Dijkstra(height, START, END, criterion = lambda other,here: other <= here + 
     return unvisited.find_item((x,y))
 
   def update_one_step():
-    # select the unvisited node that is marked with the smallest tentative distance; mark it as visited
+    # select the unvisited node that is marked with the smallest tentative distance; 
+    # mark it as visited
     (T, (x,y)) = unvisited.pop_item_with_priority()  # T is the current tentative distance of this node
     # print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
     unvis_neighbours = [(a,b) for (a,b) in accessible_neighbours(x,y) if is_unvisited((a,b))]
@@ -116,8 +117,8 @@ def Dijkstra(height, START, END, criterion = lambda other,here: other <= here + 
       update_one_step()
     # Now we've visited END, how long is the shortest path from START to END?
     return(t_dist[ENDx][ENDy])
-  else:  # If we've passed `END = None` then walk to every square
-    while not unvisited.is_empty():
+  else:  # If we've passed `END = None` then walk to every square we can reach
+    while not unvisited.is_empty():  ###  WHAT DO WE DO IF NOT EVERY SQUARE IS CONNECTED TO `S`?
       update_one_step()
     # Now we've visited every square, return the matrix of shortest paths
     return(t_dist)
