@@ -172,7 +172,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     # then we've visited every accessible node, 
     # so tell the parent function to break
     if T == inf:  
-      pass
+      return True  # This is collected by the parent function as a variable `finished`
     if verbose: print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
     unvis_neighbours = [(a,b) for (a,b) in accessible_neighbours(x,y) if is_unvisited((a,b))]
     if verbose: print(unvis_neighbours)
@@ -183,19 +183,21 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
         if verbose: print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+1))
         t_dist[a][b] = T+1
         # replace the point (a,b) in `unvisited` with new tentative distance T+1
-        unvisited.add_item((a,b), T+1)  
+        unvisited.add_item((a,b), T+1)
+    return False # We don't think we've reached every reachable square yet
 
-  # If we have a destination END in mind:
-  # Keep taking steps until the destination node END is marked as visited
+  FINISHED = False
   if END:
-    while is_unvisited(END):
-      update_one_step()
-    # Now we've visited END, return the matrix of shortest paths
+    # If we have a destination END in mind:
+    # Keep taking steps until the destination node END is marked as visited
+    # or `update_one_step` reports that it has FINISHED exploring reachable squares
+    while is_unvisited(END) & (not FINISHED):
+      FINISHED = update_one_step()
     return(t_dist)
-  else:  # If we've passed `END = None` then walk to every square we can reach
-    while not unvisited.is_empty():
-      update_one_step()
-    # Now we've visited every accessible square, return the matrix of shortest paths
+  else:  
+    # If we've passed `END = None` then walk to every square we can reach
+    while not unvisited.is_empty() & (not FINISHED):
+      FINISHED = update_one_step()
     return(t_dist)
 
 
