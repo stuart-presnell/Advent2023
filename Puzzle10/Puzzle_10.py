@@ -250,7 +250,7 @@ def clean_input(M, T):
             for col in range(len(T[0]))]
               for row in range(len(T))]
 
-matrix = test_input1
+matrix = test_input3
 S = find_X('S', matrix)
 t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
 
@@ -292,23 +292,26 @@ cleaned_matrix[S[0]][S[1]] = reveal_character(cleaned_matrix, S)
 def inside_outside(M):
   '''Given a cleaned matrix containing just boundary and dots,
   mark each dot as 'O' or 'I' depending on whether it's Outside or Inside the loop'''
-  INSIDE = False
   for row in range(len(M)):
+    # Reset INSIDE at the start of each row
+    INSIDE = (M[row][0] != '.')   
     for col in range(len(M[0])):
       c = M[row][col]  # current character
+    
       if (c == '.'):
-        M[row][col] = 'I' if INSIDE else 'O'
+        M[row][col] = '*' if INSIDE else '.'
       elif (c == '-'):
-        pass  # We exclude '-' because the inside/outside status doesn't change at '-'
+        pass  # inside/outside status doesn't change at '-'
       else:
         INSIDE = not INSIDE
+  
   return M
 
 # showM(t,4)
 # print()
 showM(cleaned_matrix, 0)
 print()
-showM(inside_outside(cleaned_matrix), 0)
+showM(inside_outside(cleaned_matrix), -1)
 
 # def main_b(ip):
 #   pass
