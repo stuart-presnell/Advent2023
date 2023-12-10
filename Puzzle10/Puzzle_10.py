@@ -119,7 +119,7 @@ def accessibility_criterion(here, other) -> bool:
     case _:
       raise ValueError(str(here) + " contains `" + h + "` which is not a recognised pipe section.")
 
-
+S = find_X('S', test_input)
 # X = (1,3)
 # print("X: ", X, test_input[X[0]][X[1]])
 # for N in neighbours(*X):
@@ -145,7 +145,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     '''Given a pair of coordinates,
     return a list of the neighbours that are accessible per the adjacency criterion
     by default: whose height is at most one higher than [x,y]'''
-    return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix[a][b], matrix[x][y])]
+    return [(a,b) for (a,b) in neighbours(x,y) if criterion((x,y), (a,b))]
 
   # Assign to every node a tentative distance value, initialised to infinity
   t_dist  = [[inf for _ in range(wd)] for _ in range(ht)]
@@ -172,14 +172,14 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     # select the unvisited node that is marked with the smallest tentative distance; 
     # mark it as visited
     (T, (x,y)) = unvisited.pop_item_with_priority()  # T is the current tentative distance of this node
-    # print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
+    print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
     unvis_neighbours = [(a,b) for (a,b) in accessible_neighbours(x,y) if is_unvisited((a,b))]
-    # print(unvis_neighbours)
+    print(unvis_neighbours)
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
       # reset its tentative distance to t+1 if that's less than its current value
       if T+1 < t_dist[a][b]: 
-        # print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+1))
+        print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+1))
         t_dist[a][b] = T+1
         # replace the point (a,b) in `unvisited` with new tentative distance T+1
         unvisited.add_item((a,b), T+1)  
@@ -198,7 +198,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     # Now we've visited every square, return the matrix of shortest paths
     return(t_dist)
 
-
+t = Dijkstra(test_input, S, (3,3), accessibility_criterion)
 
 ################################
 # Part (a)
