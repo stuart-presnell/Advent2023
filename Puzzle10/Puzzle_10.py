@@ -29,6 +29,8 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle10_test.txt")
 input      = parse_file_a("Puzzle10_input.txt")
 
+show(test_input)
+
 ################################
 
 
@@ -44,12 +46,18 @@ input      = parse_file_a("Puzzle10_input.txt")
 
 
 def find_X(X, list_of_strings):
+  '''Find the first instance of string `X` in `list_of_strings` (earliest row, leftmost position)'''
   for i in range(len(list_of_strings)):
     if X in list_of_strings[i]:
       row = i
       col = list_of_strings[i].find(X)
       return (row,col)
   raise ValueError(X + " was not found in the input")
+
+S = find_X('S', test_input)
+print(S)
+
+
 
 # How many steps along the loop does it take 
 # to get from the starting position `S`` to the point farthest from the starting position?
