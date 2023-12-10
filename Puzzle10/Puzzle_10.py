@@ -165,9 +165,14 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     return unvisited.find_item((x,y))
 
   def update_one_step():
-    # select the unvisited node that is marked with the smallest tentative distance; 
+    # select the unvisited node that is marked with the smallest tentative distance T; 
     # mark it as visited
-    (T, (x,y)) = unvisited.pop_item_with_priority()  # T is the current tentative distance of this node
+    (T, (x,y)) = unvisited.pop_item_with_priority()
+    # If the smallest T of any unvisited node is inf
+    # then we've visited every accessible node, 
+    # so tell the parent function to break
+    if T == inf:  
+      pass
     if verbose: print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
     unvis_neighbours = [(a,b) for (a,b) in accessible_neighbours(x,y) if is_unvisited((a,b))]
     if verbose: print(unvis_neighbours)
