@@ -258,7 +258,7 @@ showM(t,4)
 print()
 showM(clean_input(matrix, t),0)
 
-
+boundary_chars:set[str] = {'|','-','L','J','7','F','S'}
 
 # def main_b(ip):
 #   pass
