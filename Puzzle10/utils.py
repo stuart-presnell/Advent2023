@@ -105,10 +105,17 @@ class Timer():
     Initialise with Timer(True) to get a timer that prints timechecks.'''
   def __init__(self, reporting = False):
     self.reporting = reporting
+    self.count = 0  # Count how many timechecks have been requested
     # Check the time when initialised and log this in a list
     self.time_list = [perf_counter()]
-  def timecheck(self):
+  def timecheck(self, name=''):
     if not self.reporting: return
     now = perf_counter()
     elapsed = now - self.time_list[-1]
-    print("TIMECHECK: \t" + str(elapsed * 1000) + " ms")
+    timecheck_string = "TIMECHECK " + str(self.count) + ": \t"
+    print(timecheck_string + str(elapsed * 1000) + " ms", end='')
+    if name:
+      print("\t (" + name + ")")
+    else:
+      print()
+    self.count += 1
