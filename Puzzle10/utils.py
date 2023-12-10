@@ -4,16 +4,16 @@ def chunk_splitlines(s:str) -> list[list[str]]:
   and then split each chunk at newlines'''
   return [x.splitlines() for x in s.split("\n\n")]
 
-def show(x):
+def show(x, underline=True):
   '''Given any iterable `x`, print each element of `x` on a separate line'''
   for line in x:
     print(line)
-  try:
-    num_dashes = len(x[0])
-  except: 
-    num_dashes = 20
-  print("-" * num_dashes)
-  print()
+  if underline:
+    try:
+      num_dashes = len(x[0])
+    except: 
+      num_dashes = 20
+    print("-" * num_dashes)
 
 def parse_nums(s:str) -> list[int]:
   '''Given a string of the form `"a b c ... z"`, where each entry is a number, 
