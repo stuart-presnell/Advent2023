@@ -282,13 +282,14 @@ def reveal_character(M, here):
   except:
     raise ValueError(str(here) + " doesn't form part of the pipe")
 
-
 def inside_outside(M):
   '''Given a cleaned matrix containing just boundary and dots,
   mark each dot as 'O' or 'I' depending on whether it's Outside or Inside the loop'''
   for row in range(len(M)):
     # Reset INSIDE at the start of each row
-    INSIDE = (M[row][0] != '.')   
+    INSIDE = (M[row][0] != '.')
+    # Mark whether we're at a top edge (+1), bottom edge (-1) or elsewhere (0)
+    VERT = 1 * (M[row][0] == 'F') - 1 * (M[row][0] == 'L')   
     for col in range(len(M[0])):
       c = M[row][col]  # current character
     
