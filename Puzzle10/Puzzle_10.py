@@ -75,7 +75,32 @@ def accessibility_criterion(here, other) -> bool:
   Given a pair of coordinates `here`, we first get a list of all NSWE neighbours in the matrix
   as a list of pairs of coordinates, e.g. from `(0,3)` this might be `[(1, 3), (0, 2), (0, 4)]`.
   Now for each of these pairs we have to decide whether it's accessible from `here`.'''
-  pass
+  # First, extract the coords of the two points given, and see what's at those points
+  (Hx,Hy) = here
+  h = matrix[Hx][Hy]
+  (Ox,Oy) = other
+  o = matrix[Ox][Oy]
+  match h:  # Whether `other` is accessible depends on the pipe shape at `here`
+    case '.':
+      raise ValueError(str(here) + " is outside the pipe network!")
+    case '|':
+      pass
+    case '-':
+      pass
+    case 'L':
+      pass
+    case 'J':
+      pass
+    case '7':
+      pass
+    case 'F':
+      pass
+    case 'S':
+      pass
+    case _:
+      raise ValueError(str(here) + " contains `" + h + "` which is not a recognised pipe section.")
+
+print(accessibility_criterion((1,3), (1,2)))
 
 
 # How many steps along the loop does it take 
