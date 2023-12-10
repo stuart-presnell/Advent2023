@@ -26,11 +26,13 @@ def parse_file_a(filename):
   f.close()
   return ip_file
 
-test_input = parse_file_a("Puzzle10_test.txt")
+test_input  = parse_file_a("Puzzle10_test.txt")
 test_input2 = parse_file_a("Puzzle10_test2.txt")
-input      = parse_file_a("Puzzle10_input.txt")
+test_input3 = parse_file_a("Puzzle10_test3.txt")
+test_input4 = parse_file_a("Puzzle10_test4.txt")
+input       = parse_file_a("Puzzle10_input.txt")
 
-matrix = test_input
+matrix = test_input4
 show(matrix)
 
 ################################
@@ -191,7 +193,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
   else:  # If we've passed `END = None` then walk to every square we can reach
     while not unvisited.is_empty():
       update_one_step()
-    # Now we've visited every square, return the matrix of shortest paths
+    # Now we've visited every accessible square, return the matrix of shortest paths
     return(t_dist)
 
 
