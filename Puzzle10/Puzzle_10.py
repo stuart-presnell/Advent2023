@@ -57,13 +57,13 @@ def find_X(X, list_of_strings):
   raise ValueError(X + " was not found in the input")
 
 # Now we have to define the accessibility criterion for this maze
-ht = len(matrix)
-wd = len(matrix[0])
+# ht = len(matrix)
+# wd = len(matrix[0])
 
-def neighbours(x,y):
-  '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
-  raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
-  return [(a,b) for (a,b) in raw_neighbours if (0 <= a < ht) and (0 <= b < wd)]
+# def neighbours(x,y):
+#   '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
+#   raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
+#   return [(a,b) for (a,b) in raw_neighbours if (0 <= a < ht) and (0 <= b < wd)]
 
 def neighbour_rel(here, other) -> str:
   '''Given two points, determine whether `other` is to the NSWE of `here`; return as character'''
