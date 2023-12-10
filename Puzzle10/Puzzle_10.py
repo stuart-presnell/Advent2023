@@ -285,7 +285,8 @@ def reveal_character(M, here):
   except:
     raise ValueError(str(here) + " doesn't form part of the pipe")
 
-print(reveal_character(cleaned_matrix, S))
+# In `cleaned_matrix`, replace 'S' with whatever character should go there to complete the pipe.
+cleaned_matrix[S[0]][S[1]] = reveal_character(cleaned_matrix, S)
 
 
 def inside_outside(M):
