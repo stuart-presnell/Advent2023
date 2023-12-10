@@ -6,6 +6,7 @@ from math import inf
 # My utility functions
 from utils import (
 show,
+showM,
 # chunk_splitlines,
 # parse_nums,
 # rotate90,
@@ -238,6 +239,17 @@ def main_a(matrix):
 ################################
 
 # How many tiles are enclosed by the loop?
+
+# print(main_a(test_input_b1))  # 
+# print(main_a(test_input_b2))  # 
+# print(main_a(test_input_b3))  # 
+# print(main_a(test_input_b4))  # 
+
+matrix = test_input_b1
+S = find_X('S', matrix)
+t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
+showM(t,4)
+
 
 # def main_b(ip):
 #   pass

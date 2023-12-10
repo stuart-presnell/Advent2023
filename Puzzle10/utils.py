@@ -15,6 +15,15 @@ def show(x, underline=True):
       num_dashes = 20
     print("-" * num_dashes)
 
+def showM(M:list[list[int]], max_digits=2):
+  '''Display matrix `M` with columns aligned.
+  `max_digits` is the largest number of digits in any matrix entry.
+  Modified from: https://stackoverflow.com/a/17871279'''
+  col_width = max_digits + 2
+  format_string = '{:' + str(col_width) + '}'
+  print('\n'.join([''.join([format_string.format(item) for item in row]) for row in M]))
+
+
 def parse_nums(s:str) -> list[int]:
   '''Given a string of the form `"a b c ... z"`, where each entry is a number, 
   return a `list[int]`'''
