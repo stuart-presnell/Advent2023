@@ -250,13 +250,46 @@ def clean_input(M, T):
             for col in range(len(T[0]))]
               for row in range(len(T))]
 
-matrix = test_input_b1
+matrix = test_input1
 S = find_X('S', matrix)
 t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
 
 boundary_chars:set[str] = {'|','-','L','J','7','F','S'}
 
+reveal_dict = {
+(True, False, False, True):'L',
+(False, False, True, True):'-',
+(False, True, False, True):'F',
+(False, True, True, False):'7',
+(True, True, False, False):'|',
+(True, False, True, False):'J'
+}
+
 cleaned_matrix = clean_input(matrix, t)
+
+def reveal_character(M, here):
+  '''Given a matrix and a location that's supposedly part of the pipe, 
+  work out what character must be at that location based on the connectivity of its neghbours.'''
+  (x,y) = here
+  raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]  # N,S,W,E
+  op = []
+  for pt in raw_neighbours:
+    try:
+      op.append(accessibility_criterion(M, here, pt))
+      # op.append(M[ptx][pty] in boundary_chars)
+    except IndexError:
+      op.appen(False)
+  try:
+    return reveal_dict[tuple(op)]
+  except:
+    raise ValueError(str(here) + " doesn't form part of the pipe")
+
+print(reveal_character(matrix, (1,1)))
+
+
+
+
+
 
 # TODO: UNIFY THIS WITH `clean_input` SO WE CAN DO EVERYTHING IN ONE PASS
 def inside_outside(M):
@@ -273,8 +306,8 @@ def inside_outside(M):
 # showM(t,4)
 # print()
 showM(cleaned_matrix, 0)
-print()
-showM(inside_outside(cleaned_matrix), 0)
+# print()
+# showM(inside_outside(cleaned_matrix), 0)
 
 # def main_b(ip):
 #   pass
