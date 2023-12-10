@@ -174,7 +174,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     (T, (x,y)) = unvisited.pop_item_with_priority()  # T is the current tentative distance of this node
     print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
     unvis_neighbours = [(a,b) for (a,b) in accessible_neighbours(x,y) if is_unvisited((a,b))]
-    print(unvis_neighbours)
+    # print(unvis_neighbours)
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
       # reset its tentative distance to t+1 if that's less than its current value
@@ -190,8 +190,8 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     (ENDx,ENDy) = END
     while is_unvisited(END):
       update_one_step()
-    # Now we've visited END, how long is the shortest path from START to END?
-    return(t_dist[ENDx][ENDy])
+    # Now we've visited END, return the matrix of shortest paths
+    return(t_dist)
   else:  # If we've passed `END = None` then walk to every square we can reach
     while not unvisited.is_empty():  ###  WHAT DO WE DO IF NOT EVERY SQUARE IS CONNECTED TO `S`?
       update_one_step()
@@ -199,6 +199,9 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     return(t_dist)
 
 t = Dijkstra(test_input, S, (3,3), accessibility_criterion)
+print()
+show(t)
+
 
 ################################
 # Part (a)
