@@ -27,9 +27,11 @@ def parse_file_a(filename):
   return ip_file
 
 test_input = parse_file_a("Puzzle10_test.txt")
+test_input2 = parse_file_a("Puzzle10_test2.txt")
 input      = parse_file_a("Puzzle10_input.txt")
 
-show(test_input)
+matrix = test_input
+show(matrix)
 
 ################################
 
@@ -55,7 +57,6 @@ def find_X(X, list_of_strings):
   raise ValueError(X + " was not found in the input")
 
 # Now we have to define the accessibility criterion for this maze
-matrix = test_input
 ht = len(matrix)
 wd = len(matrix[0])
 
@@ -119,11 +120,6 @@ def accessibility_criterion(here, other) -> bool:
     case _:
       raise ValueError(str(here) + " contains `" + h + "` which is not a recognised pipe section.")
 
-S = find_X('S', test_input)
-# X = (1,3)
-# print("X: ", X, test_input[X[0]][X[1]])
-# for N in neighbours(*X):
-#   print(N, neighbour_rel(X,N), accessibility_criterion(X, N))
 
 
 # How many steps along the loop does it take 
@@ -198,7 +194,15 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     # Now we've visited every square, return the matrix of shortest paths
     return(t_dist)
 
-t = Dijkstra(test_input, S, END = None, criterion = accessibility_criterion)
+
+S = find_X('S', matrix)
+# X = (1,3)
+# print("X: ", X, matrix[X[0]][X[1]])
+# for N in neighbours(*X):
+#   print(N, neighbour_rel(X,N), accessibility_criterion(X, N))
+
+
+t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
 print()
 show(t)
 
