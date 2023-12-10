@@ -83,7 +83,7 @@ def neighbour_rel(here, other) -> str:
 
 
 
-def accessibility_criterion(here, other) -> bool:
+def accessibility_criterion(M, here, other) -> bool:
   '''This is used in `Dijkstra` as follows:
   Given a pair of coordinates `here`, we first get a list of all NSWE neighbours in the matrix
   as a list of pairs of coordinates, e.g. from `(0,3)` this might be `[(1, 3), (0, 2), (0, 4)]`.
@@ -95,7 +95,7 @@ def accessibility_criterion(here, other) -> bool:
 
   # First, extract the coords of the two points given, and see what's at those points
   (Hx,Hy) = here
-  h = matrix[Hx][Hy]
+  h = M[Hx][Hy]
   rel = neighbour_rel(here, other)  # In what direction is `other` from `here`?
   match h:  
     case '-':
@@ -114,7 +114,7 @@ def accessibility_criterion(here, other) -> bool:
     # but on the assumption that the pipe network is all connected sensibly
     # we just need to check that we could get *to* `here` *from* `other`.
     case 'S':  
-      return accessibility_criterion(other, here)
+      return accessibility_criterion(M, other, here)
     case '.':
       return False  # We can't get out of the network, and we can't get back in from '.'
     case _:
@@ -141,7 +141,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     '''Given a pair of coordinates,
     return a list of the neighbours that are accessible per the adjacency criterion
     by default: whose height is at most one higher than [x,y]'''
-    return [(a,b) for (a,b) in neighbours(x,y) if criterion((x,y), (a,b))]
+    return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
 
   # Assign to every node a tentative distance value, initialised to infinity
   t_dist  = [[inf for _ in range(wd)] for _ in range(ht)]
@@ -200,19 +200,23 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
 ################################
 
 def main_a(matrix):
-  show(matrix)
+  # show(matrix)
   S = find_X('S', matrix)
   t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
-  print()
-  show(t)
+  # print()
+  # show(t)
   # Now find the largest value in t
   bsf = Best()
   for row in t:
+    row = [x for x in row if x < inf]  # get rid of any `inf` values
     bsf.reduce(row)
   return bsf.best_so_far
 
 
-# main_a(test_input)  # 
+print(main_a(test_input1))  # 
+print(main_a(test_input2))  # 
+print(main_a(test_input3))  # 
+print(main_a(test_input4))  # 
 # main_a(input)       # 
 
 
