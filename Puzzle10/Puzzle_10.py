@@ -193,12 +193,12 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     # Now we've visited END, return the matrix of shortest paths
     return(t_dist)
   else:  # If we've passed `END = None` then walk to every square we can reach
-    while not unvisited.is_empty():  ###  WHAT DO WE DO IF NOT EVERY SQUARE IS CONNECTED TO `S`?
+    while not unvisited.is_empty():
       update_one_step()
     # Now we've visited every square, return the matrix of shortest paths
     return(t_dist)
 
-t = Dijkstra(test_input, S, (3,3), accessibility_criterion)
+t = Dijkstra(test_input, S, END = None, criterion = accessibility_criterion)
 print()
 show(t)
 
