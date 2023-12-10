@@ -9,7 +9,7 @@ from utils import Best, Timer
 # from time import perf_counter
 # TIMING = False
 # if TIMING: 
-TTT = Timer()
+TTT = Timer(True)
 
 ################################
 
@@ -307,26 +307,21 @@ def inside_outside(M):
 
 def main_b(M):
   S = find_X('S', M)
-  TTT.timecheck()
   t = Dijkstra(M, S, END = None, criterion = accessibility_criterion)
-  TTT.timecheck()
+  TTT.timecheck("After Dijkstra")
   M = clean_input(M, t)
-  TTT.timecheck()
   # Replace 'S' with whatever character should go there to complete the pipe.
   M[S[0]][S[1]] = reveal_character(M, S)
-  TTT.timecheck()
 
   # Mark each dot inside the pipe loop with a '*'
   M = inside_outside(M)
 
-  TTT.timecheck()
   # Now count how many '*'s are in the matrix
   counter = 0
   for row in M:
     counter += row.count('*')
   print(counter)
 
-  TTT.timecheck()
 
 # main_b(test_input1)  # 
 # main_b(test_input2)  # 
@@ -338,6 +333,8 @@ def main_b(M):
 # main_b(test_input_b3)  # 
 # main_b(test_input_b4)  # 
 main_b(input)       # 383
+
+TTT.timecheck("Final")
 # Time: ~6300 ms
 
 
