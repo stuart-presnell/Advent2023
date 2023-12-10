@@ -288,7 +288,6 @@ def reveal_character(M, here):
 print(reveal_character(cleaned_matrix, S))
 
 
-# TODO: UNIFY THIS WITH `clean_input` SO WE CAN DO EVERYTHING IN ONE PASS
 def inside_outside(M):
   '''Given a cleaned matrix containing just boundary and dots,
   mark each dot as 'O' or 'I' depending on whether it's Outside or Inside the loop'''
