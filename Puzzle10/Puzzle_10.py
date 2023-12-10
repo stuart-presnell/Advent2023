@@ -250,11 +250,11 @@ def clean_input(M, T):
             for col in range(len(T[0]))]
               for row in range(len(T))]
 
-matrix = test_input_b4
+matrix = test_input1
 S = find_X('S', matrix)
 t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
 
-boundary_chars:set[str] = {'|','-','L','J','7','F','S'}
+# boundary_chars:set[str] = {'|','L','J','7','F','S'}  # NB: excluding '-'!
 
 reveal_dict = {
 (True, False, False, True):'L',
@@ -298,13 +298,17 @@ def inside_outside(M):
       c = M[row][col]  # current character
       if (c == '.'):
         M[row][col] = 'I' if INSIDE else 'O'
+      elif (c == '-'):
+        pass  # We exclude '-' because the inside/outside status doesn't change at '-'
+      else:
+        INSIDE = not INSIDE
   return M
 
 # showM(t,4)
 # print()
 showM(cleaned_matrix, 0)
-# print()
-# showM(inside_outside(cleaned_matrix), 0)
+print()
+showM(inside_outside(cleaned_matrix), 0)
 
 # def main_b(ip):
 #   pass
