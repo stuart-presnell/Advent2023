@@ -245,10 +245,19 @@ def main_a(matrix):
 # print(main_a(test_input_b3))  # 
 # print(main_a(test_input_b4))  # 
 
+def clean_input(M, T):
+  return [[M[row][col] if (T[row][col] < inf) else '.'
+            for col in range(len(T[0]))]
+              for row in range(len(T))]
+
 matrix = test_input_b1
 S = find_X('S', matrix)
 t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
+
 showM(t,4)
+print()
+showM(clean_input(matrix, t),0)
+
 
 
 # def main_b(ip):
