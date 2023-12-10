@@ -191,12 +191,12 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     # If we have a destination END in mind:
     # Keep taking steps until the destination node END is marked as visited
     # or `update_one_step` reports that it has FINISHED exploring reachable squares
-    while is_unvisited(END) & (not FINISHED):
+    while (not FINISHED) & is_unvisited(END):
       FINISHED = update_one_step()
     return(t_dist)
   else:  
     # If we've passed `END = None` then walk to every square we can reach
-    while not unvisited.is_empty() & (not FINISHED):
+    while (not FINISHED) & (not unvisited.is_empty()):
       FINISHED = update_one_step()
     return(t_dist)
 
