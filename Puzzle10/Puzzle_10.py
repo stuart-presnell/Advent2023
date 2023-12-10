@@ -27,7 +27,7 @@ def parse_file_a(filename):
   f.close()
   return ip_file
 
-test_input  = parse_file_a("Puzzle10_test.txt")
+test_input1 = parse_file_a("Puzzle10_test1.txt")
 test_input2 = parse_file_a("Puzzle10_test2.txt")
 test_input3 = parse_file_a("Puzzle10_test3.txt")
 test_input4 = parse_file_a("Puzzle10_test4.txt")
