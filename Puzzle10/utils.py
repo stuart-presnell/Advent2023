@@ -1,3 +1,5 @@
+from time import perf_counter
+
 def chunk_splitlines(s:str) -> list[list[str]]:
   '''Given a string obtained e.g. from `f.read()`, 
   split the file at blank lines, 
@@ -97,3 +99,16 @@ class Best():  # EXPERIMENTAL - HAVEN'T TRIED USING THIS YET
     return self.best_so_far
   # DO SOME TESTS WITH THIS TO MAKE SURE IT WORKS!
   # GIVE SOME EXAMPLE USE CASES; HOW IS THIS BETTER THAN WHAT WE NORMALLY DO?
+
+class Timer():
+  '''By default, a Timer stays silent and doesn't report timechecks, even when asked.
+    Initialise with Timer(True) to get a timer that prints timechecks.'''
+  def __init__(self, reporting = False):
+    self.reporting = reporting
+    # Check the time when initialised and log this in a list
+    self.time_list = [perf_counter()]
+  def timecheck(self):
+    if not self.reporting: return
+    now = perf_counter()
+    elapsed = now - self.time_list[-1]
+    print("TIMECHECK: \t" + str(elapsed * 1000) + " ms")
