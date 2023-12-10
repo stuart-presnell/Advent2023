@@ -12,6 +12,7 @@ show,
 # close_bracket,
 # cmp,
 # qsort
+Best
 )
 
 from time import perf_counter
@@ -31,9 +32,6 @@ test_input2 = parse_file_a("Puzzle10_test2.txt")
 test_input3 = parse_file_a("Puzzle10_test3.txt")
 test_input4 = parse_file_a("Puzzle10_test4.txt")
 input       = parse_file_a("Puzzle10_input.txt")
-
-matrix = test_input4
-show(matrix)
 
 ################################
 
@@ -197,24 +195,22 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     return(t_dist)
 
 
-S = find_X('S', matrix)
-# X = (1,3)
-# print("X: ", X, matrix[X[0]][X[1]])
-# for N in neighbours(*X):
-#   print(N, neighbour_rel(X,N), accessibility_criterion(X, N))
-
-
-t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
-print()
-show(t)
-
-
 ################################
 # Part (a)
 ################################
 
-# def main_a(ip):
-#   pass
+def main_a(matrix):
+  show(matrix)
+  S = find_X('S', matrix)
+  t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
+  print()
+  show(t)
+  # Now find the largest value in t
+  bsf = Best()
+  for row in t:
+    bsf.reduce(row)
+  return bsf.best_so_far
+
 
 # main_a(test_input)  # 
 # main_a(input)       # 
