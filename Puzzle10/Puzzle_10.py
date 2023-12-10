@@ -246,6 +246,9 @@ def main_a(matrix):
 # print(main_a(test_input_b4))  # 
 
 def clean_input(M, T):
+  '''Keep only the characters involved in the pipe loop, 
+  i.e. those assigned a number by Dijkstra's algorithm.
+  Replace all other symbols (the "junk") with '.' '''
   return [[M[row][col] if (T[row][col] < inf) else '.'
             for col in range(len(T[0]))]
               for row in range(len(T))]
