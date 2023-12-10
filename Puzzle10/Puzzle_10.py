@@ -328,12 +328,14 @@ def main_b(M):
   # In `M2`, replace 'S' with whatever character should go there to complete the pipe.
   M[S[0]][S[1]] = reveal_character(M, S)
 
-  # showM(t,4)
-  # print()
-  showM(M, -1)
-  print()
-  showM(inside_outside(M), -1)
-
+  M = inside_outside(M)
+  # showM(M, -1)
+  
+  # Now count how many '*'s are in the matrix
+  counter = 0
+  for row in M:
+    counter += row.count('*')
+  print(counter)
 
 # main_b(test_input1)  # 
 # main_b(test_input2)  # 
