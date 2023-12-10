@@ -299,24 +299,21 @@ def inside_outside(M):
   return M
 
 
+def main_b(M):
+  S = find_X('S', M)
+  t = Dijkstra(M, S, END = None, criterion = accessibility_criterion)
+  M = clean_input(M, t)
+  # In `M2`, replace 'S' with whatever character should go there to complete the pipe.
+  M[S[0]][S[1]] = reveal_character(M, S)
 
-matrix = test_input3
-S = find_X('S', matrix)
-t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
-cleaned_matrix = clean_input(matrix, t)
-# In `cleaned_matrix`, replace 'S' with whatever character should go there to complete the pipe.
-cleaned_matrix[S[0]][S[1]] = reveal_character(cleaned_matrix, S)
+  # showM(t,4)
+  # print()
+  showM(M, -1)
+  print()
+  showM(inside_outside(M), -1)
 
-# showM(t,4)
-# print()
-showM(cleaned_matrix, 0)
-print()
-showM(inside_outside(cleaned_matrix), -1)
 
-# def main_b(ip):
-#   pass
-
-# main_b(test_input)  # 
+main_b(test_input1)  # 
 # main_b(input)       # 
 
 
