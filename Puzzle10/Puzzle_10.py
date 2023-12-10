@@ -287,31 +287,37 @@ def inside_outside(M):
   mark each dot as 'O' or 'I' depending on whether it's Outside or Inside the loop'''
   for row in range(len(M)):
     # Reset INSIDE at the start of each row
-    INSIDE = (M[row][0] != '.')
-    # Mark whether we're at a top edge (+1), bottom edge (-1) or elsewhere (0)
-    VERT = 1 * (M[row][0] == 'F') - 1 * (M[row][0] == 'L')   
+    INSIDE = False
+    # What was the last F/L corner we saw?
+    last_FL = ''
     for col in range(len(M[0])):
       c = M[row][col]  # current character
       match c:
         case '.':
           M[row][col] = '*' if INSIDE else '.'
-        case 'F':
-          pass
-        case '7':
-          pass
-        case 'L':
-          pass
-        case 'J':
-          pass
+        case '-':
+          pass  # INSIDE status doesn't change at '-'
+        # Crossing '|' involves crossing between Outside and Inside
         case '|':
+          INSIDE = not INSIDE
+        # Crossing an F or L square doesn't count as crossing the boundary
+        case 'F':
+          last_FL = 'F'
+        case 'L':
+          last_FL = 'L'
+        case '7':
+          if last_FL == 'L':
+            INSIDE = not INSIDE
+          else:
+            pass
+        case 'J':
+          if last_FL == 'F':
+            INSIDE = not INSIDE
+          else:
+            pass
           pass
-        case '-':
-          pass
-        case '-':
-          pass  # INSIDE and VERT status doesn't change at '-'
         case _:
           raise ValueError
-  
   return M
 
 
