@@ -226,6 +226,7 @@ print(main_a(test_input4))  # 8
 # print(main_a(input))        # 6725
 
 # Time: ~5440 ms!
+# Time: ~4800 ms
 
 ################################
 # Part (b)
