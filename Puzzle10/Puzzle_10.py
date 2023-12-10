@@ -254,11 +254,25 @@ matrix = test_input_b1
 S = find_X('S', matrix)
 t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
 
-showM(t,4)
-print()
-showM(clean_input(matrix, t),0)
-
 boundary_chars:set[str] = {'|','-','L','J','7','F','S'}
+
+# TODO: UNIFY THIS WITH `clean_input` SO WE CAN DO EVERYTHING IN ONE PASS
+def inside_outside(M):
+  '''Given a cleaned matrix containing just boundary and dots,
+  mark each dot as 'O' or 'I' depending on whether it's Outside or Inside the loop'''
+  INSIDE = False
+  for row in range(len(M)):
+    for col in range(len(M[0])):
+      c = M[row][col]  # current character
+      if (c == '.'):
+        M[row][col] = 'I' if INSIDE else 'O'
+  return M
+
+# showM(t,4)
+# print()
+showM(clean_input(matrix, t),0)
+print()
+showM(inside_outside(clean_input(matrix, t)), 0)
 
 # def main_b(ip):
 #   pass
