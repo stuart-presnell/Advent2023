@@ -4,11 +4,12 @@ from PQueue import PQ
 from math import inf
 
 # My utility functions
-from utils import Best
+from utils import Best, Timer
 
-from time import perf_counter
-TIMING = False
-if TIMING: start_time = perf_counter()
+# from time import perf_counter
+# TIMING = False
+# if TIMING: 
+TTT = Timer()
 
 ################################
 
@@ -306,20 +307,26 @@ def inside_outside(M):
 
 def main_b(M):
   S = find_X('S', M)
+  TTT.timecheck()
   t = Dijkstra(M, S, END = None, criterion = accessibility_criterion)
+  TTT.timecheck()
   M = clean_input(M, t)
+  TTT.timecheck()
   # Replace 'S' with whatever character should go there to complete the pipe.
   M[S[0]][S[1]] = reveal_character(M, S)
+  TTT.timecheck()
 
   # Mark each dot inside the pipe loop with a '*'
   M = inside_outside(M)
 
+  TTT.timecheck()
   # Now count how many '*'s are in the matrix
   counter = 0
   for row in M:
     counter += row.count('*')
   print(counter)
 
+  TTT.timecheck()
 
 # main_b(test_input1)  # 
 # main_b(test_input2)  # 
@@ -335,7 +342,7 @@ main_b(input)       # 383
 
 
 ################################
-if TIMING:
-  end_time = perf_counter()
-  print()
-  print("Time taken: ", (end_time - start_time)*1000, "ms")
+# if TIMING:
+#   end_time = perf_counter()
+#   print()
+#   print("Time taken: ", (end_time - start_time)*1000, "ms")
