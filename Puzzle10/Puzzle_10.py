@@ -335,7 +335,15 @@ def main_b(M):
   showM(inside_outside(M), -1)
 
 
-main_b(test_input_b1)  # 
+# main_b(test_input1)  # 
+# main_b(test_input2)  # 
+# main_b(test_input3)  # 
+# main_b(test_input4)  # 
+
+# main_b(test_input_b1)  # 
+# main_b(test_input_b2)  # 
+# main_b(test_input_b3)  # 
+# main_b(test_input_b4)  # 
 # main_b(input)       # 
 
 
