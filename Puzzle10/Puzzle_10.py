@@ -4,17 +4,7 @@ from PQueue import PQ
 from math import inf
 
 # My utility functions
-from utils import (
-show,
-showM,
-# chunk_splitlines,
-# parse_nums,
-# rotate90,
-# close_bracket,
-# cmp,
-# qsort
-Best
-)
+from utils import Best
 
 from time import perf_counter
 TIMING = False
@@ -240,11 +230,6 @@ def main_a(matrix):
 
 # How many tiles are enclosed by the loop?
 
-# print(main_a(test_input_b1))  # 
-# print(main_a(test_input_b2))  # 
-# print(main_a(test_input_b3))  # 
-# print(main_a(test_input_b4))  # 
-
 def clean_input(M, T):
   '''Keep only the characters involved in the pipe loop, 
   i.e. those assigned a number by Dijkstra's algorithm.
@@ -252,8 +237,6 @@ def clean_input(M, T):
   return [[M[row][col] if (T[row][col] < inf) else '.'
             for col in range(len(T[0]))]
               for row in range(len(T))]
-
-# boundary_chars:set[str] = {'|','L','J','7','F','S'}  # NB: excluding '-'!
 
 reveal_dict = {
 (True, False, False, True):'L',
@@ -325,17 +308,18 @@ def main_b(M):
   S = find_X('S', M)
   t = Dijkstra(M, S, END = None, criterion = accessibility_criterion)
   M = clean_input(M, t)
-  # In `M2`, replace 'S' with whatever character should go there to complete the pipe.
+  # Replace 'S' with whatever character should go there to complete the pipe.
   M[S[0]][S[1]] = reveal_character(M, S)
 
+  # Mark each dot inside the pipe loop with a '*'
   M = inside_outside(M)
-  # showM(M, -1)
-  
+
   # Now count how many '*'s are in the matrix
   counter = 0
   for row in M:
     counter += row.count('*')
   print(counter)
+
 
 # main_b(test_input1)  # 
 # main_b(test_input2)  # 
