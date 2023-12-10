@@ -17,13 +17,20 @@ if TIMING: start_time = perf_counter()
 
 ################################
 
-f = open("Puzzle10_test.txt")
-test_input = f.read().splitlines()
-f.close()
+def parse_file_a(filename):
+  f = open(filename)
+  ip_file = f.read().splitlines()
+  f.close()
+  return ip_file
 
-f = open("Puzzle10_input.txt")
-input = f.read().splitlines()
-f.close()
+test_input = parse_file_a("Puzzle00_test.txt")
+input      = parse_file_a("Puzzle00_input.txt")
+
+################################
+
+
+
+
 
 ################################
 # Part (a)
