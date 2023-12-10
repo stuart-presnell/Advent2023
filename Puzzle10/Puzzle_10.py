@@ -346,7 +346,8 @@ def main_b(M):
 # main_b(test_input_b2)  # 
 # main_b(test_input_b3)  # 
 # main_b(test_input_b4)  # 
-# main_b(input)       # 
+main_b(input)       # 383
+# Time: ~6300 ms
 
 
 ################################
