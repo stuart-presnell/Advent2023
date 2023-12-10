@@ -219,10 +219,10 @@ def main_a(matrix):
   return bsf.best_so_far
 
 
-# print(main_a(test_input1))  # 
-# print(main_a(test_input2))  # 
-# print(main_a(test_input3))  # 
-# print(main_a(test_input4))  # 
+print(main_a(test_input1))  # 4
+print(main_a(test_input2))  # 4
+print(main_a(test_input3))  # 8
+print(main_a(test_input4))  # 8
 # print(main_a(input))        # 6725
 
 # Time: ~5440 ms!
