@@ -250,10 +250,6 @@ def clean_input(M, T):
             for col in range(len(T[0]))]
               for row in range(len(T))]
 
-matrix = test_input3
-S = find_X('S', matrix)
-t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
-
 # boundary_chars:set[str] = {'|','L','J','7','F','S'}  # NB: excluding '-'!
 
 reveal_dict = {
@@ -264,8 +260,6 @@ reveal_dict = {
 (True, True, False, False):'|',
 (True, False, True, False):'J'
 }
-
-cleaned_matrix = clean_input(matrix, t)
 
 def reveal_character(M, here):
   '''Given a matrix and a location that's supposedly part of the pipe, 
@@ -285,9 +279,6 @@ def reveal_character(M, here):
   except:
     raise ValueError(str(here) + " doesn't form part of the pipe")
 
-# In `cleaned_matrix`, replace 'S' with whatever character should go there to complete the pipe.
-cleaned_matrix[S[0]][S[1]] = reveal_character(cleaned_matrix, S)
-
 
 def inside_outside(M):
   '''Given a cleaned matrix containing just boundary and dots,
@@ -306,6 +297,15 @@ def inside_outside(M):
         INSIDE = not INSIDE
   
   return M
+
+
+
+matrix = test_input3
+S = find_X('S', matrix)
+t = Dijkstra(matrix, S, END = None, criterion = accessibility_criterion)
+cleaned_matrix = clean_input(matrix, t)
+# In `cleaned_matrix`, replace 'S' with whatever character should go there to complete the pipe.
+cleaned_matrix[S[0]][S[1]] = reveal_character(cleaned_matrix, S)
 
 # showM(t,4)
 # print()
