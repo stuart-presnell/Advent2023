@@ -33,6 +33,12 @@ test_input3 = parse_file_a("Puzzle10_test3.txt")
 test_input4 = parse_file_a("Puzzle10_test4.txt")
 input       = parse_file_a("Puzzle10_input.txt")
 
+test_input_b1 = parse_file_a("Puzzle10_test_b1.txt")
+test_input_b2 = parse_file_a("Puzzle10_test_b2.txt")
+test_input_b3 = parse_file_a("Puzzle10_test_b3.txt")
+test_input_b4 = parse_file_a("Puzzle10_test_b4.txt")
+
+
 ################################
 
 
@@ -218,10 +224,10 @@ def main_a(matrix):
   return bsf.best_so_far
 
 
-print(main_a(test_input1))  # 4
-print(main_a(test_input2))  # 4
-print(main_a(test_input3))  # 8
-print(main_a(test_input4))  # 8
+# print(main_a(test_input1))  # 4
+# print(main_a(test_input2))  # 4
+# print(main_a(test_input3))  # 8
+# print(main_a(test_input4))  # 8
 # print(main_a(input))        # 6725
 
 # Time: ~5440 ms!
