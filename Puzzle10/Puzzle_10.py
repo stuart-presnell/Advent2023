@@ -292,13 +292,25 @@ def inside_outside(M):
     VERT = 1 * (M[row][0] == 'F') - 1 * (M[row][0] == 'L')   
     for col in range(len(M[0])):
       c = M[row][col]  # current character
-    
-      if (c == '.'):
-        M[row][col] = '*' if INSIDE else '.'
-      elif (c == '-'):
-        pass  # inside/outside status doesn't change at '-'
-      else:
-        INSIDE = not INSIDE
+      match c:
+        case '.':
+          M[row][col] = '*' if INSIDE else '.'
+        case 'F':
+          pass
+        case '7':
+          pass
+        case 'L':
+          pass
+        case 'J':
+          pass
+        case '|':
+          pass
+        case '-':
+          pass
+        case '-':
+          pass  # INSIDE and VERT status doesn't change at '-'
+        case _:
+          raise ValueError
   
   return M
 
@@ -317,7 +329,7 @@ def main_b(M):
   showM(inside_outside(M), -1)
 
 
-main_b(test_input1)  # 
+main_b(test_input_b1)  # 
 # main_b(input)       # 
 
 
