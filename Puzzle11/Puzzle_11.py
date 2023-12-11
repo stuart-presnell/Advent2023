@@ -70,6 +70,12 @@ G = find_galaxies(matrix)
 TTT.timecheck("Find galaxies")
 
 
+def stepping_distance(P, Q):
+  '''Given two points, return the shortest distance between them by NSWE steps'''
+  return abs(Q[0] - P[0]) + abs(Q[1] - P[1])
+
+x = stepping_distance(G[0], G[1])
+print(x)
 
 ################################
 # Part (a)
