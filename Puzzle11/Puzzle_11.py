@@ -11,14 +11,14 @@ rotate90,
 Timer,
 )
 
-from PQueue import PQ
-from math import inf
+# from PQueue import PQ
+# from math import inf
 
 # from time import perf_counter
 # TIMING = False
 # if TIMING: start_time = perf_counter()
 
-TTT = Timer(True)
+TTT = Timer()
 
 ################################
 
@@ -33,8 +33,8 @@ input      = parse_file_a("Puzzle11_input.txt")   # There are 455 '#'s in input
 
 expansion_test1 = parse_file_a("expansion_test1.txt")
 
-# matrix = test_input
-matrix = input
+matrix = test_input
+# matrix = input
 # show(matrix)  # Original input matrix
 
 def duplicate_empty_rows(M):
