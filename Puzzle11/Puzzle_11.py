@@ -30,7 +30,6 @@ def parse_file_a(filename):
 
 test_input = parse_file_a("Puzzle11_test.txt")    # There are 9 '#'s in test_input
 input      = parse_file_a("Puzzle11_input.txt")   # There are 455 '#'s in input
-
 expansion_test1 = parse_file_a("expansion_test1.txt")
 
 matrix = test_input
@@ -64,7 +63,6 @@ TTT.timecheck("Expand")
 def find_galaxies(M):
   return [(row,col) for row in range(len(M)) for col in range(len(M[0])) if M[row][col] == '#']
 
-show(matrix)    # Expanded universe
 G = find_galaxies(matrix)
 
 TTT.timecheck("Find galaxies")
@@ -74,15 +72,22 @@ def stepping_distance(P, Q):
   '''Given two points, return the shortest distance between them by NSWE steps'''
   return abs(Q[0] - P[0]) + abs(Q[1] - P[1])
 
-x = stepping_distance(G[0], G[1])
+
+x = sum([stepping_distance(G[a], G[b]) for a in range(len(G)) for b in range(a+1, len(G))])
+
 print(x)
 
 ################################
 # Part (a)
 ################################
 
-# def main_a(ip):
-#   pass
+def main_a(ip):
+
+# 
+#     print(a,b, "->", stepping_distance(G[a], G[b]))
+
+
+  pass
 
 # main_a(test_input)  # 
 # main_a(input)       # 
