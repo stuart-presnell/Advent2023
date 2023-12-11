@@ -66,7 +66,7 @@ show(matrix)    # Expanded universe
 find_galaxies(matrix)
 
 
-def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 1, verbose = False):
+def Dijkstra(matrix, START, END, criterion = lambda other,here: True, verbose = False):
   ht = len(matrix)
   wd = len(matrix[0])
 
@@ -76,12 +76,12 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
     return [(a,b) for (a,b) in raw_neighbours if (0 <= a < ht) and (0 <= b < wd)]
 
-  # ...but not every neighbour square is accessible; `criterion` tells us which are
-  def accessible_neighbours(x,y):
-    '''Given a pair of coordinates,
-    return a list of the neighbours that are accessible per the adjacency criterion
-    by default: whose height is at most one higher than [x,y]'''
-    return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
+  # # ...but not every neighbour square is accessible; `criterion` tells us which are
+  # def accessible_neighbours(x,y):
+  #   '''Given a pair of coordinates,
+  #   return a list of the neighbours that are accessible per the adjacency criterion
+  #   by default: whose height is at most one higher than [x,y]'''
+  #   return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
 
   # Assign to every node a tentative distance value, initialised to infinity
   t_dist  = [[inf for _ in range(wd)] for _ in range(ht)]
@@ -114,7 +114,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     if T == inf:  
       return True  # This is collected by the parent function as a variable `finished`
     if verbose: print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
-    unvis_neighbours = [(a,b) for (a,b) in accessible_neighbours(x,y) if is_unvisited((a,b))]
+    unvis_neighbours = [(a,b) for (a,b) in neighbours(x,y) if is_unvisited((a,b))]
     if verbose: print(unvis_neighbours)
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
