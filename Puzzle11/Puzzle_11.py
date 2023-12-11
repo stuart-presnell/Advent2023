@@ -84,22 +84,38 @@ def empty_rows(M):
 def empty_cols(M):
   return empty_rows(rotate90(M))
 
+# matrix = test_input
+matrix = input
+
+ER = empty_rows(matrix)
+EC = empty_cols(matrix)
+
 def stepping_distance_b(P, Q, n=2):
   '''Given two points, return the shortest distance between them by NSWE steps, 
   while extra-counting empty rows and empty columns by a factor of n.'''
-  
-  pass
+  lox = min(P[0], Q[0])
+  hix = max(P[0], Q[0])
+  loy = min(P[1], Q[1])
+  hiy = max(P[1], Q[1])
+  empty_rows_btn = len([x for x in ER if lox < x < hix])
+  empty_cols_btn = len([y for y in EC if loy < y < hiy])
+  return stepping_distance(P, Q) + ((n-1) * empty_rows_btn) + ((n-1) * empty_cols_btn)
 
+def main_b(M, n=2):
+  G = find_galaxies(M)
+  x = sum([stepping_distance_b(G[a], G[b], n) for a in range(len(G)) for b in range(a+1, len(G))])
+  print(x)
 
-# print(empty_rows(test_input))
-# print(empty_cols(test_input))
+# G = find_galaxies(matrix)
+# (a,b) = (1,4)
+# x = stepping_distance_b(G[a-1], G[b-1])
+# print(x)
 
-# def main_b(ip):
-#   pass
-
-# main_a(test_input, 10)   # 1030
-# main_a(test_input, 100)  # 8410
-# main_a(input, 1000000)   # 
+# main_b(test_input, 2)    # s/b 374
+# main_b(test_input, 10)   # s/b 1030
+# main_b(test_input, 100)  # s/b 8410
+# main_b(input, 2)         # s/b 10228230
+main_b(input, 1000000)   # 
 
 
 ################################
