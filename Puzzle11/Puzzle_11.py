@@ -57,11 +57,6 @@ matrix = expand_universe(matrix)
 TTT.timecheck("Expand")
 
 def find_galaxies(M):
-  # g = []
-  # for row in len(M):
-  #   for col in len(M[0]):
-  #     if M[row][col] == '#':
-  #       g.append((row,col))
   return [(row,col) for row in range(len(M)) for col in range(len(M[0])) if M[row][col] == '#']
 
 show(matrix)    # Expanded universe
