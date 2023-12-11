@@ -32,20 +32,20 @@ test_input = parse_file_a("Puzzle11_test.txt")    # There are 9 '#'s in test_inp
 input      = parse_file_a("Puzzle11_input.txt")   # There are 455 '#'s in input
 expansion_test1 = parse_file_a("expansion_test1.txt")
 
-def duplicate_empty_rows(M):
+def duplicate_empty_rows(M, n = 2):
+  '''Expand every row and column not containing '#', duplicating it `n` times.'''
   op = []
   for row in M:
     if '#' in row:
       op.append(row)
     else:
-      op.append(row)
-      op.append(row)
+      op += ([row] * n)
   return op
 
-def expand_universe(M):
-  M = duplicate_empty_rows(M)
+def expand_universe(M, n=2):
+  M = duplicate_empty_rows(M, n)
   M = rotate90(M)
-  M = duplicate_empty_rows(M)
+  M = duplicate_empty_rows(M, n)
   M = rotate90(M)
   M = rotate90(M)
   M = rotate90(M)
