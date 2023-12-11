@@ -78,12 +78,28 @@ def main_a(M, n=2):
 # Part (b)
 ################################
 
+def empty_rows(M):
+  return [i for i in range(len(M)) if '#' not in M[i]]
+
+def empty_cols(M):
+  return empty_rows(rotate90(M))
+
+def stepping_distance_b(P, Q, n=2):
+  '''Given two points, return the shortest distance between them by NSWE steps, 
+  while extra-counting empty rows and empty columns by a factor of n.'''
+  
+  pass
+
+
+# print(empty_rows(test_input))
+# print(empty_cols(test_input))
+
 # def main_b(ip):
 #   pass
 
-main_a(test_input, 10)   # 1030
-main_a(test_input, 100)  # 8410
-main_a(input, 1000000)   # 
+# main_a(test_input, 10)   # 1030
+# main_a(test_input, 100)  # 8410
+# main_a(input, 1000000)   # 
 
 
 ################################
