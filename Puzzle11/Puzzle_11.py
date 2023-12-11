@@ -4,7 +4,9 @@
 from utils import (
 # chunk_splitlines, printT, 
 show, 
-# showM, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
+# showM, parse_nums, 
+rotate90, 
+# close_bracket, cmp, qsort, Best, 
 Timer,
 )
 
@@ -24,6 +26,33 @@ def parse_file_a(filename):
 
 test_input = parse_file_a("Puzzle11_test.txt")
 input      = parse_file_a("Puzzle11_input.txt")
+
+expansion_test1 = parse_file_a("expansion_test1.txt")
+
+matrix = test_input
+show(matrix)
+
+def duplicate_empty_rows(M):
+  op = []
+  for row in M:
+    if '#' in row:
+      op.append(row)
+    else:
+      op.append(row)
+      op.append(row)
+  return op
+
+def expand_universe(M):
+  M = duplicate_empty_rows(M)
+  M = rotate90(M)
+  M = duplicate_empty_rows(M)
+  M = rotate90(M)
+  M = rotate90(M)
+  M = rotate90(M)
+  M = ["".join(row) for row in M]
+  return M
+
+matrix = expand_universe(matrix)
 
 ################################
 # Part (a)
