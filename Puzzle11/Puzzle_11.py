@@ -78,6 +78,9 @@ def main_a(M, n=2):
 # Part (b)
 ################################
 
+# def main_b(ip):
+#   pass
+
 main_a(test_input, 10)   # 1030
 main_a(test_input, 100)  # 8410
 main_a(input, 1000000)   # 
