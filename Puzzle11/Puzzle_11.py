@@ -145,8 +145,10 @@ def Dijkstra(matrix, START, END = None, criterion = lambda other,here: True, ver
     return(t_dist)
 
 
-T = Dijkstra(matrix, G[0])
-showM(T)
+T = Dijkstra(matrix, G[0], G[400])
+(gx, gy) = G[400]
+print(T[gx][gy])
+# showM(T)
 
 TTT.timecheck("Dijkstra")
 
