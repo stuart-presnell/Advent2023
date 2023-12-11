@@ -1,22 +1,7 @@
 # https://adventofcode.com/2023/day/11
 
 # My utility functions
-from utils import (
-# chunk_splitlines, printT, 
-show, 
-showM, 
-# parse_nums, 
-rotate90, 
-# close_bracket, cmp, qsort, Best, 
-Timer,
-)
-
-# from PQueue import PQ
-# from math import inf
-
-# from time import perf_counter
-# TIMING = False
-# if TIMING: start_time = perf_counter()
+from utils import rotate90, Timer
 
 TTT = Timer()
 
@@ -84,13 +69,7 @@ def empty_rows(M):
 def empty_cols(M):
   return empty_rows(rotate90(M))
 
-# matrix = test_input
-matrix = input
-
-ER = empty_rows(matrix)
-EC = empty_cols(matrix)
-
-def stepping_distance_b(P, Q, n=2):
+def stepping_distance_b(P, Q, ER, EC, n=2):
   '''Given two points, return the shortest distance between them by NSWE steps, 
   while extra-counting empty rows and empty columns by a factor of n.'''
   lox = min(P[0], Q[0])
@@ -103,25 +82,19 @@ def stepping_distance_b(P, Q, n=2):
 
 def main_b(M, n=2):
   G = find_galaxies(M)
-  x = sum([stepping_distance_b(G[a], G[b], n) for a in range(len(G)) for b in range(a+1, len(G))])
+  ER = empty_rows(M)
+  EC = empty_cols(M)
+  x = sum([stepping_distance_b(G[a], G[b], ER, EC, n) 
+           for a in range(len(G)) for b in range(a+1, len(G))])
   print(x)
 
-# G = find_galaxies(matrix)
-# (a,b) = (1,4)
-# x = stepping_distance_b(G[a-1], G[b-1])
-# print(x)
-
-# main_b(test_input, 2)    # s/b 374
-# main_b(test_input, 10)   # s/b 1030
-# main_b(test_input, 100)  # s/b 8410
-# main_b(input, 2)         # s/b 10228230
-main_b(input, 1000000)   # 
-
+main_b(test_input, 2)    # s/b 374
+main_b(test_input, 10)   # s/b 1030
+main_b(test_input, 100)  # s/b 8410
+main_b(input, 2)         # s/b 10228230
+main_b(input, 1000000)   # 447073334102
 
 ################################
-# if TIMING:
-#   end_time = perf_counter()
-#   print()
-#   print("Time taken: ", (end_time - start_time)*1000, "ms")
 
 TTT.timecheck("Final")
+# Time: ~ 330 ms
