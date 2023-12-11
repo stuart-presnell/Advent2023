@@ -14,7 +14,7 @@ Timer,
 # TIMING = False
 # if TIMING: start_time = perf_counter()
 
-# TTT = Timer()
+TTT = Timer()
 
 ################################
 
@@ -53,6 +53,8 @@ def expand_universe(M):
   return M
 
 matrix = expand_universe(matrix)
+
+TTT.timecheck("Expand")
 
 ################################
 # Part (a)
