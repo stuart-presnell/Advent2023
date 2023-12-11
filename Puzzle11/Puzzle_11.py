@@ -24,8 +24,8 @@ def parse_file_a(filename):
   f.close()
   return ip_file
 
-test_input = parse_file_a("Puzzle11_test.txt")
-input      = parse_file_a("Puzzle11_input.txt")
+test_input = parse_file_a("Puzzle11_test.txt")    # There are 9 '#'s in test_input
+input      = parse_file_a("Puzzle11_input.txt")   # There are 455 '#'s in input
 
 expansion_test1 = parse_file_a("expansion_test1.txt")
 
