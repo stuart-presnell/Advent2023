@@ -4,7 +4,8 @@
 from utils import (
 # chunk_splitlines, printT, 
 show, 
-# showM, parse_nums, 
+showM, 
+# parse_nums, 
 rotate90, 
 # close_bracket, cmp, qsort, Best, 
 Timer,
@@ -17,7 +18,7 @@ from math import inf
 # TIMING = False
 # if TIMING: start_time = perf_counter()
 
-TTT = Timer()
+TTT = Timer(True)
 
 ################################
 
@@ -32,7 +33,8 @@ input      = parse_file_a("Puzzle11_input.txt")   # There are 455 '#'s in input
 
 expansion_test1 = parse_file_a("expansion_test1.txt")
 
-matrix = test_input
+# matrix = test_input
+matrix = input
 # show(matrix)  # Original input matrix
 
 def duplicate_empty_rows(M):
@@ -63,10 +65,12 @@ def find_galaxies(M):
   return [(row,col) for row in range(len(M)) for col in range(len(M[0])) if M[row][col] == '#']
 
 show(matrix)    # Expanded universe
-find_galaxies(matrix)
+G = find_galaxies(matrix)
+
+TTT.timecheck("Find galaxies")
 
 
-def Dijkstra(matrix, START, END, criterion = lambda other,here: True, verbose = False):
+def Dijkstra(matrix, START, END = None, criterion = lambda other,here: True, verbose = False):
   ht = len(matrix)
   wd = len(matrix[0])
 
@@ -141,7 +145,10 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: True, verbose = 
     return(t_dist)
 
 
+T = Dijkstra(matrix, G[0])
+showM(T)
 
+TTT.timecheck("Dijkstra")
 
 ################################
 # Part (a)
