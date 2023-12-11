@@ -63,14 +63,14 @@ def stepping_distance(P, Q):
 # Part (a)
 ################################
 
-def main_a(M):
-  M = expand_universe(M)
+def main_a(M, n=2):
+  M = expand_universe(M, n)
   G = find_galaxies(M)
   x = sum([stepping_distance(G[a], G[b]) for a in range(len(G)) for b in range(a+1, len(G))])
   print(x)
 
-main_a(test_input)  # 374
-main_a(input)       # 10228230
+# main_a(test_input)  # 374
+# main_a(input)       # 10228230
 
 # Time: ~ 30 ms
 
@@ -78,11 +78,9 @@ main_a(input)       # 10228230
 # Part (b)
 ################################
 
-# def main_b(ip):
-#   pass
-
-# main_b(test_input)  # 
-# main_b(input)       # 
+main_a(test_input, 10)   # 1030
+main_a(test_input, 100)  # 8410
+main_a(input, 1000000)   # 
 
 
 ################################
