@@ -74,12 +74,22 @@ def count_arrangements(s:str, spec:list[int]):
   * Finally, some number of Os (possibly zero)'''
   # Base case: empty list => some number of Os (possibly zero)
   if len(spec) == 0: 
-      return 1 if re.match(any_number_of('O'), s) else 0
+      return 1 if re.fullmatch(any_number_of('O'), s) else 0
     
   # Otherwise `spec = x::xs`, so try matching start of `s` to `x`
   x,xs = spec[0], spec[1:]
-  
+  print(x, xs)
   pass
+
+
+# z = re.fullmatch(any_number_of('O'), 'O')
+# print(z)
+
+x = count_arrangements('~X~', [])
+# # x = count_arrangements(*test_input[0])
+print(x)
+
+
 
 
 def create_regex_pattern(spec:list[int]) -> str:
@@ -93,11 +103,11 @@ def create_regex_pattern(spec:list[int]) -> str:
   op += (any_number_of('O') + '$')
   return op
 
-for [s,spec] in test_input:
-  p = create_regex_pattern(spec)
-  pattern = re.compile(p)
-  result = pattern.findall(s)
-  print(result)
+# for [s,spec] in test_input:
+#   p = create_regex_pattern(spec)
+#   pattern = re.compile(p)
+#   result = pattern.findall(s)
+#   print(result)
 
 # print()
 
