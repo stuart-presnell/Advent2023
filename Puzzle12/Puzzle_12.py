@@ -80,11 +80,11 @@ def count_arrangements(s:str, spec:list[int], block, at_start = False):
   if len(spec) == 0: 
       return 1 if re.fullmatch(any_number_of('O'), s) else 0
   if at_start:
-    count = 0
     result = re.match("^[O~]*", s)
     if not result:  # if the start of the string doesn't match a run of 'O'; should be IMPOSSIBLE
       return 0
     else:
+      count = 0
       run_of_Os = result.end() # The number of ways to match '[O~]*' at the start
       for i in range(run_of_Os + 1):
         count += count_arrangements(s[i:], spec, 'X')
@@ -104,29 +104,11 @@ def count_arrangements(s:str, spec:list[int], block, at_start = False):
     if not result:
       return 0
     else:
+      count = 0
       run_of_Os = result.end() # The number of ways to match '[O~]*' at the start
       for i in range(run_of_Os + 1):
         count += count_arrangements(s[i:], spec, 'X')
       return count
-
-
-
-
-
-  # Otherwise `spec = x::xs`, so try matching start of `s` to `x` and rest to `xs`
-  # Specifically, count the number of ways of matching some initial part of `s` to `x`, 
-  # and multiply by the number of ways to match the remainder to `xs`
-  # x,xs = spec[0], spec[1:]
-  # first_X = s.find('X')
-  # match first_X:
-  #   case -1: # if 'X' isn't in `s`, but we're expecting to match it to a non-empty spec, return 0
-  #     return 0
-  #   case 0:
-  #     pass # if 'X' is the first character of `s` ...
-  #   case _:
-  #     pass
-  # # print(x, xs)
-  # pass
 
 
 
@@ -136,8 +118,8 @@ def count_arrangements(s:str, spec:list[int], block, at_start = False):
 
 # x = count_arrangements('~X~', [])
 # x = count_arrangements('~~~OXXX', [1, 1, 3], True)
-# x = count_arrangements(*test_input[0], True)
-# print(x)
+x = count_arrangements(*test_input[0], 'O', True)
+print(x)
 
 
 def create_regex_pattern(spec:list[int]) -> str:
