@@ -67,6 +67,7 @@ def count_arrangements(s:str, L:list[int]):
 # * 'b' Xs
 # * some number of Os (not zero)
 # * etc.
+# * Finally, some number of Os (possibly zero)
 
 def any_number_of(char):
   return "[" + char + "~]*"
@@ -77,17 +78,31 @@ def any_pos_number_of(char):
 def exactly_n_of(char, n):
   return "[" + char + "~]{" + str(n) + "}"
 
+def create_regex_pattern(spec:list[int]) -> str:
+  '''Given nonempty `spec:list[int]`, return a string that will compile to 
+  a regex pattern matching that spec, according to the rules given above.'''
+  op = "^" + any_number_of('O')
+  op += (exactly_n_of('X', spec[0]))
+  for n in spec[1:]:
+    op += (any_pos_number_of('O'))
+    op += (exactly_n_of('X', n))
+  op += (any_number_of('O') + '$')
+  return op
 
-print()
+for [s,spec] in test_input:
+  p = create_regex_pattern(spec)
+  print(p)
 
-spec = re.compile("^" + exactly_n_of("X", 5))
+# print()
 
-for i in range(len(test_input)):
-  result = spec.match(test_input[i][0])
-  if result:
-    print(result.group(0))
-  else:
-    print(None)
+# spec = re.compile("^" + exactly_n_of("X", 5))
+
+# for i in range(len(test_input)):
+#   result = spec.match(test_input[i][0])
+#   if result:
+#     print(result.group(0))
+#   else:
+#     print(None)
 
 
 # def main_a(ip):
