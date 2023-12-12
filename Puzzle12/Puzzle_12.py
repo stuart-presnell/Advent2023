@@ -63,15 +63,15 @@ def exactly_n_of(char, n):
   return "[" + char + "~]{" + str(n) + "}"
 
 def count_arrangements(s:str, spec:list[int]):
-  '''How many different arrangements of OK/broken springs fit the given criteria in each row?'''
-# If the spec is [a,b,...] then its uncorrupted string must consist of:
-# * some number of Os (possibly zero)
-# * 'a' Xs
-# * some number of Os (not zero)
-# * 'b' Xs
-# * some number of Os (not zero)
-# * etc.
-# * Finally, some number of Os (possibly zero)
+  '''How many different arrangements of OK/broken springs fit the given spec?
+  If the spec is [a,b,...] then its uncorrupted string must consist of:
+  * some number of Os (possibly zero)
+  * 'a' Xs
+  * some number of Os (not zero)
+  * 'b' Xs
+  * some number of Os (not zero)
+  * etc.
+  * Finally, some number of Os (possibly zero)'''
   # Base case: empty list only matches empty string
   if len(spec) == 0: return (s == '') * 1
   # Otherwise `spec = x::xs`, so try matching start of `s` to `x`
