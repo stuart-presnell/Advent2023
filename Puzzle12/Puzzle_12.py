@@ -72,8 +72,10 @@ def count_arrangements(s:str, spec:list[int]):
   * some number of Os (not zero)
   * etc.
   * Finally, some number of Os (possibly zero)'''
-  # Base case: empty list only matches empty string
-  if len(spec) == 0: return (s == '') * 1
+  # Base case: empty list => some number of Os (possibly zero)
+  if len(spec) == 0: 
+      return 1 if re.match(any_number_of('O'), s) else 0
+    
   # Otherwise `spec = x::xs`, so try matching start of `s` to `x`
   x,xs = spec[0], spec[1:]
   
