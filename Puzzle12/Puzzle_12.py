@@ -51,23 +51,7 @@ show(test_input)
 # Part (a)
 ################################
 
-def count_arrangements(s:str, L:list[int]):
-  '''How many different arrangements of OK/broken springs fit the given criteria in each row?'''
-  # Base case: empty list only matches empty string
-  if len(L) == 0: return (s == '') * 1
-  # Otherwise `L = x::xs`, so try matching start of `s` to `x`
-  x,xs = L[0], L[1:]
-  
-  pass
 
-# If the spec is [a,b,...] then its uncorrupted string must consist of:
-# * some number of Os (possibly zero)
-# * 'a' Xs
-# * some number of Os (not zero)
-# * 'b' Xs
-# * some number of Os (not zero)
-# * etc.
-# * Finally, some number of Os (possibly zero)
 
 def any_number_of(char):
   return "[" + char + "~]*"
@@ -77,6 +61,24 @@ def any_pos_number_of(char):
 
 def exactly_n_of(char, n):
   return "[" + char + "~]{" + str(n) + "}"
+
+def count_arrangements(s:str, spec:list[int]):
+  '''How many different arrangements of OK/broken springs fit the given criteria in each row?'''
+# If the spec is [a,b,...] then its uncorrupted string must consist of:
+# * some number of Os (possibly zero)
+# * 'a' Xs
+# * some number of Os (not zero)
+# * 'b' Xs
+# * some number of Os (not zero)
+# * etc.
+# * Finally, some number of Os (possibly zero)
+  # Base case: empty list only matches empty string
+  if len(spec) == 0: return (s == '') * 1
+  # Otherwise `spec = x::xs`, so try matching start of `s` to `x`
+  x,xs = spec[0], spec[1:]
+  
+  pass
+
 
 def create_regex_pattern(spec:list[int]) -> str:
   '''Given nonempty `spec:list[int]`, return a string that will compile to 
@@ -91,7 +93,9 @@ def create_regex_pattern(spec:list[int]) -> str:
 
 for [s,spec] in test_input:
   p = create_regex_pattern(spec)
-  print(p)
+  pattern = re.compile(p)
+  result = pattern.findall(s)
+  print(result)
 
 # print()
 
