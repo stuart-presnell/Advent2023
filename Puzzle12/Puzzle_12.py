@@ -22,12 +22,12 @@ parse_nums,
 # This list always accounts for every damaged spring, 
 # and each number is the entire size of its contiguous group 
 # (that is, groups are always separated by at least one operational spring: 
-# #### would always be 4, never 2,2).
+# XXXX would always be 4, never 2,2).
 
 def rewrite(s):
   '''Given a string consisting of '.', '#', and '?',
-  rewrite it to 'O', 'X, and 'J' to avoid having to escape regex characters.'''
-  d = {'.':'O', '#':'*', '?':'J'}
+  rewrite it to 'O', 'X', and '~' to avoid having to escape regex characters.'''
+  d = {'.':'O', '#':'X', '?':'~'}
   return "".join([d[x] for x in s])
 
 # print(rewrite('???.###'))
@@ -45,8 +45,7 @@ input      = parse_file_a("Puzzle12_input.txt")
 
 show(test_input)
 
-# [s1, L1] = test_input[0]
-# print(line0)
+[s1, L1] = test_input[0]
 
 ################################
 # Part (a)
@@ -61,7 +60,35 @@ def count_arrangements(s:str, L:list[int]):
   
   pass
 
-# count_arrangements(s1, L1)
+# If the spec is [a,b,...] then its uncorrupted string must consist of:
+# * some number of Os (possibly zero)
+# * 'a' Xs
+# * some number of Os (not zero)
+# * 'b' Xs
+# * some number of Os (not zero)
+# * etc.
+
+def any_number_of(char):
+  return "[" + char + "~]*"
+
+def any_pos_number_of(char):
+  return "[" + char + "~]+"
+
+def exactly_n_of(char, n):
+  return "[" + char + "~]{" + str(n) + "}"
+
+
+print()
+
+spec = re.compile("^" + exactly_n_of("X", 5))
+
+for i in range(len(test_input)):
+  result = spec.match(test_input[i][0])
+  if result:
+    print(result.group(0))
+  else:
+    print(None)
+
 
 # def main_a(ip):
 #   pass
