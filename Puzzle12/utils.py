@@ -29,10 +29,10 @@ def showM(M:list[list[int]], max_digits=2):
   format_string = '{:' + str(col_width) + '}'
   print('\n'.join([''.join([format_string.format(item) for item in row]) for row in M]))
 
-def parse_nums(s:str) -> list[int]:
-  '''Given a string of the form `"a b c ... z"`, where each entry is a number, 
+def parse_nums(s:str, sep=" ") -> list[int]:
+  '''Given a string of the form `"a<sep>b<sep>c<sep>...<sep>z"`, where each entry is a number, 
   return a `list[int]`'''
-  op = s.split()
+  op = s.split(sep)
   op = list(map(int,op))  # This will raise an error if any entry doesn't parse as a number
   return op
 
