@@ -62,8 +62,8 @@ def any_pos_number_of(char):
 def exactly_n_of(char, n):
   return "[" + char + "~]{" + str(n) + "}"
 
-def count_arrangements(s:str, spec:list[int]):
-  '''How many different arrangements of OK/broken springs fit the given spec?
+def count_arrangements(s:str, spec:list[int], at_start = False):
+  '''How many different arrangements of O/X fit the given spec?
   If the spec is [a,b,...] then its uncorrupted string must consist of:
   * some number of Os (possibly zero)
   * 'a' Xs
@@ -71,14 +71,30 @@ def count_arrangements(s:str, spec:list[int]):
   * 'b' Xs
   * some number of Os (not zero)
   * etc.
-  * Finally, some number of Os (possibly zero)'''
+  * Finally, some number of Os (possibly zero).
+  So at the start we want '[O~]*', and then for each `x` in `spec` we want `[X~]{x}[O~]+`.
+  So we need to count how many ways there are to match '[O~]*' at the start;
+  then for each of these, how many ways to match `[X~]{spec[0]}[O~]+`;
+  then for each of these, how many ways to match `[X~]{spec[1]}[O~]+`; and so on.'''
   # Base case: empty list => some number of Os (possibly zero)
   if len(spec) == 0: 
       return 1 if re.fullmatch(any_number_of('O'), s) else 0
     
-  # Otherwise `spec = x::xs`, so try matching start of `s` to `x`
+  # Otherwise `spec = x::xs`, so try matching start of `s` to `x` and rest to `xs`
+  # Specifically, count the number of ways of matching some initial part of `s` to `x`, 
+  # and multiply by the number of ways to match the remainder to `xs`
+  if at_start:
+    pass
   x,xs = spec[0], spec[1:]
-  print(x, xs)
+  first_X = s.find('X')
+  match first_X:
+    case -1: # if 'X' isn't in `s`, but we're expecting to match it to a non-empty spec, return 0
+      return 0
+    case 0:
+      pass # if 'X' is the first character of `s` ...
+    case _:
+      pass
+  # print(x, xs)
   pass
 
 
