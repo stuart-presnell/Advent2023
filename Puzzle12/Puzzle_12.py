@@ -35,9 +35,23 @@ input      = parse_file_a("Puzzle12_input.txt")
 
 show(test_input)
 
+# [s1, L1] = test_input[0]
+# print(line0)
+
 ################################
 # Part (a)
 ################################
+
+def count_arrangements(s:str, L:list[int]):
+  '''How many different arrangements of OK/broken springs fit the given criteria in each row?'''
+  # Base case: empty list only matches empty string
+  if len(L) == 0: return (s == '') * 1
+  # Otherwise `L = x::xs`, so try matching start of `s` to `x`
+  x,xs = L[0], L[1:]
+  
+  pass
+
+# count_arrangements(s1, L1)
 
 # def main_a(ip):
 #   pass
