@@ -1,5 +1,7 @@
 # https://adventofcode.com/2023/day/12
 
+import re
+
 # My utility functions
 from utils import (
 show, 
@@ -22,12 +24,20 @@ parse_nums,
 # (that is, groups are always separated by at least one operational spring: 
 # #### would always be 4, never 2,2).
 
+def rewrite(s):
+  '''Given a string consisting of '.', '#', and '?',
+  rewrite it to 'O', 'X, and 'J' to avoid having to escape regex characters.'''
+  d = {'.':'O', '#':'*', '?':'J'}
+  return "".join([d[x] for x in s])
+
+# print(rewrite('???.###'))
+
 def parse_file_a(filename):
   f = open(filename)
   ip_file = f.read().splitlines()
   f.close()
   ip_file = [line.split() for line in ip_file]
-  ip_file = [[c, parse_nums(n, ",")] for [c,n] in ip_file] 
+  ip_file = [[rewrite(c), parse_nums(n, ",")] for [c,n] in ip_file] 
   return ip_file
 
 test_input = parse_file_a("Puzzle12_test.txt")
