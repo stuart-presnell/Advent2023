@@ -49,7 +49,7 @@ input      = parse_file_a("Puzzle12_input.txt")
 # Part (a)
 ################################
 
-verbose = False
+verbose = True
 
 def count_ways_starting_O(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty), 
@@ -57,9 +57,15 @@ def count_ways_starting_O(s, spec):
   to make a string that fits the spec *and* starts with `O`.'''
   if verbose: print("Starting 'O': \t", s, spec)
   if not spec:
-    return ('X' not in s) * 1
+    if ('X' not in s): 
+      return 1
+    else:
+      return 0
   if not s:
-    return (spec == []) * 1
+    if (spec == []):
+      return 1
+    else:
+      return 0
   if s[0] == 'X': 
     return 0
   else:
@@ -73,7 +79,10 @@ def count_ways_starting_X(s, spec):
   if not spec:    # a string can't start with `X` and meet an empty `spec`!
     return 0
   if not s:
-    return (spec == []) * 1
+    if (spec == []):
+      return 1
+    else:
+      return 0
   if s[0] == 'O':
     return 0
   else:  # either `s` starts with `X` or could be interpreted as starting with `X`, so do so
@@ -87,11 +96,17 @@ def count_ways(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec.'''
-  if verbose: print("Counting all ways: \t", s, spec)
+  if verbose: print("Counting all: \t", s, spec)
   if not spec:
-    return ('X' not in s) * 1
+    if ('X' not in s):
+      return 1
+    else:
+      return 0
   if not s:
-    return (spec == []) * 1
+    if (spec == []):
+      return 1
+    else:
+      return 0
   return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
 print(test_input[1])
