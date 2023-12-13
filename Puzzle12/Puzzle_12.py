@@ -10,7 +10,7 @@ parse_nums,
 # rotate90, close_bracket, cmp, qsort, Best, 
 Timer,
 )
-TTT = Timer(1)
+TTT = Timer()
 
 ################################
 
@@ -43,28 +43,19 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle12_test.txt")
 input      = parse_file_a("Puzzle12_input.txt")
 
-show(test_input)
-
-[s1, L1] = test_input[0]
+# show(test_input)
 
 ################################
 # Part (a)
 ################################
 
-def any_number_of(char):
-  return "[" + char + "~]*"
-
-def any_pos_number_of(char):
-  return "[" + char + "~]+"
-
-def exactly_n_of(char, n):
-  return "[" + char + "~]{" + str(n) + "}"
+verbose = False
 
 def count_ways_starting_O(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty), 
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec *and* starts with `O`.'''
-  # print("Starting 'O': \t", s, spec)
+  if verbose: print("Starting 'O': \t", s, spec)
   if not spec:
     return ('X' not in s) * 1
   if not s:
@@ -78,7 +69,7 @@ def count_ways_starting_X(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty),
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec *and* starts with `X`.'''
-  # print("Starting 'X': \t", s, spec)
+  if verbose: print("Starting 'X': \t", s, spec)
   if not spec:    # a string can't start with `X` and meet an empty `spec`!
     return 0
   if not s:
@@ -96,14 +87,16 @@ def count_ways(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec.'''
-  # print("Counting all ways: \t", s, spec)
+  if verbose: print("Counting all ways: \t", s, spec)
   if not spec:
     return ('X' not in s) * 1
   if not s:
     return (spec == []) * 1
   return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
-# count_ways(*test_input[5])
+print(test_input[1])
+count_ways(*test_input[1])
+# print(count_ways('X~XO~', [3]))
 
 # for [s,spec] in test_input:
 #   # print(s)
@@ -158,7 +151,17 @@ def count_ways(s, spec):
 
 ################################
 
-TTT.timecheck("Final")
+# TTT.timecheck("Final")
+
+
+# def any_number_of(char):
+#   return "[" + char + "~]*"
+
+# def any_pos_number_of(char):
+#   return "[" + char + "~]+"
+
+# def exactly_n_of(char, n):
+#   return "[" + char + "~]{" + str(n) + "}"
 
 
 
