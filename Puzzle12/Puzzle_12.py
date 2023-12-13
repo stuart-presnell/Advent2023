@@ -62,64 +62,7 @@ def any_pos_number_of(char):
 def exactly_n_of(char, n):
   return "[" + char + "~]{" + str(n) + "}"
 
-def count_arrangements(s:str, spec:list[int], block, at_start = False):
-  '''How many different arrangements of O/X fit the given spec?
-  If the spec is [a,b,...] then its uncorrupted string must consist of:
-  * some number of Os (possibly zero)
-  * 'a' Xs
-  * some number of Os (not zero)
-  * 'b' Xs
-  * some number of Os (not zero)
-  * etc.
-  * Finally, some number of Os (possibly zero).
-  So at the start we want '[O~]*', and then for each `x` in `spec` we want `[X~]{x}[O~]+`.
-  So we need to count how many ways there are to match '[O~]*' at the start;
-  then for each of these, how many ways to match `[X~]{spec[0]}[O~]+` on the remainder;
-  then for each of these, how many ways to match `[X~]{spec[1]}[O~]+` on the remainder; and so on.'''
-  # Base case: empty list => some number of Os (possibly zero)
-  if len(spec) == 0: 
-      return 1 if re.fullmatch(any_number_of('O'), s) else 0
-  if at_start:
-    result = re.match("^[O~]*", s)
-    if not result:  # if the start of the string doesn't match a run of 'O'; should be IMPOSSIBLE
-      return 0
-    else:
-      count = 0
-      run_of_Os = result.end() # The number of ways to match '[O~]*' at the start
-      for i in range(run_of_Os + 1):
-        count += count_arrangements(s[i:], spec, 'X')
-      return count
-  # Now we're not at the start, and `spec` isn't empty
-  if block == 'X':     # Trying to match `^[X~]{spec[0]}`
-    a = spec[0]
-    pattern = "^[X~]{" + str(a) + "}"
-    result = re.match(pattern, s)
-    if not result:  # if the current string doesn't start with `a` Xs
-      return 0  # this arrangement fails, terminate it
-    else:   # if the current string starts with `a` Xs
-      return count_arrangements(s[a:], spec[1:], 'O')  # try to match the rest, starting with 'O'
-  elif block =='O':     # Trying to match `^[O~]+`
-    pattern = "^[O~]+"
-    result = re.match(pattern, s)
-    if not result:
-      return 0
-    else:
-      count = 0
-      run_of_Os = result.end() # The number of ways to match '[O~]*' at the start
-      for i in range(run_of_Os + 1):
-        count += count_arrangements(s[i:], spec, 'X')
-      return count
 
-
-
-
-# z = re.fullmatch(any_number_of('O'), 'O')
-# print(z)
-
-# x = count_arrangements('~X~', [])
-# x = count_arrangements('~~~OXXX', [1, 1, 3], True)
-x = count_arrangements(*test_input[0], 'O', True)
-print(x)
 
 
 def create_regex_pattern(spec:list[int]) -> str:
@@ -172,3 +115,65 @@ def create_regex_pattern(spec:list[int]) -> str:
 ################################
 
 # TTT.timecheck("Final")
+
+
+
+
+# def count_arrangements(s:str, spec:list[int], block, at_start = False):
+#   '''How many different arrangements of O/X fit the given spec?
+#   If the spec is [a,b,...] then its uncorrupted string must consist of:
+#   * some number of Os (possibly zero)
+#   * 'a' Xs
+#   * some number of Os (not zero)
+#   * 'b' Xs
+#   * some number of Os (not zero)
+#   * etc.
+#   * Finally, some number of Os (possibly zero).
+#   So at the start we want '[O~]*', and then for each `x` in `spec` we want `[X~]{x}[O~]+`.
+#   So we need to count how many ways there are to match '[O~]*' at the start;
+#   then for each of these, how many ways to match `[X~]{spec[0]}[O~]+` on the remainder;
+#   then for each of these, how many ways to match `[X~]{spec[1]}[O~]+` on the remainder; and so on.'''
+#   # Base case: empty list => some number of Os (possibly zero)
+#   if len(spec) == 0: 
+#       return 1 if re.fullmatch(any_number_of('O'), s) else 0
+#   if at_start:
+#     result = re.match("^[O~]*", s)
+#     if not result:  # if the start of the string doesn't match a run of 'O'; should be IMPOSSIBLE
+#       return 0
+#     else:
+#       count = 0
+#       run_of_Os = result.end() # The number of ways to match '[O~]*' at the start
+#       for i in range(run_of_Os + 1):
+#         count += count_arrangements(s[i:], spec, 'X')
+#       return count
+#   # Now we're not at the start, and `spec` isn't empty
+#   if block == 'X':     # Trying to match `^[X~]{spec[0]}`
+#     a = spec[0]
+#     pattern = "^[X~]{" + str(a) + "}"
+#     result = re.match(pattern, s)
+#     if not result:  # if the current string doesn't start with `a` Xs
+#       return 0  # this arrangement fails, terminate it
+#     else:   # if the current string starts with `a` Xs
+#       return count_arrangements(s[a:], spec[1:], 'O')  # try to match the rest, starting with 'O'
+#   elif block =='O':     # Trying to match `^[O~]+`
+#     pattern = "^[O~]+"
+#     result = re.match(pattern, s)
+#     if not result:
+#       return 0
+#     else:
+#       count = 0
+#       run_of_Os = result.end() # The number of ways to match '[O~]*' at the start
+#       for i in range(run_of_Os + 1):
+#         count += count_arrangements(s[i:], spec, 'X')
+#       return count
+
+
+
+
+# # z = re.fullmatch(any_number_of('O'), 'O')
+# # print(z)
+
+# # x = count_arrangements('~X~', [])
+# # x = count_arrangements('~~~OXXX', [1, 1, 3], True)
+# x = count_arrangements(*test_input[0], 'O', True)
+# print(x)
