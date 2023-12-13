@@ -61,16 +61,23 @@ def exactly_n_of(char, n):
   return "[" + char + "~]{" + str(n) + "}"
 
 def count_ways_starting_O(s, spec):
-  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
+  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty), 
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec *and* starts with `O`.'''
-  pass
+  if s[0] == 'X': 
+    return 0
+  else:
+    s = s[1:]
+    return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
 def count_ways_starting_X(s, spec):
-  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
+  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty),
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec *and* starts with `X`.'''
-  pass
+  if s[0] == 'O': 
+    return 0
+  elif s[0] == 'X':
+    pass
 
 def count_ways(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
