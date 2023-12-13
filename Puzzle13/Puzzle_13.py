@@ -105,14 +105,29 @@ def swap(r,c,B):
   B[r] = B[r][:c] + neg_char(B[r][c]) + B[r][c+1:]
   return B
 
-# show(swap(1,1,block0))
+show(block1)
+show(swap(1,4,block1))
+find_all_symmetries(block1)
+# find_all_symmetries(swap(1,4,block1))
 
-find_all_symmetries(block0)
+def find_new_symmetry(block):
+  (v,h) = find_all_symmetries(block)
+  # print(v,h, " is the symmetry of the original block")
+  for r in range(len(block)):
+    for c in range(len(block[0])):
+      B = swap(r,c,block.copy())
+      [v1,h1] = find_all_symmetries(B)
+      if (v1,h1) == ([],[]):
+        continue
+      # else:
+        # print(v1,h1, " is the symmetry of the new block")
+      if (v1 == v) & (h1 == h):
+        continue
+      else:
+        print("Found a new symmetry")
+        print(v1,h1, r, c)
 
-# s = find_block_symmetry(block0)
-# for r in range(len(block0)):
-#   for c in range(len(block0[[0]])):
-#     B = swap(r,c,block0)
+find_new_symmetry(block1)
 
 #   pass
 
