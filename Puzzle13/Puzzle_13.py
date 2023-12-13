@@ -52,9 +52,6 @@ def find_vertical_symmetry(block):
   i = list(set.intersection(*s))
   return i
 
-# s = find_vertical_symmetry(block1)
-# print(s)
-
 def find_block_symmetry(block):
   v = find_vertical_symmetry(block)
   if v:
@@ -70,33 +67,20 @@ def find_both_symmetries(block):
   h = find_vertical_symmetry(rotate90(block))
   return [v,h]
 
-for block in input:
-  [v,h] = find_both_symmetries(block)
-  if v:
-    if h:
-      print("Both!")
-
-
-
-#     match len(s):
-#       case 0: # If we've eliminated all positions for a vertical symmetry
-#         if H:
-#           raise ValueError("This block appear to have no symmetry at all!")
-#         else:
-#           print("No vertical symmetry, try horizontal")
-#           block = rotate90(block)
-#           return find_block_symmetry(block, H = True)
-#       # case 1: # If we've 
-#       #   print("Found it!")
-#       #   return (s[0], H)  # 
-#       case _: pass
-
 ################################
 # Part (a)
 ################################
 
-# def main_a(ip):
-#   pass
+# Add up the number of columns to the left of each vertical line of reflection; 
+# to that, also add 100 multiplied by the number of rows above each horizontal line of reflection
+
+def main_a(ip):
+  count = 0
+  for block in ip:
+    [n,d] = find_block_symmetry(block)
+
+  
+  pass
 
 # main_a(test_input)  # 
 # main_a(input)       # 
