@@ -7,9 +7,9 @@ chunk_splitlines,
 # printT, showM, parse_nums, 
 rotate90, 
 # close_bracket, cmp, qsort, Best, 
-# Timer,
+Timer,
 )
-# TTT = Timer()
+TTT = Timer()
 
 ################################
 
@@ -64,12 +64,6 @@ def find_block_symmetry(block):
     h = len(block) - h
     return [h, "H"]
 
-# def find_both_symmetries(block):
-#   v = find_vertical_symmetry(block)
-#   h = find_vertical_symmetry(rotate90(block))
-#   return [v,h]
-
-# print(find_block_symmetry(block1))
 ################################
 # Part (a)
 ################################
@@ -89,11 +83,9 @@ def main_a(ip):
   return count
 
 
-main_a(test_input)  # 405
-main_a(input)       # 27742
-# 39542 is too high
-
-
+print(main_a(test_input))  # 405
+print(main_a(input))       # 27742
+TTT.timecheck("Part (a)")  # 15 ms
 ################################
 # Part (b)
 ################################
