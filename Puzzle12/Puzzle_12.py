@@ -49,7 +49,7 @@ input      = parse_file_a("Puzzle12_input.txt")
 # Part (a)
 ################################
 
-verbose = True
+verbose = False
 
 def count_ways_starting_O(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty), 
@@ -58,11 +58,13 @@ def count_ways_starting_O(s, spec):
   if verbose: print("Starting 'O': \t", s, spec)
   if not spec:
     if ('X' not in s): 
+      print("'O': 'X' not in s \t", s, spec)
       return 1
     else:
       return 0
   if not s:
     if (spec == []):
+      print ("'O': spec == [] \t", s, spec)
       return 1
     else:
       return 0
@@ -80,6 +82,7 @@ def count_ways_starting_X(s, spec):
     return 0
   if not s:
     if (spec == []):
+      print ("'X': spec == [] \t", s, spec)
       return 1
     else:
       return 0
@@ -99,18 +102,20 @@ def count_ways(s, spec):
   if verbose: print("Counting all: \t", s, spec)
   if not spec:
     if ('X' not in s):
+      print("ALL: 'X' not in s \t", s, spec)
       return 1
     else:
       return 0
   if not s:
     if (spec == []):
+      print ("ALL: spec == [] \t", s, spec)
       return 1
     else:
       return 0
   return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
 print(test_input[1])
-count_ways(*test_input[1])
+count_ways(*test_input[0])
 # print(count_ways('X~XO~', [3]))
 
 # for [s,spec] in test_input:
