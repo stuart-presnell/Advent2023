@@ -51,8 +51,6 @@ show(test_input)
 # Part (a)
 ################################
 
-
-
 def any_number_of(char):
   return "[" + char + "~]*"
 
@@ -62,7 +60,23 @@ def any_pos_number_of(char):
 def exactly_n_of(char, n):
   return "[" + char + "~]{" + str(n) + "}"
 
+def count_ways_starting_O(s, spec):
+  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
+  return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
+  to make a string that fits the spec *and* starts with `O`.'''
+  pass
 
+def count_ways_starting_X(s, spec):
+  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
+  return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
+  to make a string that fits the spec *and* starts with `X`.'''
+  pass
+
+def count_ways(s, spec):
+  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
+  return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
+  to make a string that fits the spec.'''
+  return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
 
 def create_regex_pattern(spec:list[int]) -> str:
