@@ -29,7 +29,7 @@ ip = test_input
 block98 = input[98]
 
 # show(block0)
-show(block98)
+# show(block98)
 
 def check_row_symmetry(row, pos) -> bool:
   '''Given a row, e.g. "#.##..##.", and a position, check whether `row` is symmetric about `pos`.'''
@@ -53,20 +53,23 @@ def find_vertical_symmetry(block):
   return i
 
 def find_block_symmetry(block):
+  # Assuming there's exactly one symmetry
   v = find_vertical_symmetry(block)
   if v:
-    v = v[0]    # Assuming there's exactly one symmetry
+    v = v[0]    
     return [v, "V"]
   else:
     h = find_vertical_symmetry(rotate90(block))
-    h = h[0]    # Assuming there's exactly one symmetry
+    h = h[0]  # But this counts the number of rows BELOW the symmetry, b/c we rotated 90 not -90
+    h = len(block) - h
     return [h, "H"]
 
-def find_both_symmetries(block):
-  v = find_vertical_symmetry(block)
-  h = find_vertical_symmetry(rotate90(block))
-  return [v,h]
+# def find_both_symmetries(block):
+#   v = find_vertical_symmetry(block)
+#   h = find_vertical_symmetry(rotate90(block))
+#   return [v,h]
 
+# print(find_block_symmetry(block1))
 ################################
 # Part (a)
 ################################
@@ -78,12 +81,17 @@ def main_a(ip):
   count = 0
   for block in ip:
     [n,d] = find_block_symmetry(block)
+    # print(n,d)
+    if d == 'V':
+      count += n
+    elif d == 'H':
+      count += n * 100
+  return count
 
-  
-  pass
 
-# main_a(test_input)  # 
-# main_a(input)       # 
+main_a(test_input)  # 405
+main_a(input)       # 27742
+# 39542 is too high
 
 
 ################################
