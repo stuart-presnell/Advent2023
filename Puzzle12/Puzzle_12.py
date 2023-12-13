@@ -64,6 +64,7 @@ def count_ways_starting_O(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty), 
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec *and* starts with `O`.'''
+  # print("Starting 'O': \t", s, spec)
   if s[0] == 'X': 
     return 0
   else:
@@ -73,12 +74,15 @@ def count_ways_starting_X(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty),
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec *and* starts with `X`.'''
-  # print(spec)
+  # print("Starting 'X': \t", s, spec)
   if not spec:    # a string can't start with `X` and meet an empty `spec`!
     return 0
   if s[0] == 'O':
     return 0
   else:  # either `s` starts with `X` or could be interpreted as starting with `X`, so do so
+    if spec[0] == 1:  # if we've completed the current block of 'X's required
+      # drop that block from `spec` and then require that the next character is 'O'
+      return count_ways_starting_O(s[1:], spec[1:])
     spec[0] -= 1
     return count_ways(s[1:], spec)
 
@@ -86,8 +90,11 @@ def count_ways(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec.'''
+  # print("Counting all ways: \t", s, spec)
   return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
+
+count_ways(*test_input[0])
 
 # def create_regex_pattern(spec:list[int]) -> str:
 #   '''Given nonempty `spec:list[int]`, return a string that will compile to 
