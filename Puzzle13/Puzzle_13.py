@@ -34,7 +34,6 @@ show(block98)
 def check_row_symmetry(row, pos) -> bool:
   '''Given a row, e.g. "#.##..##.", and a position, check whether `row` is symmetric about `pos`.'''
   L = len(row)
-  # print(L//2)
   if pos <= L//2:
     left  = row[:pos]
     right = row[pos:2*pos]
@@ -42,18 +41,13 @@ def check_row_symmetry(row, pos) -> bool:
     chunk_size = L-pos
     left  = row[L-2*chunk_size:pos]
     right = row[pos:]
-
-  print(left, "\t", right)
-  pass
-
-for pos in range(1,len(block98[0])):
-  check_row_symmetry(block98[0], pos)
-
+  return (left == right[::-1])
 
 def find_row_symmetries(row):
   '''Given a row, e.g. "#.##..##.", return all positions around which it's vertically symmetric.'''
   return [pos for pos in range(1,len(row)) if check_row_symmetry(row, pos)]
-# len(row) - 1 ?
+
+print(find_row_symmetries(block98[0]))
 
 # def find_block_symmetry(block, H = False):
 #   for row in block:
