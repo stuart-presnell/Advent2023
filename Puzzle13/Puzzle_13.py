@@ -69,6 +69,7 @@ def find_all_symmetries(block):
   '''Given a block, return all its vertical symmetries and all its horizontal symmetries.'''
   v = find_vertical_symmetry(block)
   h = find_vertical_symmetry(rotate90(block))
+  h = [len(block) - x for x in h]
   return (v,h)
 
 ################################
@@ -105,9 +106,9 @@ def swap(r,c,B):
   B[r] = B[r][:c] + neg_char(B[r][c]) + B[r][c+1:]
   return B
 
-show(block1)
-show(swap(1,4,block1))
-find_all_symmetries(block1)
+# show(block1)
+# show(swap(1,4,block1))
+# find_all_symmetries(block1)
 # find_all_symmetries(swap(1,4,block1))
 
 def find_new_symmetry(block):
@@ -120,18 +121,29 @@ def find_new_symmetry(block):
       if (v1,h1) == ([],[]):
         continue
       # else:
-        # print(v1,h1, " is the symmetry of the new block")
       if (v1 == v) & (h1 == h):
         continue
       else:
-        print("Found a new symmetry")
-        print(v1,h1, r, c)
+        # print(v1,h1, "is the symmetry of the new block")
+        # print("Found a new symmetry")
+        # print(v1,h1, r, c)
+        nsv = list(set.difference(set(v1),set(v)))
+        nsh = list(set.difference(set(h1),set(h)))
+        return(nsv, nsh)
 
-find_new_symmetry(block1)
 
-#   pass
+def main_b(ip):
+  count = 0
+  for block in ip:
+    [v,h] = find_new_symmetry(block)
+    if v:
+      count += v[0]
+    else:
+      count += h[0] * 100
+  return count
 
-# main_b(test_input)  # 
+
+# main_b(test_input)  # 400
 # main_b(input)       # 
 
 
