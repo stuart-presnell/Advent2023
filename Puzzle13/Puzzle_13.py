@@ -45,13 +45,30 @@ def check_row_symmetry(row, pos) -> bool:
 
 def find_row_symmetries(row):
   '''Given a row, e.g. "#.##..##.", return all positions around which it's vertically symmetric.'''
-  return [pos for pos in range(1,len(row)) if check_row_symmetry(row, pos)]
+  return set([pos for pos in range(1,len(row)) if check_row_symmetry(row, pos)])
 
-print(find_row_symmetries(block98[0]))
+def find_vertical_symmetry(block):
+  s = [find_row_symmetries(row) for row in block]
+  i = set.intersection(*s)
+  return i
 
-# def find_block_symmetry(block, H = False):
-#   for row in block:
-#     s = find_row_symmetries(row)
+# s = find_vertical_symmetry(block1)
+# print(s)
+
+def find_block_symmetry(block):
+  v = find_vertical_symmetry(block)
+  if v:
+    v = list(v)[0]    # Assuming there's exactly one symmetry
+    return [v, "V"]
+  else:
+    h = find_vertical_symmetry(rotate90(block))
+    h = list(h)[0]    # Assuming there's exactly one symmetry
+    return [h, "H"]
+
+print(find_block_symmetry(block0))
+print(find_block_symmetry(block1))
+
+
 #     match len(s):
 #       case 0: # If we've eliminated all positions for a vertical symmetry
 #         if H:
