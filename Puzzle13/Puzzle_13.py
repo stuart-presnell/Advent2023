@@ -49,7 +49,7 @@ def find_row_symmetries(row):
 
 def find_vertical_symmetry(block):
   s = [find_row_symmetries(row) for row in block]
-  i = set.intersection(*s)
+  i = list(set.intersection(*s))
   return i
 
 # s = find_vertical_symmetry(block1)
@@ -58,15 +58,24 @@ def find_vertical_symmetry(block):
 def find_block_symmetry(block):
   v = find_vertical_symmetry(block)
   if v:
-    v = list(v)[0]    # Assuming there's exactly one symmetry
+    v = v[0]    # Assuming there's exactly one symmetry
     return [v, "V"]
   else:
     h = find_vertical_symmetry(rotate90(block))
-    h = list(h)[0]    # Assuming there's exactly one symmetry
+    h = h[0]    # Assuming there's exactly one symmetry
     return [h, "H"]
 
-print(find_block_symmetry(block0))
-print(find_block_symmetry(block1))
+def find_both_symmetries(block):
+  v = find_vertical_symmetry(block)
+  h = find_vertical_symmetry(rotate90(block))
+  return [v,h]
+
+for block in input:
+  [v,h] = find_both_symmetries(block)
+  if v:
+    if h:
+      print("Both!")
+
 
 
 #     match len(s):
