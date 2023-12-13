@@ -8,9 +8,9 @@ show,
 # chunk_splitlines, printT, showM, 
 parse_nums, 
 # rotate90, close_bracket, cmp, qsort, Best, 
-# Timer,
+Timer,
 )
-# TTT = Timer()
+TTT = Timer(1)
 
 ################################
 
@@ -65,6 +65,10 @@ def count_ways_starting_O(s, spec):
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec *and* starts with `O`.'''
   # print("Starting 'O': \t", s, spec)
+  if not spec:
+    return ('X' not in s) * 1
+  if not s:
+    return (spec == []) * 1
   if s[0] == 'X': 
     return 0
   else:
@@ -77,6 +81,8 @@ def count_ways_starting_X(s, spec):
   # print("Starting 'X': \t", s, spec)
   if not spec:    # a string can't start with `X` and meet an empty `spec`!
     return 0
+  if not s:
+    return (spec == []) * 1
   if s[0] == 'O':
     return 0
   else:  # either `s` starts with `X` or could be interpreted as starting with `X`, so do so
@@ -91,10 +97,17 @@ def count_ways(s, spec):
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec.'''
   # print("Counting all ways: \t", s, spec)
+  if not spec:
+    return ('X' not in s) * 1
+  if not s:
+    return (spec == []) * 1
   return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
+# count_ways(*test_input[5])
 
-count_ways(*test_input[0])
+# for [s,spec] in test_input:
+#   # print(s)
+#   print(count_ways(s,spec))
 
 # def create_regex_pattern(spec:list[int]) -> str:
 #   '''Given nonempty `spec:list[int]`, return a string that will compile to 
@@ -145,7 +158,7 @@ count_ways(*test_input[0])
 
 ################################
 
-# TTT.timecheck("Final")
+TTT.timecheck("Final")
 
 
 
