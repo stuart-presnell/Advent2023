@@ -4,7 +4,9 @@
 from utils import (
 show, 
 chunk_splitlines, 
-# printT, showM, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
+# printT, showM, parse_nums, 
+rotate90, 
+# close_bracket, cmp, qsort, Best, 
 # Timer,
 )
 # TTT = Timer()
@@ -26,7 +28,27 @@ ip = test_input
 [block0, block1] = test_input
 
 show(block0)
-show(block1)
+# show(block1)
+
+def find_row_symmetries(row):
+  '''Given a row, e.g. "#.##..##.", return all positions around which it's vertically symmetric.'''
+  return []
+
+# def find_block_symmetry(block, H = False):
+#   for row in block:
+#     s = find_row_symmetries(row)
+#     match len(s):
+#       case 0: # If we've eliminated all positions for a vertical symmetry
+#         if H:
+#           raise ValueError("This block appear to have no symmetry at all!")
+#         else:
+#           print("No vertical symmetry, try horizontal")
+#           block = rotate90(block)
+#           return find_block_symmetry(block, H = True)
+#       # case 1: # If we've 
+#       #   print("Found it!")
+#       #   return (s[0], H)  # 
+#       case _: pass
 
 ################################
 # Part (a)
