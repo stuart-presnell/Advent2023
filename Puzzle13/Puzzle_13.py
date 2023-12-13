@@ -53,7 +53,8 @@ def find_vertical_symmetry(block):
   return i
 
 def find_block_symmetry(block):
-  # Assuming there's exactly one symmetry
+  '''Given a block that is assumed to have exactly one symmetry, 
+  return `[n,d]` where `n` is the row/column of the symmetry and `d` is `'H'` or `'V'`.'''
   v = find_vertical_symmetry(block)
   if v:
     v = v[0]    
@@ -63,6 +64,12 @@ def find_block_symmetry(block):
     h = h[0]  # But this counts the number of rows BELOW the symmetry, b/c we rotated 90 not -90
     h = len(block) - h
     return [h, "H"]
+
+def find_all_symmetries(block):
+  '''Given a block, return all its vertical symmetries and all its horizontal symmetries.'''
+  v = find_vertical_symmetry(block)
+  h = find_vertical_symmetry(rotate90(block))
+  return (v,h)
 
 ################################
 # Part (a)
@@ -100,12 +107,13 @@ def swap(r,c,B):
 
 # show(swap(1,1,block0))
 
+find_all_symmetries(block0)
+
 # s = find_block_symmetry(block0)
-# for row in block0:
-#   for i in len(row):
+# for r in range(len(block0)):
+#   for c in range(len(block0[[0]])):
+#     B = swap(r,c,block0)
 
-
-# def main_b(ip):
 #   pass
 
 # main_b(test_input)  # 
