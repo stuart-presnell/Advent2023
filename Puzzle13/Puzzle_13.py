@@ -83,12 +83,27 @@ def main_a(ip):
   return count
 
 
-print(main_a(test_input))  # 405
-print(main_a(input))       # 27742
+# print(main_a(test_input))  # 405
+# print(main_a(input))       # 27742
 TTT.timecheck("Part (a)")  # 15 ms
+
 ################################
 # Part (b)
 ################################
+
+def neg_char(c):
+  return '.' if c == '#' else '#'
+
+def swap(r,c,B):
+  B[r] = B[r][:c] + neg_char(B[r][c]) + B[r][c+1:]
+  return B
+
+# show(swap(1,1,block0))
+
+# s = find_block_symmetry(block0)
+# for row in block0:
+#   for i in len(row):
+
 
 # def main_b(ip):
 #   pass
