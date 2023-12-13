@@ -67,17 +67,20 @@ def count_ways_starting_O(s, spec):
   if s[0] == 'X': 
     return 0
   else:
-    s = s[1:]
-    return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
+    return count_ways(s[1:], spec)
 
 def count_ways_starting_X(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty),
   return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
   to make a string that fits the spec *and* starts with `X`.'''
-  if s[0] == 'O': 
+  # print(spec)
+  if not spec:    # a string can't start with `X` and meet an empty `spec`!
     return 0
-  elif s[0] == 'X':
-    pass
+  if s[0] == 'O':
+    return 0
+  else:  # either `s` starts with `X` or could be interpreted as starting with `X`, so do so
+    spec[0] -= 1
+    return count_ways(s[1:], spec)
 
 def count_ways(s, spec):
   '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
@@ -86,16 +89,16 @@ def count_ways(s, spec):
   return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
 
-def create_regex_pattern(spec:list[int]) -> str:
-  '''Given nonempty `spec:list[int]`, return a string that will compile to 
-  a regex pattern matching that spec, according to the rules given above.'''
-  op = "^" + any_number_of('O')
-  op += (exactly_n_of('X', spec[0]))
-  for n in spec[1:]:
-    op += (any_pos_number_of('O'))
-    op += (exactly_n_of('X', n))
-  op += (any_number_of('O') + '$')
-  return op
+# def create_regex_pattern(spec:list[int]) -> str:
+#   '''Given nonempty `spec:list[int]`, return a string that will compile to 
+#   a regex pattern matching that spec, according to the rules given above.'''
+#   op = "^" + any_number_of('O')
+#   op += (exactly_n_of('X', spec[0]))
+#   for n in spec[1:]:
+#     op += (any_pos_number_of('O'))
+#     op += (exactly_n_of('X', n))
+#   op += (any_number_of('O') + '$')
+#   return op
 
 # for [s,spec] in test_input:
 #   p = create_regex_pattern(spec)
