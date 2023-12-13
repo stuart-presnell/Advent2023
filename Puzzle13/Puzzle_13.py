@@ -1,15 +1,9 @@
 # https://adventofcode.com/2022/day/13
 
 # My utility functions
-from utils import (
-show, 
-chunk_splitlines, 
-# printT, showM, parse_nums, 
-rotate90, 
-# close_bracket, cmp, qsort, Best, 
-Timer,
-)
-TTT = Timer()
+from utils import chunk_splitlines, rotate90, Timer
+
+TTT = Timer(1)
 
 ################################
 
@@ -28,8 +22,6 @@ ip = test_input
 [block0, block1] = test_input
 block98 = input[98]
 
-# show(block0)
-# show(block98)
 
 def check_row_symmetry(row, pos) -> bool:
   '''Given a row, e.g. "#.##..##.", and a position, check whether `row` is symmetric about `pos`.'''
@@ -91,8 +83,8 @@ def main_a(ip):
   return count
 
 
-# print(main_a(test_input))  # 405
-# print(main_a(input))       # 27742
+print(main_a(test_input))  # 405
+print(main_a(input))       # 27742
 TTT.timecheck("Part (a)")  # 15 ms
 
 ################################
@@ -105,11 +97,6 @@ def neg_char(c):
 def swap(r,c,B):
   B[r] = B[r][:c] + neg_char(B[r][c]) + B[r][c+1:]
   return B
-
-# show(block1)
-# show(swap(1,4,block1))
-# find_all_symmetries(block1)
-# find_all_symmetries(swap(1,4,block1))
 
 def find_new_symmetry(block):
   (v,h) = find_all_symmetries(block)
@@ -131,7 +118,6 @@ def find_new_symmetry(block):
         nsh = list(set.difference(set(h1),set(h)))
         return(nsv, nsh)
 
-
 def main_b(ip):
   count = 0
   for block in ip:
@@ -142,11 +128,8 @@ def main_b(ip):
       count += h[0] * 100
   return count
 
-
-# main_b(test_input)  # 400
-# main_b(input)       # 
-
+main_b(test_input)      # 400
+main_b(input)           # 32728
+TTT.timecheck("Final")  # 1480 ms
 
 ################################
-
-# TTT.timecheck("Final")
