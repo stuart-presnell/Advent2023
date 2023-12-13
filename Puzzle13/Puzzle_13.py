@@ -3,7 +3,8 @@
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
+chunk_splitlines, 
+# printT, showM, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
 # Timer,
 )
 # TTT = Timer()
@@ -12,12 +13,20 @@ show,
 
 def parse_file_a(filename):
   f = open(filename)
-  ip_file = f.read().splitlines()
+  ip_file = chunk_splitlines(f.read())
   f.close()
   return ip_file
 
 test_input = parse_file_a("Puzzle13_test.txt")
 input      = parse_file_a("Puzzle13_input.txt")
+
+ip = test_input
+
+# Each line of `ip` is one block
+[block0, block1] = test_input
+
+show(block0)
+show(block1)
 
 ################################
 # Part (a)
