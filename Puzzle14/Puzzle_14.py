@@ -21,7 +21,7 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle14_test.txt")
 input      = parse_file_a("Puzzle14_input.txt")
 
-ip = test_input
+ip = input
 # show(ip)
 
 ################################
@@ -55,6 +55,8 @@ def calc_weight_cost(row):
       op += i +1
   return op
 
+total_cost = [calc_weight_cost(row) for row in rolled_grid]
+print(sum(total_cost))
 
 
 # print()
