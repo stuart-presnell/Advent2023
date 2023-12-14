@@ -21,7 +21,8 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle14_test.txt")
 input      = parse_file_a("Puzzle14_input.txt")
 
-ip = input
+ip = test_input
+# ip = input
 # show(ip)
 
 ################################
@@ -57,12 +58,31 @@ def main_a(ip):
   rolled_grid = [roll_row_east(row) for row in ip]
   return calc_cost(rolled_grid)
 
-print(main_a(test_input))  # 136
-print(main_a(input))       # 112773
+# print(main_a(test_input))  # 136
+# print(main_a(input))       # 112773
 
 ################################
 # Part (b)
 ################################
+
+def cycle(ip):
+  ''' "Each cycle tilts the platform four times 
+  so that the rounded rocks roll north, then west, then south, then east." '''
+  dirs = ['N', 'W','S', 'E']
+  for i in range(4):
+    # show(ip)
+    # print("Rolling " + dirs[i])
+    # First, rotate 90 so we're working on rows instead of columns
+    ip = rotate90(ip)  
+    ip = [roll_row_east(row) for row in ip]
+  return ip
+
+ip = cycle(ip)
+show(ip)
+
+
+
+
 
 # def main_b(ip):
 #   pass
