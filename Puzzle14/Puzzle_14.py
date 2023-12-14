@@ -7,6 +7,7 @@ show,
 rotate90, 
 # close_bracket, cmp, qsort, Best, 
 Timer,
+Looper
 )
 TTT = Timer()
 
@@ -21,9 +22,8 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle14_test.txt")
 input      = parse_file_a("Puzzle14_input.txt")
 
-ip = test_input
+# ip = test_input
 # ip = input
-# print("Original input: ")
 # show(ip)
 
 ################################
@@ -59,8 +59,8 @@ def main_a(ip):
   rolled_grid = [roll_row_east(row) for row in ip]
   return calc_cost(rolled_grid)
 
-# print(main_a(test_input))  # 136
-# print(main_a(input))       # 112773
+print(main_a(test_input))  # 136
+print(main_a(input))       # 112773
 
 ################################
 # Part (b)
@@ -102,7 +102,7 @@ def detect_loop(grid, max_cycles, verbose = False):
   keep running the cycle until we find a loop.'''
   visited_states = [grid]  # After no cycles...
   for i in range(max_cycles):
-    if verbose: print("After " + str(i+1) + " cycle" + ("s" if i > 0 else "") + ":")
+    if verbose: print("After " + str(i+1) + " cycle" + plural_s(i) + ":")
     grid = cycle(grid)  # Perform one more cycle
     if verbose: show(grid, False)  
     if verbose: print()
@@ -110,90 +110,17 @@ def detect_loop(grid, max_cycles, verbose = False):
       prev = visited_states.index(grid)
       period = (i+1) - prev
       if verbose: print("Found a loop! The grid after " + str(i+1) + " cycles is the same as after " + str(prev) + " cycles")
+      visited_states.append(grid)
       return (visited_states, period, prev)
     else:
       visited_states.append(grid)
   if verbose: print("Didn't find a loop after " + str(max_cycles) + " cycle" + plural_s(max_cycles - 1))
   return grid
 
-# (vs, period, loop_start) = detect_loop(ip.copy(), 1000, verbose = False)
-# print(period)
-# print(loop_start)
 
-# ip2 = test_input.copy()
-
-# vs = [ip2]  # After no cycles...
-# for i in range(1000):
-#   ip2 = cycle(ip2)
-#   vs.append(ip2)
-
-# print("Grid after defining vs: ")
-# show(ip)
-
-
-# show(vs[:loop_start])
-# print(loop_start, loop_start + 1 * period)
-# show(vs[loop_start:loop_start + 1 * period])
-# print(loop_start + 1 * period, loop_start + 2 * period)
-# show(vs[loop_start + 1 * period:loop_start + 2 * period])
-# print(loop_start + 2 * period, loop_start + 3 * period)
-# show(vs[loop_start + 2 * period:loop_start + 3 * period])
-
-
-# show(vs)
-
-# print(vs[3])
-# k = 3
-# print(repeat_cycles(ip, k) == repeat_cycles(ip, k+6))
-# print(repeat_cycles(ip.copy(), 3))
-# print(repeat_cycles(ip.copy(), 9))
-# print(vs[9])
-# print(repeat_cycles(ip, 15))
-# for i in range(10):
-#   print(repeat_cycles(ip, 3 + 6*i))
-
-# 01234567834567834...
-
-
-# print(vs[9])
-
-# print(loop_start, period)
-
-def reindex(n, loop_start, period):
-  return ((n - loop_start) % period) + loop_start
-
-def quick_repeat_cycles(vs, n, loop_start, period):
-  return vs[reindex(n, loop_start, period)]
-
-
-# print(repeat_cycles(ip,9))
-# after_billion = quick_repeat_cycles(vs, 1000000000, loop_start, period)
-# print(calc_cost(after_billion))
-
-# ip6 = repeat_cycles(ip, 6)
-# ip1000 = repeat_cycles(ip, 1000)
-
-# # for x in [ip6, ip1000]:
-# #   print(x)
-
-
-# print(billion%7)
-
-# # print(vs[6+1])
-# # quick_repeat_cycles(vs,100,7) == 
-
-# print(repeat_cycles(ip,100))
-
-
-# calc_cost(repeat_cycles(ip,billion%7))
-
-
-# print(billion%7)
-
-# show(vs)
-
-# G = test_input.copy()
-# for i in range(200):
+# ABC = Looper(['x', 'y', 'z', 'P','Q','R','S','T','U','V', 'a', 'b', 'c', 'd', 'a'])
+# for i in range(30):
+#   print(i, ABC[i])
 
 def calc_cost_b(grid):
   '''`calc_cost` was worked out on the assumption that the grid was rotated 90.
@@ -201,24 +128,16 @@ def calc_cost_b(grid):
   so we need to rotate the grid before calculating.'''
   return calc_cost(rotate90(grid))
 
-
-
-def main_b(ip_file, N):
-  (vs, period, loop_start) = detect_loop(ip_file.copy(), 1000, verbose = False)
-  print("Period = ", period)
-  reduced_N = N%period if N%period > loop_start else N%period + period
-  cycled_grid = repeat_cycles(ip_file.copy(), reduced_N)
-  # k = loop_start + 8
-  # print(repeat_cycles(ip_file.copy(), k) == repeat_cycles(ip_file.copy(), k+ 30 * period))
-  # cycled_grid = vs[reindex(N, loop_start, period)]
-  return (calc_cost_b(cycled_grid))
-  
+def main_b(ip_file):
+  (vs, _, _) = detect_loop(ip_file.copy(), 1000, verbose = False)
+  L = Looper(vs)
+  G109 = L[billion]
+  return (calc_cost_b(G109))
 
 print(main_b(test_input, billion))  # 64
-print(main_b(input, billion))       # 
+print(main_b(input, billion))       # 98894
 # 98876 is too low
 # 102130 is too high
-
 
 
 ################################

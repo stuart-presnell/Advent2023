@@ -137,5 +137,5 @@ class Looper():
     raise ValueError("Reached end of list without finding a loop")
   def __getitem__(self, idx):
     if idx > self.loop_start + self.period:
-      idx = idx%self.period + self.period
+      idx = (idx - self.loop_start)%self.period + self.loop_start
     return self.L[idx]
