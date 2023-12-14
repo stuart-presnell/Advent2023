@@ -84,6 +84,16 @@ def cycle(ip):
 # Obviously we're not going to run this code for 1 billion cycles
 # Evidently there's a loop that we need to detect
 
+def repeat_cycles(grid, max_cycles, verbose = False):
+  '''Given a starting grid and a number of cycles to perform,
+  run the cycle that many times.'''
+  for i in range(max_cycles):
+    if verbose: print("After " + str(i+1) + " cycle" + ("s" if i > 0 else "") + ":")
+    grid = cycle(grid)
+    if verbose: show(grid, False)  
+    if verbose: print()
+  return grid
+
 def detect_loop(grid, max_cycles, verbose = False):
   '''Given a starting grid and a limit on the number of cycles to perform,
   keep running the cycle until we find a loop.'''
@@ -94,16 +104,17 @@ def detect_loop(grid, max_cycles, verbose = False):
     if verbose: show(grid, False)  
     if verbose: print()
     if grid in visited_states:
+      prev = visited_states.index(grid)
       if verbose: print("Found a loop!")
-      return (grid, i)
+      return (grid, i, prev)
     else:
       visited_states.append(grid)
   if verbose: print("Didn't find a loop after " + str(max_cycles) + " cycle" + plural_s(max_cycles - 1))
   return grid
 
-(ip, n) = repeat_cycles(ip, 100)
-show(ip)
-print(n)
+ip= detect_loop(ip, 11, verbose = True)
+# show(ip)
+
 
 
 
