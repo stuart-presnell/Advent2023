@@ -3,7 +3,9 @@
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
+# chunk_splitlines, printT, showM, parse_nums, 
+rotate90, 
+# close_bracket, cmp, qsort, Best, 
 # Timer,
 )
 # TTT = Timer()
@@ -19,9 +21,30 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle14_test.txt")
 input      = parse_file_a("Puzzle14_input.txt")
 
+ip = test_input
+# show(ip)
+
 ################################
 # Part (a)
 ################################
+
+# Roll the rocks north
+
+# First, rotate 90 so we're working on rows instead of columns
+ip = rotate90(ip)  
+# Now our task is to roll the rocks *east*
+
+row = "".join(ip[0])
+
+rolled_row = ""
+for block in row.split('#'):
+  Os = block.count('O')
+  rolled_row = rolled_row + '.' * (len(block)-Os) + 'O' * Os + '#'
+print(row)
+print(rolled_row[:len(row)])  # If we've added an excess '#', trim it off
+
+
+
 
 # def main_a(ip):
 #   pass
