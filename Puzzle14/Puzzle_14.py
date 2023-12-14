@@ -94,14 +94,16 @@ def repeat_cycles(grid, max_cycles, verbose = False):
     if verbose: show(grid, False)  
     if verbose: print()
     if grid in visited_states:
-      return (grid, max_cycles)
+      if verbose: print("Found a loop!")
+      return (grid, i)
     else:
       visited_states.append(grid)
-  print("Didn't find a loop after " + str(max_cycles) + " cycle" + plural_s(max_cycles - 1))
+  if verbose: print("Didn't find a loop after " + str(max_cycles) + " cycle" + plural_s(max_cycles - 1))
   return grid
 
-ip = repeat_cycles(ip, 3)
+(ip, n) = repeat_cycles(ip, 100)
 show(ip)
+print(n)
 
 
 
