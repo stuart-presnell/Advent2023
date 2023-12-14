@@ -6,9 +6,9 @@ show,
 # chunk_splitlines, printT, showM, parse_nums, 
 rotate90, 
 # close_bracket, cmp, qsort, Best, 
-# Timer,
+Timer,
 )
-# TTT = Timer()
+TTT = Timer()
 
 ################################
 
@@ -77,21 +77,18 @@ def cycle(ip):
     ip = [roll_row_east(row) for row in ip]
   return ip
 
-def repeat_cycles(ip, n):
+def repeat_cycles(ip, n, verbose = False):
   for i in range(n):
-    print("After " + str(i+1) + " cycle" + ("s" if i > 0 else "") + ":")
+    if verbose: print("After " + str(i+1) + " cycle" + ("s" if i > 0 else "") + ":")
     ip = cycle(ip)
-    show(ip, False)  
-    print()
+    if verbose: show(ip, False)  
+    if verbose: print()
   return ip
 
-repeat_cycles(ip, 3)
+ip = repeat_cycles(ip, 3)
+show(ip)
 
-# show(ip)
-
-
-
-
+# Calculate the load after 1000000000 (1 billion!) cycles
 
 # def main_b(ip):
 #   pass
@@ -102,4 +99,4 @@ repeat_cycles(ip, 3)
 
 ################################
 
-# TTT.timecheck("Final")
+TTT.timecheck("Final")
