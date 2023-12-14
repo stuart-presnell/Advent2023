@@ -77,8 +77,17 @@ def cycle(ip):
     ip = [roll_row_east(row) for row in ip]
   return ip
 
-ip = cycle(ip)
-show(ip)
+def repeat_cycles(ip, n):
+  for i in range(n):
+    print("After " + str(i+1) + " cycle" + ("s" if i > 0 else "") + ":")
+    ip = cycle(ip)
+    show(ip, False)  
+    print()
+  return ip
+
+repeat_cycles(ip, 3)
+
+# show(ip)
 
 
 
