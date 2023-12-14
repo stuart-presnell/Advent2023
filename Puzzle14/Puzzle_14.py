@@ -65,6 +65,9 @@ def main_a(ip):
 # Part (b)
 ################################
 
+def plural_s(n):
+  return ("s" if n > 0 else "")
+
 def cycle(ip):
   ''' "Each cycle tilts the platform four times 
   so that the rounded rocks roll north, then west, then south, then east." '''
@@ -77,18 +80,32 @@ def cycle(ip):
     ip = [roll_row_east(row) for row in ip]
   return ip
 
-def repeat_cycles(ip, n, verbose = False):
-  for i in range(n):
+# Calculate the load after 1000000000 (1 billion!) cycles
+# Obviously we're not going to run this code for 1 billion cycles
+# Evidently there's a loop that we need to detect
+
+def repeat_cycles(grid, max_cycles, verbose = False):
+  '''Given a starting grid and a limit on the number of cycles to perform,
+  keep running the cycle until we find a loop.'''
+  visited_states = [grid]
+  for i in range(max_cycles):
     if verbose: print("After " + str(i+1) + " cycle" + ("s" if i > 0 else "") + ":")
-    ip = cycle(ip)
-    if verbose: show(ip, False)  
+    grid = cycle(grid)
+    if verbose: show(grid, False)  
     if verbose: print()
-  return ip
+    if grid in visited_states:
+      return (grid, max_cycles)
+    else:
+      visited_states.append(grid)
+  print("Didn't find a loop after " + str(max_cycles) + " cycle" + plural_s(max_cycles - 1))
+  return grid
 
 ip = repeat_cycles(ip, 3)
 show(ip)
 
-# Calculate the load after 1000000000 (1 billion!) cycles
+
+
+
 
 # def main_b(ip):
 #   pass
@@ -99,4 +116,4 @@ show(ip)
 
 ################################
 
-TTT.timecheck("Final")
+# TTT.timecheck("Final")
