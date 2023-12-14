@@ -34,15 +34,18 @@ ip = test_input
 ip = rotate90(ip)  
 # Now our task is to roll the rocks *east*
 
-row = "".join(ip[0])
+def roll_row_east(row):
+  row = "".join(row)  # Make sure `row` is a string, not a list
+  rolled_row = ""
+  for block in row.split('#'):
+    Os = block.count('O')
+    rolled_row = rolled_row + '.' * (len(block)-Os) + 'O' * Os + '#'
+  print(row)
+  return (rolled_row[:len(row)])  # If we've added an excess '#', trim it off
 
-rolled_row = ""
-for block in row.split('#'):
-  Os = block.count('O')
-  rolled_row = rolled_row + '.' * (len(block)-Os) + 'O' * Os + '#'
-print(row)
-print(rolled_row[:len(row)])  # If we've added an excess '#', trim it off
-
+for row in ip:
+  print(roll_row_east(row))
+  print()
 
 
 
