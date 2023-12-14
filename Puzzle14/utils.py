@@ -121,3 +121,21 @@ class Timer():
     else:
       print()
     self.count += 1
+
+
+class Looper():
+  '''Given a list that loops, extrapolate the list arbitrarily long by extending the loop.'''
+  def __init__(self, L):
+    '''This assumes that the sequence `L` is *deterministic*: the first repetition starts a loop.'''
+    self.L = L
+    for i in range(len(L)):
+      # print(i, L[i], L[:i], L[i] in L[:i])
+      if L[i] in L[:i]:
+        self.loop_start = L.index(L[i])
+        self.period = i - self.loop_start
+        return
+    raise ValueError("Reached end of list without finding a loop")
+  def __getitem__(self, idx):
+    if idx > self.loop_start + self.period:
+      idx = idx%self.period + self.period
+    return self.L[idx]
