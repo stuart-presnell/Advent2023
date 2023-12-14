@@ -84,7 +84,7 @@ def cycle(ip):
 # Obviously we're not going to run this code for 1 billion cycles
 # Evidently there's a loop that we need to detect
 
-def repeat_cycles(grid, max_cycles, verbose = False):
+def detect_loop(grid, max_cycles, verbose = False):
   '''Given a starting grid and a limit on the number of cycles to perform,
   keep running the cycle until we find a loop.'''
   visited_states = [grid]
