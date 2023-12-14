@@ -3,13 +3,11 @@
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, parse_nums, 
 rotate90, 
-# close_bracket, cmp, qsort, Best, 
 Timer,
 Looper
 )
-TTT = Timer()
+TTT = Timer(1)
 
 ################################
 
@@ -61,6 +59,8 @@ def main_a(ip):
 
 print(main_a(test_input))  # 136
 print(main_a(input))       # 112773
+
+TTT.timecheck("Part (a)")  # ~ 4 ms
 
 ################################
 # Part (b)
@@ -128,10 +128,10 @@ def calc_cost_b(grid):
   so we need to rotate the grid before calculating.'''
   return calc_cost(rotate90(grid))
 
-def main_b(ip_file):
+def main_b(ip_file, N):
   (vs, _, _) = detect_loop(ip_file.copy(), 1000, verbose = False)
   L = Looper(vs)
-  G109 = L[billion]
+  G109 = L[N]
   return (calc_cost_b(G109))
 
 print(main_b(test_input, billion))  # 64
@@ -139,7 +139,6 @@ print(main_b(input, billion))       # 98894
 # 98876 is too low
 # 102130 is too high
 
+TTT.timecheck("Final")   # ~ 810 ms
 
 ################################
-
-# TTT.timecheck("Final")
