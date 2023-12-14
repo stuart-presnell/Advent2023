@@ -40,14 +40,34 @@ def roll_row_east(row):
   for block in row.split('#'):
     Os = block.count('O')
     rolled_row = rolled_row + '.' * (len(block)-Os) + 'O' * Os + '#'
-  print(row)
+  # print(row)
   return (rolled_row[:len(row)])  # If we've added an excess '#', trim it off
 
-for row in ip:
-  print(roll_row_east(row))
-  print()
+# Roll whole grid east
+rolled_grid = [roll_row_east(row) for row in ip]
+
+# print(rolled_grid[0])
+
+def calc_weight_cost(row):
+  op = 0
+  for i in range(len(row)):
+    if row[i] == 'O':
+      op += i +1
+  return op
 
 
+
+# print()
+# show(rolled_grid)
+
+  
+# for _ in range(3):
+#   rolled_grid = rotate90(rolled_grid)
+
+# rolled_grid = ["".join(row) for row in rolled_grid]
+
+# show(rolled_grid)
+# show(ip)
 
 # def main_a(ip):
 #   pass
