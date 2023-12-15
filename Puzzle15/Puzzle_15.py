@@ -19,7 +19,7 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle15_test.txt")
 input      = parse_file_a("Puzzle15_input.txt")
 
-# ip = test_input
+ip = test_input
 # ip = input
 # show(ip)
 
@@ -47,8 +47,6 @@ def HASH_alg(s:str, verbose = False) -> int:
 
 # print(HASH_alg("HASH")) # 52
 
-
-
 def main_a(ip):
   op = 0
   for line in ip:
@@ -58,14 +56,40 @@ def main_a(ip):
   return op
   
 
-print(main_a(test_input))  # 1320
-print(main_a(input))       # 513158
+# print(main_a(test_input))  # 1320
+# print(main_a(input))       # 513158
 
 # TTT.timecheck("Part (a)")  #
 
 ################################
 # Part (b)
 ################################
+
+# Represent the lens boxes as a dictionary whose keys are numbers 0...256, values are lists of lenses.
+
+def process_commands(ip_file):
+  '''Given a file of commands, one per line, format them and populate `lens_boxes`.'''
+  lens_boxes = {}
+  op = []
+  for cmd in ip_file:
+    cmd = cmd.split('=')
+    if len(cmd) == 1:   # if the line ends in '-'
+      cmd = [cmd[0][:-1]]
+    box = HASH_alg(cmd[0])
+    op.append([cmd, box])
+    lens_boxes[box] = []
+  return (op, lens_boxes)
+
+(cmd_sequence, lens_boxes) = process_commands(test_input)
+
+# for [cmd, box] in cmd_sequence:
+#   print(cmd, " \t ", box)
+    
+  
+
+print(lens_boxes)
+
+# show(process_commands(test_input))
 
 # def main_b(ip):
 #   pass
