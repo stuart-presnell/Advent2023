@@ -80,14 +80,51 @@ def process_commands(ip_file):
     lens_boxes[box] = []
   return (op, lens_boxes)
 
-(cmd_sequence, lens_boxes) = process_commands(test_input)
+# (cmd_sequence, lens_boxes) = process_commands(test_input)
 
-# for [cmd, box] in cmd_sequence:
-#   print(cmd, " \t ", box)
+def replace_or_insert(box_content, label, fl):
+  '''Given a list of lenses and a label, remove a lens with that label from the list if present.'''
+  L = box_content.copy()
+  for i in range(len(L)):
+    if L[i][0] == label:   # If there's already a lens with that label, replace it
+      L[i] = [label, fl]
+      return L
+  # Else if we get to the end of the list without finding the label, add another lens
+  L.append([label, fl])
+  return L
+
+
+def try_to_remove(box_content, label):
+  L = box_content.copy()
+  for lens in L:
+    if lens[0] == label:
+      L.remove(lens)
+      break
+  return L
+
+
+def manipulate_lenses(cmd_sequence, lens_boxes):
+  for [cmd, box] in cmd_sequence:
+    # print(cmd, " \t ", box)
+    if len(cmd) == 2:
+      [label, n] = cmd
+      fl = int(n)
+      lens_boxes[box] = replace_or_insert(lens_boxes[box], label, fl)
+    elif len(cmd) == 1:
+      [label] = cmd
+      lens_boxes[box] = try_to_remove(lens_boxes[box], label)
+    else:
+      raise ValueError("Expected command to be of length 1 or 2")
+  return lens_boxes
+
+lb = manipulate_lenses(*process_commands(test_input))
+
+# print()
+for i in lb:
+  print(i, lb[i])
     
   
 
-print(lens_boxes)
 
 # show(process_commands(test_input))
 
