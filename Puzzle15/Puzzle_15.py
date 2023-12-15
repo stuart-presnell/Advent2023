@@ -117,21 +117,26 @@ def manipulate_lenses(cmd_sequence, lens_boxes):
       raise ValueError("Expected command to be of length 1 or 2")
   return lens_boxes
 
-lb = manipulate_lenses(*process_commands(test_input))
-
-# print()
-for i in lb:
-  print(i, lb[i])
-    
-  
-
+def focusing_power(box, pos, fl):
+  return (box + 1) * pos * fl
 
 # show(process_commands(test_input))
 
-# def main_b(ip):
-#   pass
+def main_b(ip_file):
+  lb = manipulate_lenses(*process_commands(ip_file))
+  for i in lb:
+    print(i, lb[i])
+  count = 0
+  for box in lb:
+    for pos in range(len(lb[box])):
+      [_, fl] = lb[box][pos]
+      count += focusing_power(box, pos+1, fl)
+  return count
 
-# print(main_b(test_input))  # 
+
+  
+
+print(main_b(test_input))  # 
 # print(main_b(input))       # 
 
 # TTT.timecheck("Part (b)")  #
