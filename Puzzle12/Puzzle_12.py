@@ -2,6 +2,8 @@
 
 import re
 
+from functools import cache
+
 # My utility functions
 from utils import (
 show, 
@@ -51,6 +53,7 @@ input      = parse_file_a("Puzzle12_input.txt")
 
 verbose = False
 
+@cache
 def count_ways_starting_O(s, spec):
   '''Given a string `s` (e.g. `"~~~OXXX"`), and a `spec` (e.g. `[1, 1, 3]`) (both assumed non-empty), 
   return the list of strings starting with `O` that can be made from `s` that fit the spec.'''
@@ -72,6 +75,7 @@ def count_ways_starting_O(s, spec):
   else:
     return ['O' + item for item in count_ways(s[1:], spec)]
 
+@cache
 def count_ways_starting_X(s, spec):
   '''Given a string `s` (e.g. `"~~~OXXX"`), and a `spec` (e.g. `[1, 1, 3]`) (both assumed non-empty),
   return the list of strings starting with `X` that can be made from `s` that fit the spec.'''
@@ -94,6 +98,7 @@ def count_ways_starting_X(s, spec):
       reduced_spec = (spec[0]-1, ) + spec[1:]
       return ['X' + item for item in count_ways_starting_X(s[1:], reduced_spec)]
 
+@cache
 def count_ways(s, spec):
   '''Given a string `s` (e.g. `"~~~OXXX"`), and a `spec` (e.g. `[1, 1, 3]`), 
   return the list of strings that can be made from `s` that fit the spec.'''
