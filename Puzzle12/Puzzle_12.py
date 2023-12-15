@@ -12,7 +12,7 @@ parse_nums,
 # rotate90, close_bracket, cmp, qsort, Best, 
 Timer,
 )
-TTT = Timer()
+TTT = Timer(1)
 
 ################################
 
@@ -129,7 +129,7 @@ def main_a(ip_file):
 print(main_a(test_input))  # 21
 print(main_a(input))       # 7622
 
-# TTT.timecheck("Part (a)") # ~ 100 ms
+TTT.timecheck("Part (a)") # ~ 100 ms
 
 ################################
 # Part (b)
@@ -151,16 +151,21 @@ def unfold_spec(spec):
 
 def main_b_naive(ip_file):
   count = 0
-  for [s,spec] in ip_file:
+  for i in range(len(ip_file)):
+    [s,spec] = ip_file[i]
     us = unfold_string(s)
     uspec = unfold_spec(spec)
     cw = count_ways(us, uspec)
     # print(len(cw))
     count += len(cw)
+    # if not (i%10):
+    TTT.timecheck("Part (b) -- i = " + str(i))
   return count
 
-# main_b_naive(test_input)  # 
-# TTT.timecheck("Part (b) -- test_input")
+print(main_b_naive(test_input))  # 
+TTT.timecheck("Part (b) -- test_input")
+print(main_b_naive(input))  # 
+# TTT.timecheck("Part (b) -- input")
 
 # print(main_b(test_input))  # 
 # print(main_b(input))       # 
