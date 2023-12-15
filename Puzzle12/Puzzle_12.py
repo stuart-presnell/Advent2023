@@ -130,8 +130,8 @@ def main_a(ip_file):
 # Part (b)
 ################################
 
-[s0, spec0] = test_input[0]
-print(s0, spec0)
+# [s0, spec0] = test_input[0]
+# print(s0, spec0)
 
 def unfold_string(s):
   '''Replace the list of spring conditions with five copies of itself (separated by '~')'''
@@ -144,16 +144,26 @@ def unfold_spec(spec):
 # unfold_string(s0)
 # unfold_spec(spec0)
 
-# def main_b(ip):
-#   pass
+def main_b_naive(ip_file):
+  count = 0
+  for [s,spec] in ip_file:
+    us = unfold_string(s)
+    uspec = unfold_spec(spec)
+    cw = count_ways(us, uspec)
+    # print(len(cw))
+    count += len(cw)
+  return count
 
-# main_b(test_input)  # 
-# main_b(input)       # 
+main_b_naive(test_input)  # 
+# TTT.timecheck("Part (b) -- test_input")
+
+# print(main_b(test_input))  # 
+# print(main_b(input))       # 
 
 
 ################################
 
-# TTT.timecheck("Final")
+
 
 
 # def any_number_of(char):
