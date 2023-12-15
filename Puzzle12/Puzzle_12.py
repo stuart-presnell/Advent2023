@@ -37,7 +37,7 @@ def parse_file_a(filename):
   ip_file = f.read().splitlines()
   f.close()
   ip_file = [line.split() for line in ip_file]
-  ip_file = [[rewrite(c), parse_nums(n, ",")] for [c,n] in ip_file] 
+  ip_file = [[rewrite(c), tuple(parse_nums(n, ","))] for [c,n] in ip_file] 
   return ip_file
 
 test_input = parse_file_a("Puzzle12_test.txt")
@@ -91,7 +91,7 @@ def count_ways_starting_X(s, spec):
       # drop that block from `spec` and then require that the next character is 'O'
       return ['X' + item for item in count_ways_starting_O(s[1:], spec[1:])]
     else:
-      reduced_spec = [spec[0]-1] + spec[1:]
+      reduced_spec = (spec[0]-1, ) + spec[1:]
       return ['X' + item for item in count_ways_starting_X(s[1:], reduced_spec)]
 
 def count_ways(s, spec):
@@ -110,7 +110,7 @@ def count_ways(s, spec):
       return [""]
     else:
       return []
-  return count_ways_starting_O(s, spec.copy()) + count_ways_starting_X(s, spec.copy())
+  return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
 
 def main_a(ip_file):
@@ -121,8 +121,8 @@ def main_a(ip_file):
     count += len(cw)
   return count
 
-# print(main_a(test_input))  # 21
-# print(main_a(input))       # 7622
+print(main_a(test_input))  # 21
+print(main_a(input))       # 7622
 
 # TTT.timecheck("Part (a)") # ~ 100 ms
 
@@ -154,7 +154,7 @@ def main_b_naive(ip_file):
     count += len(cw)
   return count
 
-main_b_naive(test_input)  # 
+# main_b_naive(test_input)  # 
 # TTT.timecheck("Part (b) -- test_input")
 
 # print(main_b(test_input))  # 
