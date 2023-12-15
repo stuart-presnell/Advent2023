@@ -112,20 +112,17 @@ def count_ways(s, spec):
       return []
   return count_ways_starting_O(s, spec.copy()) + count_ways_starting_X(s, spec.copy())
 
-for i in range(len(test_input)):
-  # print(test_input[i])
-  cw = count_ways(*test_input[i])
-  # show(cw)
-  print(len(cw))
-  # print()
 
+def main_a(ip_file):
+  count = 0
+  for line in ip_file:
+    cw = count_ways(*line)
+    # print(len(cw))
+    count += len(cw)
+  return count
 
-
-# def main_a(ip):
-#   pass
-
-# main_a(test_input)  # 
-# main_a(input)       # 
+main_a(test_input)  # 21
+main_a(input)       # 
 
 
 ################################
