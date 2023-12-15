@@ -43,7 +43,7 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle12_test.txt")
 input      = parse_file_a("Puzzle12_input.txt")
 
-# show(test_input)
+show(test_input)
 
 ################################
 # Part (a)
@@ -52,71 +52,70 @@ input      = parse_file_a("Puzzle12_input.txt")
 verbose = False
 
 def count_ways_starting_O(s, spec):
-  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty), 
-  return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
-  to make a string that fits the spec *and* starts with `O`.'''
+  '''Given a string `s` (e.g. `"~~~OXXX"`), and a `spec` (e.g. `[1, 1, 3]`) (both assumed non-empty), 
+  return the list of strings starting with `O` that can be made from `s` that fit the spec.'''
   if verbose: print("Starting 'O': \t", s, spec)
   if not spec:
     if ('X' not in s): 
-      print("'O': 'X' not in s \t", s, spec)
-      return 1
+      # print("'O': 'X' not in s \t", s, spec)
+      return ["O" * len(s)]   # Every element of the string is 'O', which matches the empty `spec`
     else:
-      return 0
+      return []  # If 'X' is in `s` then we can't match an empty `spec`.
   if not s:
     if (spec == []):
-      print ("'O': spec == [] \t", s, spec)
-      return 1
+      # print ("'O': spec == [] \t", s, spec)
+      return [""]
     else:
-      return 0
+      return []
   if s[0] == 'X': 
-    return 0
+    return []
   else:
-    return count_ways(s[1:], spec)
+    return ['O' + item for item in count_ways(s[1:], spec)]
 
 def count_ways_starting_X(s, spec):
-  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]` (both assumed non-empty),
-  return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
-  to make a string that fits the spec *and* starts with `X`.'''
+  '''Given a string `s` (e.g. `"~~~OXXX"`), and a `spec` (e.g. `[1, 1, 3]`) (both assumed non-empty),
+  return the list of strings starting with `X` that can be made from `s` that fit the spec.'''
   if verbose: print("Starting 'X': \t", s, spec)
   if not spec:    # a string can't start with `X` and meet an empty `spec`!
-    return 0
+    return []
   if not s:
     if (spec == []):
-      print ("'X': spec == [] \t", s, spec)
-      return 1
+      # print ("'X': spec == [] \t", s, spec)
+      return [""]
     else:
-      return 0
+      return []
   if s[0] == 'O':
-    return 0
+    return []
   else:  # either `s` starts with `X` or could be interpreted as starting with `X`, so do so
     if spec[0] == 1:  # if we've completed the current block of 'X's required
       # drop that block from `spec` and then require that the next character is 'O'
-      return count_ways_starting_O(s[1:], spec[1:])
+      return ['X' + item for item in count_ways_starting_O(s[1:], spec[1:])]
     spec[0] -= 1
-    return count_ways(s[1:], spec)
+    return ['X' + item for item in count_ways(s[1:], spec)]
 
 def count_ways(s, spec):
-  '''Given a string e.g. `"~~~OXXX"`, and a spec, e.g. `[1, 1, 3]`, 
-  return the number of ways the `~`s in the string can be filled in with `O`s and `X`s
-  to make a string that fits the spec.'''
+  '''Given a string `s` (e.g. `"~~~OXXX"`), and a `spec` (e.g. `[1, 1, 3]`), 
+  return the list of strings that can be made from `s` that fit the spec.'''
   if verbose: print("Counting all: \t", s, spec)
   if not spec:
     if ('X' not in s):
-      print("ALL: 'X' not in s \t", s, spec)
-      return 1
+      # print("ALL: 'X' not in s \t", s, spec)
+      return ["O" * len(s)]   # Every element of the string is 'O', which matches the empty `spec`
     else:
-      return 0
+      return []
   if not s:
     if (spec == []):
-      print ("ALL: spec == [] \t", s, spec)
-      return 1
+      # print ("ALL: spec == [] \t", s, spec)
+      return [""]
     else:
-      return 0
+      return []
   return count_ways_starting_O(s, spec) + count_ways_starting_X(s, spec)
 
-print(test_input[1])
-count_ways(*test_input[0])
+# print(test_input[1])
+count_ways(*test_input[5])
+# print(count_ways('~', [1]))
 # print(count_ways('X~XO~', [3]))
+
 
 # for [s,spec] in test_input:
 #   # print(s)
