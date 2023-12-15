@@ -121,9 +121,10 @@ def main_a(ip_file):
     count += len(cw)
   return count
 
-main_a(test_input)  # 21
-main_a(input)       # 
+print(main_a(test_input))  # 21
+print(main_a(input))       # 
 
+# TTT.timecheck("Part (a)") # ~ 100 ms
 
 ################################
 # Part (b)
