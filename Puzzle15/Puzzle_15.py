@@ -45,12 +45,20 @@ def HASH_alg(s:str, verbose = False) -> int:
     if verbose: print(value)
   return value
 
-print(HASH_alg("HASH"))
+# print(HASH_alg("HASH")) # 52
 
-# def main_a(ip):
-#   pass
 
-# print(main_a(test_input))  # 
+
+def main_a(ip):
+  op = 0
+  for line in ip:
+    x = HASH_alg(line)
+    # print(line, "\t becomes \t", x)
+    op += x
+  return op
+  
+
+print(main_a(test_input))  # 1320
 # print(main_a(input))       # 
 
 # TTT.timecheck("Part (a)")  #
