@@ -22,11 +22,30 @@ input      = parse_file_a("Puzzle15_input.txt")
 ip = test_input
 # ip = input
 # show(ip)
-print(len(ip))
+
 
 ################################
 # Part (a)
 ################################
+
+def HASH_alg(s:str, verbose = False) -> int:
+  value = 0
+  for char in s:
+    if verbose: print(char)
+    a = ord(char)
+    if verbose: print("ASCII value of " + char + " is " + str(a))
+    if verbose: print("Adding " + str(a) + " to " + str(value) + " gives: ", end = '')
+    value += a
+    if verbose: print(value)
+    if verbose: print("Multiplying " + str(value) + " by 17 " + " gives: ", end = '')
+    value = value * 17
+    if verbose: print(value)
+    if verbose: print("Reducing " + str(value) + " mod 256 " + " gives: ", end = '')
+    value = value % 256
+    if verbose: print(value)
+  return value
+
+print(HASH_alg("HASH"))
 
 # def main_a(ip):
 #   pass
