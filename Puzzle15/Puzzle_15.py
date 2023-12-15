@@ -3,10 +3,9 @@
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
-# Timer,
+Timer,
 )
-# TTT = Timer()
+TTT = Timer(1)
 
 ################################
 
@@ -56,10 +55,10 @@ def main_a(ip):
   return op
   
 
-# print(main_a(test_input))  # 1320
-# print(main_a(input))       # 513158
+print(main_a(test_input))  # 1320
+print(main_a(input))       # 513158
 
-# TTT.timecheck("Part (a)")  #
+TTT.timecheck("Part (a)")  # ~ 5 ms
 
 ################################
 # Part (b)
@@ -120,7 +119,6 @@ def manipulate_lenses(cmd_sequence, lens_boxes):
 def focusing_power(box, pos, fl):
   return (box + 1) * pos * fl
 
-# show(process_commands(test_input))
 
 def main_b(ip_file):
   lb = manipulate_lenses(*process_commands(ip_file))
@@ -134,11 +132,9 @@ def main_b(ip_file):
   return count
 
 
-  
-
 print(main_b(test_input))  # 145
 print(main_b(input))       # 200277
 
-# TTT.timecheck("Part (b)")  #
+TTT.timecheck("Part (b)")  # ~ 13 ms
 
 ################################
