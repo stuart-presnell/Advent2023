@@ -1,4 +1,4 @@
-# https://adventofcode.com/2022/day/15
+# https://adventofcode.com/2023/day/15
 
 # My utility functions
 from utils import (
