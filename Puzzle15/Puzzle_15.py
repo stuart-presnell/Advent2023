@@ -124,8 +124,8 @@ def focusing_power(box, pos, fl):
 
 def main_b(ip_file):
   lb = manipulate_lenses(*process_commands(ip_file))
-  for i in lb:
-    print(i, lb[i])
+  # for i in lb:
+  #   print(i, lb[i])
   count = 0
   for box in lb:
     for pos in range(len(lb[box])):
@@ -136,8 +136,8 @@ def main_b(ip_file):
 
   
 
-print(main_b(test_input))  # 
-# print(main_b(input))       # 
+print(main_b(test_input))  # 145
+print(main_b(input))       # 200277
 
 # TTT.timecheck("Part (b)")  #
 
