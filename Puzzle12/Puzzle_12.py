@@ -90,8 +90,9 @@ def count_ways_starting_X(s, spec):
     if spec[0] == 1:  # if we've completed the current block of 'X's required
       # drop that block from `spec` and then require that the next character is 'O'
       return ['X' + item for item in count_ways_starting_O(s[1:], spec[1:])]
-    spec[0] -= 1
-    return ['X' + item for item in count_ways(s[1:], spec)]
+    else:
+      reduced_spec = [spec[0]-1] + spec[1:]
+      return ['X' + item for item in count_ways_starting_X(s[1:], reduced_spec)]
 
 def count_ways(s, spec):
   '''Given a string `s` (e.g. `"~~~OXXX"`), and a `spec` (e.g. `[1, 1, 3]`), 
@@ -111,14 +112,13 @@ def count_ways(s, spec):
       return []
   return count_ways_starting_O(s, spec.copy()) + count_ways_starting_X(s, spec.copy())
 
-for i in [1]:#range(len(test_input)):
-  print(test_input[i])
+for i in range(len(test_input)):
+  # print(test_input[i])
   cw = count_ways(*test_input[i])
-  show(cw)
+  # show(cw)
   print(len(cw))
-  print()
-# print(count_ways('~', [1]))
-# print(count_ways('~XXO', [3]))
+  # print()
+
 
 
 # def main_a(ip):
