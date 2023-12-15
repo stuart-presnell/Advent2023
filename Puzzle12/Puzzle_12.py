@@ -121,14 +121,28 @@ def main_a(ip_file):
     count += len(cw)
   return count
 
-print(main_a(test_input))  # 21
-print(main_a(input))       # 
+# print(main_a(test_input))  # 21
+# print(main_a(input))       # 7622
 
 # TTT.timecheck("Part (a)") # ~ 100 ms
 
 ################################
 # Part (b)
 ################################
+
+[s0, spec0] = test_input[0]
+print(s0, spec0)
+
+def unfold_string(s):
+  '''Replace the list of spring conditions with five copies of itself (separated by '~')'''
+  return ((s + '~') * 5)[:-1]
+
+def unfold_spec(spec):
+  '''Replace the `spec` with five copies of itself (separated by ,)'''
+  return spec * 5
+
+# unfold_string(s0)
+# unfold_spec(spec0)
 
 # def main_b(ip):
 #   pass
