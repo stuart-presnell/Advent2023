@@ -10,9 +10,9 @@ def showD(d:dict):
 from utils import (
 show, 
 # chunk_splitlines, printT, showM, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
-# Timer,
+Timer,
 )
-# TTT = Timer()
+TTT = Timer(1)
 
 ################################
 
@@ -141,13 +141,13 @@ def main_a(G):
 print(main_a(test_input))  # 46
 print(main_a(input))       # 7060
 
-# TTT.timecheck("Part (a)")  #
+TTT.timecheck("Part (a)")  # ~ 15 ms
 
 ################################
 # Part (b)
 ################################
 
-# def main_b(ip):
+# def main_b(G):
 #   pass
 
 # print(main_b(test_input))  # 
