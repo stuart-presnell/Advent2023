@@ -25,12 +25,9 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle16_test.txt")
 input      = parse_file_a("Puzzle16_input.txt")
 
-grid = test_input
+# grid = test_input
 # grid = input
 # show(grid)
-
-ht = len(grid)
-wd = len(grid[0])
 
 ################################
 # Part (a)
@@ -44,39 +41,29 @@ dir_lookup = {
   'E':(0, 1)
 }
 
-def one_step(pt, dir):
-  step = dir_lookup[dir]
-  nr = pt[0] + step[0]
-  nc = pt[1] + step[1]
-  if (0 <= nr < ht) & (0 <= nc < wd):
-    return (nr, nc)
-  else:
-    # print(str((nr,nc)) + " is off the grid, so skip this!")
-    return None
 
- 
-# A record of which points have a beam passing through in which directions, 
-# so we don't need to re-process them if the wavefront reaches them again
-# Initialise every entry to `[]`.
-# energised = {(r,c):[] for r in range(wd) for c in range(ht)}
-energised = defaultdict(list)
-
-# The wavefront is a list of (pt, dir).
-# wavefront = defaultdict(list)
-# wavefront = {(r,c):[] for r in range(wd) for c in range(ht)}
-O = (0,0)
-wavefront = [(O, 'E')]
-
-def advance_wave(pt, dir, wavefront, energised):
+def advance_wave(G, pt, dir, wavefront, energised):
   '''Given a point and a direction, advance the beam by one step in that direction, 
   reflecting or splitting as required; 
   put the new point(s) & dir(s) on `wavefront`, and add the points to `energised`.'''
+  ht = len(G)
+  wd = len(G[0])
+  def one_step(pt, dir):
+    step = dir_lookup[dir]
+    nr = pt[0] + step[0]
+    nc = pt[1] + step[1]
+    if (0 <= nr < ht) & (0 <= nc < wd):
+      return (nr, nc)
+    else:
+      # print(str((nr,nc)) + " is off the grid, so skip this!")
+      return None
+
   new_pt = one_step(pt, dir)
   if not new_pt: # if we've stepped off the edge of the grid, do nothing
     return (wavefront, energised)
   (nr,nc) = new_pt
   energised[pt].append(dir)
-  match grid[nr][nc]:   # What we do next depends on what we find at `new_pt`
+  match G[nr][nc]:   # What we do next depends on what we find at `new_pt`
     case '.': 
       # print("Meeting a '.' at " + str(new_pt))
       wavefront.append((new_pt, dir))
@@ -109,7 +96,7 @@ def advance_wave(pt, dir, wavefront, energised):
         case 'W': wavefront.append((new_pt, 'S'))
         case 'E': wavefront.append((new_pt, 'N'))
     case _:
-      raise ValueError("Wasn't expectng to find " + str(grid[nr][nc]) + " in the grid!")
+      raise ValueError("Wasn't expectng to find " + str(G[nr][nc]) + " in the grid!")
   # print("After updating at point " + str(new_pt) + " in direction " + str(dir) + " we have: ")
   # print("wavefront")
   # showD(wavefront)
@@ -118,44 +105,41 @@ def advance_wave(pt, dir, wavefront, energised):
   # print()
   return (wavefront, energised)
 
-# print("wavefront")
-# showD(wavefront)
-# print("energised")
-# showD(energised)
-# print()
-
-# (pt, dirs) = wavefront.popitem()
-# print(pt, dirs)
-# # advance_wave((0,0), 'E')
-# print()
-
-# print("wavefront")
-# showD(wavefront)
-# print("energised")
-# showD(energised)
 
 
-while wavefront:
-  # print("wavefront: " + str(wavefront))
-  (pt, dir) = wavefront.pop()
-  # print("Now we're at point " + str(pt) + " moving in direction " + str(dir))
-  # if we've passed through `pt` in direction `dir`, don't redo it
-  if (dir in energised[pt]): 
-    # print("We've already examined direction " + str(dir) + " from point " + str(pt) + "; skipping")
-    pass
-  else:
-    (wavefront, energised) = advance_wave(pt, dir, wavefront, energised)
 
-print("wavefront")
-showD(wavefront)
-print("energised")
-showD(energised)
+def main_a(G):
+  # A record of which points have a beam passing through in which directions, 
+  # so we don't need to re-process them if the wavefront reaches them again
+  energised = defaultdict(list)
 
-# def main_a(ip):
-#   pass
+  # The wavefront is a list of (pt, dir).
+  O = (0,0)
+  wavefront = [(O, 'E')]
 
-# print(main_a(test_input))  # 
-# print(main_a(input))       # 
+  while wavefront:
+    # print("wavefront: " + str(wavefront))
+    (pt, dir) = wavefront.pop()
+    # print("Now we're at point " + str(pt) + " moving in direction " + str(dir))
+    # if we've passed through `pt` in direction `dir`, don't redo it
+    if (dir in energised[pt]): 
+      # print("We've already examined direction " + str(dir) + " from point " + str(pt) + "; skipping")
+      pass
+    else:
+      (wavefront, energised) = advance_wave(G, pt, dir, wavefront, energised)
+
+  # print("wavefront")
+  # showD(wavefront)
+  # print("energised")
+  # showD(energised)
+
+  return len(energised)
+
+# grid = test_input
+print(main_a(test_input))  # 46
+
+# grid = input
+# print(main_a())       # 
 
 # TTT.timecheck("Part (a)")  #
 
