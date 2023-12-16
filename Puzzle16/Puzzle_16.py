@@ -51,12 +51,10 @@ def one_step(pt, dir):
   else:
     return None
 
-# TODO: Make energised a set of pt/dir pairs, 
-  # skip advancing a wavefront packet if it's been done before
-  # (this will also skip appending anything to `wavefront`, so it's guaranteed to become empty)
-  
-# The set of points (r,c) that have a beam passing through
-energised = set([(0,0)])
+ 
+# A record of which points have a beam passing through in which directions, 
+# so we don't need to re-process them if the wavefront reaches them again
+energised = {(0,0):['E']}
 # The wavefront is an ordered dictionary of points; 
 # `wavefront[pt]` is a list of directions in which beams are moving through `pt`
 # It's ordered so at each step we can `pop` an element from it to advance.
@@ -78,7 +76,7 @@ def advance_wave(pt, dir):
   (nr,nc) = new_pt
   match grid[nr][nc]:   # What we do next depends on what we find at `new_pt`
     case '.': 
-      energised.add(new_pt)
+      energised[new_pt].append(dir)
       wavefront[new_pt].append(dir)
       return
     case '-': 
@@ -116,7 +114,10 @@ def advance_wave(pt, dir):
 # while wavefront:
 #   (pt, dirs) = wavefront.popitem()
 #   for dir in dirs:
-#     advance_wave(pt, dir)
+#     if dir in energised[pt]: # if we've passed through `pt` in direction `dir`, don't redo it
+#       pass
+#     else:
+#       advance_wave(pt, dir)
 # show(energised)
 
 # def main_a(ip):
