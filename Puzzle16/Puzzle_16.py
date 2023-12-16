@@ -79,10 +79,7 @@ def advance_wave(pt, dir):
   match grid[nr][nc]:   # What we do next depends on what we find at `new_pt`
     case '.': 
       energised.add(new_pt)
-      if new_pt in wavefront:
-        wavefront[new_pt].append(dir)
-      else:
-        wavefront[new_pt] = [dir]
+      wavefront[new_pt].append(dir)
       return
     case '-': 
       if (dir == 'W') | (dir == 'E'):  # If we're hitting `-` at the pointy end, pass through
