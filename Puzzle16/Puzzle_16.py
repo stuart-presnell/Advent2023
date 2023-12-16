@@ -27,7 +27,7 @@ input      = parse_file_a("Puzzle16_input.txt")
 
 grid = test_input
 # grid = input
-# show(grid)
+show(grid)
 
 ht = len(grid)
 wd = len(grid[0])
@@ -53,6 +53,7 @@ def one_step(pt, dir):
   if (0 <= nr < ht) & (0 <= nc < wd):
     return (nr, nc)
   else:
+    # print(str((nr,nc)) + " is off the grid, so skip this!")
     return None
 
  
@@ -77,34 +78,34 @@ def advance_wave(pt, dir, wavefront, energised):
   if not new_pt: # if we've stepped off the edge of the grid, do nothing
     return (wavefront, energised)
   (nr,nc) = new_pt
-  energised[new_pt].append(dir)
+  energised[pt].append(dir)
   match grid[nr][nc]:   # What we do next depends on what we find at `new_pt`
     case '.': 
-      print("Meeting a '.' at " + str(new_pt))
+      # print("Meeting a '.' at " + str(new_pt))
       wavefront[new_pt].append(dir)
     case '-': 
-      print("Meeting a '-' at " + str(new_pt))
+      # print("Meeting a '-' at " + str(new_pt))
       if (dir == 'W') | (dir == 'E'):  # If we're hitting `-` at the pointy end, pass through
         wavefront[new_pt].append(dir)
       else:  # otherwise, propagate waves to 'W' and 'E' from this position
         wavefront[new_pt].append('W')
         wavefront[new_pt].append('E')
     case '|': 
-      print("Meeting a '|' at " + str(new_pt))
+      # print("Meeting a '|' at " + str(new_pt))
       if (dir == 'N') | (dir == 'S'):  # If we're hitting `|` at the pointy end, pass through
         wavefront[new_pt].append(dir)
       else:  # otherwise, propagate waves to 'N' and 'S' from this position
         wavefront[new_pt].append('N')
         wavefront[new_pt].append('S')
     case '/': 
-      print("Meeting a '/' at " + str(new_pt))
+      # print("Meeting a '/' at " + str(new_pt))
       match dir:
         case 'N': wavefront[new_pt].append('W')
         case 'S': wavefront[new_pt].append('E')
         case 'W': wavefront[new_pt].append('N')
         case 'E': wavefront[new_pt].append('S')
     case '\\': 
-      print("Meeting a '\\' at " + str(new_pt))
+      # print("Meeting a '\\' at " + str(new_pt))
       match dir:
         case 'N': wavefront[new_pt].append('E')
         case 'S': wavefront[new_pt].append('W')
@@ -112,12 +113,12 @@ def advance_wave(pt, dir, wavefront, energised):
         case 'E': wavefront[new_pt].append('N')
     case _:
       raise ValueError("Wasn't expectng to find " + str(grid[nr][nc]) + " in the grid!")
-  print("After updating at point " + str(new_pt) + " in direction " + str(dir) + " we have: ")
-  print("wavefront")
-  showD(wavefront)
-  print("energised")
-  showD(energised)
-  print()
+  # print("After updating at point " + str(new_pt) + " in direction " + str(dir) + " we have: ")
+  # print("wavefront")
+  # showD(wavefront)
+  # print("energised")
+  # showD(energised)
+  # print()
   return (wavefront, energised)
 
 # print("wavefront")
@@ -139,19 +140,19 @@ def advance_wave(pt, dir, wavefront, energised):
 
 while wavefront:
   (pt, dirs) = wavefront.popitem()
-  print("Now we're at point " + str(pt) + " and we have to work through directions " + str(dirs))
+  # print("Now we're at point " + str(pt) + " and we have to work through directions " + str(dirs))
   for dir in dirs:
     # if we've passed through `pt` in direction `dir`, don't redo it
     if (dir in energised[pt]): 
-      print("We've already examined direction " + str(dir) + " from point " + str(pt) + " so skipping it")
+      # print("We've already examined direction " + str(dir) + " from point " + str(pt) + " so skipping it")
       pass
     else:
       (wavefront, energised) = advance_wave(pt, dir, wavefront, energised)
       
-# print("wavefront")
-# showD(wavefront)
-# print("energised")
-# showD(energised)
+print("wavefront")
+showD(wavefront)
+print("energised")
+showD(energised)
 
 # def main_a(ip):
 #   pass
