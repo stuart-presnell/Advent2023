@@ -166,9 +166,9 @@ def main_b(G):
   greatest_energy.reduce([fire_laser(G, (ht, c), 'N') for c in range(wd)])
   return greatest_energy.best_so_far
 
-# print(main_b(test_input))  # 
-# print(main_b(input))       # 
+print(main_b(test_input))  # 51
+print(main_b(input))       # 7493
 
-# TTT.timecheck("Part (b)")  #
+TTT.timecheck("Part (b)")  #
 
 ################################
