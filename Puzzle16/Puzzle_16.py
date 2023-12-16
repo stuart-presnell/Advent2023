@@ -20,12 +20,31 @@ test_input = parse_file_a("Puzzle16_test.txt")
 input      = parse_file_a("Puzzle16_input.txt")
 
 ip = test_input
-ip = input
+# ip = input
 show(ip)
 
 ################################
 # Part (a)
 ################################
+
+# How to step in each cardinal direction (change in row, change in column)
+dir = {
+  'N':(-1,0),
+  'S':( 1,0),
+  'W':(0,-1),
+  'E':(0, 1)
+}
+
+# A list of points (r,c) that have a beam passing through
+energised = [(0,0)]
+# The wavefront is a dictionary of points; 
+# `wavefront[pt]` is a list of directions in which beams are moving through `pt`
+wavefront = {(0,0):['E']}
+
+
+
+while wavefront:
+  pass
 
 # def main_a(ip):
 #   pass
