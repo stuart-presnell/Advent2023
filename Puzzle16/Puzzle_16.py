@@ -42,7 +42,12 @@ dir_lookup = {
 
 def one_step(pt, dir):
   step = dir_lookup[dir]
-  return (pt[0] + step[0], pt[1] + step[1])
+  nr = pt[0] + step[0]
+  nc = pt[1] + step[1]
+  if (0 <= nr < ht) & (0 <= nc < wd):
+    return (nr, nc)
+  else:
+    return None
 
 
 # The set of points (r,c) that have a beam passing through
@@ -59,7 +64,10 @@ def advance_wave(pt, dir):
   put the new point(s) & dir(s) on `wavefront`, and add the points to `energised`.'''
   global energised, wavefront
 
-  # new_pt
+  new_pt = one_step(pt, dir)
+  if not new_pt: # if we've stepped off the edge of the grid, do nothing
+    return
+
   pass
 
 # while wavefront:
