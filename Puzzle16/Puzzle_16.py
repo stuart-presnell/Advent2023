@@ -27,7 +27,7 @@ input      = parse_file_a("Puzzle16_input.txt")
 
 grid = test_input
 # grid = input
-show(grid)
+# show(grid)
 
 ht = len(grid)
 wd = len(grid[0])
@@ -94,15 +94,15 @@ def advance_wave(pt, dir, wavefront, energised):
       else:  # otherwise, propagate waves to 'N' and 'S' from this position
         wavefront.append((new_pt, 'N'))
         wavefront.append((new_pt, 'S'))
-    case '/': 
-      # print("Meeting a '/' at " + str(new_pt))
+    case '\\': 
+      # print("Meeting a '\\' at " + str(new_pt))
       match dir:
         case 'N': wavefront.append((new_pt, 'W'))
         case 'S': wavefront.append((new_pt, 'E'))
         case 'W': wavefront.append((new_pt, 'N'))
         case 'E': wavefront.append((new_pt, 'S'))
-    case '\\': 
-      # print("Meeting a '\\' at " + str(new_pt))
+    case '/': 
+      # print("Meeting a '/' at " + str(new_pt))
       match dir:
         case 'N': wavefront.append((new_pt, 'E'))
         case 'S': wavefront.append((new_pt, 'W'))
@@ -136,6 +136,7 @@ def advance_wave(pt, dir, wavefront, energised):
 
 
 while wavefront:
+  # print("wavefront: " + str(wavefront))
   (pt, dir) = wavefront.pop()
   # print("Now we're at point " + str(pt) + " moving in direction " + str(dir))
   # if we've passed through `pt` in direction `dir`, don't redo it
