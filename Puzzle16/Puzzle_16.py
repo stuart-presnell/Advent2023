@@ -124,16 +124,15 @@ def main_a(G):
   
   # We started just off the grid, so remove this off-grid square before we finish
   del energised[(0,-1)]
-  print(energised)
-
+  # print(energised)
   EG = ["".join(['#' if (row, col) in energised else '.' for col in range(len(G[0]))]) 
         for row in range(len(G))]
-  show(EG)
+  # show(EG)
   # print(EG == energised_correct)
   return len(energised)
   
-print(main_a(test_input))  # 46
-# print(main_a(input))       # 7025 is too low
+# print(main_a(test_input))  # 46
+print(main_a(input))       # 7025 is too low
 
 # TTT.timecheck("Part (a)")  #
 
