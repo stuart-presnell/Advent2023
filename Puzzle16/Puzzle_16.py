@@ -102,14 +102,17 @@ def advance_wave(G, pt, dir, wavefront, energised):
   return (wavefront, energised)
 
 
-def main_a(G):
+def fire_laser(G, pt, dir):
+  '''Given a grid `G` of optical elements, a starting point `pt` just off the grid, 
+  and a direction `dir` in which to fire the laser, 
+  simulate the bouncing of the laser beam around the grid
+  and return the number of squares the laser passed through.'''
   # A record of which points have a beam passing through in which directions, 
   # so we don't need to re-process them if the wavefront reaches them again
   energised = defaultdict(list)
 
   # The wavefront is a list of (pt, dir).
-  O = (0,-1)  # start just to the left of the top left corner
-  wavefront = [(O, 'E')]
+  wavefront = [(pt, dir)]
 
   while wavefront:
     # print("wavefront: " + str(wavefront))
@@ -123,16 +126,20 @@ def main_a(G):
       (wavefront, energised) = advance_wave(G, pt, dir, wavefront, energised)
   
   # We started just off the grid, so remove this off-grid square before we finish
-  del energised[(0,-1)]
+  del energised[pt]
   # print(energised)
-  EG = ["".join(['#' if (row, col) in energised else '.' for col in range(len(G[0]))]) 
-        for row in range(len(G))]
+  # EG = ["".join(['#' if (row, col) in energised else '.' for col in range(len(G[0]))]) 
+  #       for row in range(len(G))]
   # show(EG)
   # print(EG == energised_correct)
   return len(energised)
-  
-# print(main_a(test_input))  # 46
-print(main_a(input))       # 7025 is too low
+
+def main_a(G):
+  O = (0,-1)  # start just to the left of the top left corner
+  return fire_laser(G, O, 'E')
+
+print(main_a(test_input))  # 46
+print(main_a(input))       # 7060
 
 # TTT.timecheck("Part (a)")  #
 
