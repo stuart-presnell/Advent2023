@@ -28,6 +28,8 @@ show(grid)
 ht = len(grid)
 wd = len(grid[0])
 
+O = (0,0)
+
 ################################
 # Part (a)
 ################################
@@ -57,8 +59,11 @@ def one_step(pt, dir):
 energised = set([(0,0)])
 # The wavefront is an ordered dictionary of points; 
 # `wavefront[pt]` is a list of directions in which beams are moving through `pt`
-# It's ordered so at each step we can `pop` an element from it to advance
-wavefront = OrderedDict()
+# It's ordered so at each step we can `pop` an element from it to advance.
+# Initialise every entry to `[]`.
+wavefront = OrderedDict.fromkeys(
+  [(r,c) for r in range(wd) for c in range(ht)], 
+  [])
 wavefront[(0,0)] = ['E']
 
 def advance_wave(pt, dir):
@@ -83,6 +88,7 @@ def advance_wave(pt, dir):
       if (dir == 'W') | (dir == 'E'):  # If we're hitting `-` at the pointy end, pass through
         return advance_wave(new_pt, dir)
       else:
+        
         pass  # TODO:
     case '|': 
       if (dir == 'N') | (dir == 'N'):  # If we're hitting `|` at the pointy end, pass through
@@ -104,11 +110,11 @@ def advance_wave(pt, dir):
     case _:
       raise ValueError("Wasn't expectng to find " + str(grid[nr][nc]) + " in the grid!")
 
-print(wavefront)
-print(energised)
-advance_wave((0,2), 'E')
-print(wavefront)
-print(energised)
+# print(wavefront)
+# print(energised)
+# advance_wave((0,2), 'E')
+# print(wavefront)
+# print(energised)
 
 # while wavefront:
 #   (pt, dirs) = wavefront.popitem()
