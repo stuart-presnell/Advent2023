@@ -81,22 +81,27 @@ def advance_wave(pt, dir):
       return
     case '-': 
       if (dir == 'W') | (dir == 'E'):  # If we're hitting `-` at the pointy end, pass through
-        return advance_wave(new_pt, dir)
-      else:
-        
-        pass  # TODO:
+        wavefront[new_pt].append(dir)
+        return 
+      else:  # otherwise, propagate waves to 'N' and 'S' from this position
+        wavefront[new_pt].append('N')
+        wavefront[new_pt].append('S')
+        return 
     case '|': 
-      if (dir == 'N') | (dir == 'N'):  # If we're hitting `|` at the pointy end, pass through
-        return advance_wave(new_pt, dir)
-      else:
-        pass  # TODO:
-    case '\\': 
+      if (dir == 'N') | (dir == 'S'):  # If we're hitting `|` at the pointy end, pass through
+        wavefront[new_pt].append(dir)
+        return 
+      else:  # otherwise, propagate waves to 'W' and 'E' from this position
+        wavefront[new_pt].append('W')
+        wavefront[new_pt].append('E')
+        return 
+    case '/': 
       match dir:
         case 'N': pass
         case 'S': pass
         case 'W': pass
         case 'E': pass
-    case '/': 
+    case '\\': 
       match dir:
         case 'N': pass
         case 'S': pass
