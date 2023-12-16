@@ -24,10 +24,11 @@ def parse_file_a(filename):
 
 test_input = parse_file_a("Puzzle16_test.txt")
 input      = parse_file_a("Puzzle16_input.txt")
+energised_correct = parse_file_a("energised_correct_test.txt")
 
 # grid = test_input
 # grid = input
-# show(grid)
+# show(energised_correct)
 
 ################################
 # Part (a)
@@ -107,7 +108,7 @@ def main_a(G):
   energised = defaultdict(list)
 
   # The wavefront is a list of (pt, dir).
-  O = (0,0)
+  O = (0,-1)  # start just to the left of the top left corner
   wavefront = [(O, 'E')]
 
   while wavefront:
@@ -120,9 +121,15 @@ def main_a(G):
       pass
     else:
       (wavefront, energised) = advance_wave(G, pt, dir, wavefront, energised)
+  
+  # We started just off the grid, so remove this off-grid square before we finish
+  del energised[(0,-1)]
+  print(energised)
 
-  show(["".join(['#' if (row, col) in energised else '.' for col in range(len(G[0]))]) 
-        for row in range(len(G))])
+  EG = ["".join(['#' if (row, col) in energised else '.' for col in range(len(G[0]))]) 
+        for row in range(len(G))]
+  show(EG)
+  # print(EG == energised_correct)
   return len(energised)
   
 print(main_a(test_input))  # 46
