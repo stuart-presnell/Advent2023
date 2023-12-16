@@ -80,14 +80,14 @@ def advance_wave(pt, dir):
   if not new_pt: # if we've stepped off the edge of the grid, do nothing
     return
   (nr,nc) = new_pt
+  energised[new_pt].append(dir)
   match grid[nr][nc]:   # What we do next depends on what we find at `new_pt`
     case '.': 
-      # print("Meeting a '.' at " + str(new_pt))
-      energised[new_pt].append(dir)
+      print("Meeting a '.' at " + str(new_pt))
       wavefront[new_pt].append(dir)
       return
     case '-': 
-      energised[new_pt].append(dir)
+      print("Meeting a '-' at " + str(new_pt))
       if (dir == 'W') | (dir == 'E'):  # If we're hitting `-` at the pointy end, pass through
         wavefront[new_pt].append(dir)
         return 
@@ -96,7 +96,7 @@ def advance_wave(pt, dir):
         wavefront[new_pt].append('E')
         return 
     case '|': 
-      energised[new_pt].append(dir)
+      print("Meeting a '|' at " + str(new_pt))
       if (dir == 'N') | (dir == 'S'):  # If we're hitting `|` at the pointy end, pass through
         wavefront[new_pt].append(dir)
         return 
@@ -105,14 +105,14 @@ def advance_wave(pt, dir):
         wavefront[new_pt].append('S')
         return 
     case '/': 
-      energised[new_pt].append(dir)
+      print("Meeting a '/' at " + str(new_pt))
       match dir:
         case 'N': wavefront[new_pt].append('W')
         case 'S': wavefront[new_pt].append('E')
         case 'W': wavefront[new_pt].append('N')
         case 'E': wavefront[new_pt].append('S')
     case '\\': 
-      energised[new_pt].append(dir)
+      print("Meeting a '\\' at " + str(new_pt))
       match dir:
         case 'N': wavefront[new_pt].append('E')
         case 'S': wavefront[new_pt].append('W')
@@ -138,12 +138,12 @@ showD(energised)
 # while wavefront:
 #   (pt, dirs) = wavefront.popitem()
 #   for dir in dirs:
-      # if we've passed through `pt` in direction `dir`, don't redo it
+#     # if we've passed through `pt` in direction `dir`, don't redo it
 #     if (dir in energised[pt]): 
 #       pass
 #     else:
 #       advance_wave(pt, dir)
-# show(energised)
+# showD(energised)
 
 # def main_a(ip):
 #   pass
