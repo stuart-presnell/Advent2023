@@ -7,12 +7,7 @@ def showD(d:dict):
     if d[k]: print(k, ": ", d[k])
 
 # My utility functions
-from utils import (
-show, 
-# chunk_splitlines, printT, showM, parse_nums, rotate90, close_bracket, cmp, qsort, 
-Best, 
-Timer,
-)
+from utils import show,Best,Timer
 TTT = Timer(1)
 
 ################################
@@ -169,6 +164,6 @@ def main_b(G):
 print(main_b(test_input))  # 51
 print(main_b(input))       # 7493
 
-TTT.timecheck("Part (b)")  #
+TTT.timecheck("Part (b)")  # ~ 3600 ms
 
 ################################
