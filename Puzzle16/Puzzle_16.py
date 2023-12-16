@@ -23,7 +23,7 @@ input      = parse_file_a("Puzzle16_input.txt")
 
 grid = test_input
 # grid = input
-# show(grid)
+show(grid)
 
 ht = len(grid)
 wd = len(grid[0])
@@ -49,9 +49,12 @@ def one_step(pt, dir):
   else:
     return None
 
-
+# TODO: Make energised a set of pt/dir pairs, 
+  # skip advancing a wavefront packet if it's been done before
+  # (this will also skip appending anything to `wavefront`, so it's guaranteed to become empty)
+  
 # The set of points (r,c) that have a beam passing through
-energised = set((0,0))
+energised = set([(0,0)])
 # The wavefront is an ordered dictionary of points; 
 # `wavefront[pt]` is a list of directions in which beams are moving through `pt`
 # It's ordered so at each step we can `pop` an element from it to advance
@@ -67,8 +70,45 @@ def advance_wave(pt, dir):
   new_pt = one_step(pt, dir)
   if not new_pt: # if we've stepped off the edge of the grid, do nothing
     return
+  (nr,nc) = new_pt
+  match grid[nr][nc]:   # What we do next depends on what we find at `new_pt`
+    case '.': 
+      energised.add(new_pt)
+      if new_pt in wavefront:
+        wavefront[new_pt].append(dir)
+      else:
+        wavefront[new_pt] = [dir]
+      return
+    case '-': 
+      if (dir == 'W') | (dir == 'E'):  # If we're hitting `-` at the pointy end, pass through
+        return advance_wave(new_pt, dir)
+      else:
+        pass  # TODO:
+    case '|': 
+      if (dir == 'N') | (dir == 'N'):  # If we're hitting `|` at the pointy end, pass through
+        return advance_wave(new_pt, dir)
+      else:
+        pass  # TODO:
+    case '\\': 
+      match dir:
+        case 'N': pass
+        case 'S': pass
+        case 'W': pass
+        case 'E': pass
+    case '/': 
+      match dir:
+        case 'N': pass
+        case 'S': pass
+        case 'W': pass
+        case 'E': pass
+    case _:
+      raise ValueError("Wasn't expectng to find " + str(grid[nr][nc]) + " in the grid!")
 
-  pass
+print(wavefront)
+print(energised)
+advance_wave((0,2), 'E')
+print(wavefront)
+print(energised)
 
 # while wavefront:
 #   (pt, dirs) = wavefront.popitem()
