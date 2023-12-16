@@ -1,6 +1,10 @@
 # https://adventofcode.com/2023/day/16
 
-from collections import OrderedDict
+from collections import defaultdict
+
+def showD(d:dict):
+  for k in d:
+    if d[k]: print(k, ": ", d[k])
 
 # My utility functions
 from utils import (
@@ -55,13 +59,15 @@ def one_step(pt, dir):
 # A record of which points have a beam passing through in which directions, 
 # so we don't need to re-process them if the wavefront reaches them again
 # Initialise every entry to `[]`.
-energised = {(r,c):[] for r in range(wd) for c in range(ht)}
+# energised = {(r,c):[] for r in range(wd) for c in range(ht)}
+energised = defaultdict(list)
 energised[(0,0)] = ['E']
 
 # The wavefront is an ordered dictionary of points; 
 # `wavefront[pt]` is a list of directions in which beams are moving through `pt`
 # Initialise every entry to `[]`.
-wavefront = {(r,c):[] for r in range(wd) for c in range(ht)}
+wavefront = defaultdict(list)
+# wavefront = {(r,c):[] for r in range(wd) for c in range(ht)}
 wavefront[(0,0)] = ['E']
 
 def advance_wave(pt, dir):
@@ -81,28 +87,32 @@ def advance_wave(pt, dir):
       wavefront[new_pt].append(dir)
       return
     case '-': 
+      energised[new_pt].append(dir)
       if (dir == 'W') | (dir == 'E'):  # If we're hitting `-` at the pointy end, pass through
-        wavefront[new_pt].append(dir)
-        return 
-      else:  # otherwise, propagate waves to 'N' and 'S' from this position
-        wavefront[new_pt].append('N')
-        wavefront[new_pt].append('S')
-        return 
-    case '|': 
-      if (dir == 'N') | (dir == 'S'):  # If we're hitting `|` at the pointy end, pass through
         wavefront[new_pt].append(dir)
         return 
       else:  # otherwise, propagate waves to 'W' and 'E' from this position
         wavefront[new_pt].append('W')
         wavefront[new_pt].append('E')
         return 
+    case '|': 
+      energised[new_pt].append(dir)
+      if (dir == 'N') | (dir == 'S'):  # If we're hitting `|` at the pointy end, pass through
+        wavefront[new_pt].append(dir)
+        return 
+      else:  # otherwise, propagate waves to 'N' and 'S' from this position
+        wavefront[new_pt].append('N')
+        wavefront[new_pt].append('S')
+        return 
     case '/': 
+      energised[new_pt].append(dir)
       match dir:
         case 'N': pass
         case 'S': pass
         case 'W': pass
         case 'E': pass
     case '\\': 
+      energised[new_pt].append(dir)
       match dir:
         case 'N': pass
         case 'S': pass
@@ -111,14 +121,18 @@ def advance_wave(pt, dir):
     case _:
       raise ValueError("Wasn't expectng to find " + str(grid[nr][nc]) + " in the grid!")
 
-print(wavefront)
-print(energised)
-advance_wave((0,3), 'S')
+print("wavefront")
+showD(wavefront)
+print("energised")
+showD(energised)
+
+advance_wave((0,0), 'E')
 print()
 
-print(wavefront)
-print(energised)
-print()
+print("wavefront")
+showD(wavefront)
+print("energised")
+showD(energised)
 
 
 # while wavefront:
