@@ -32,8 +32,6 @@ show(grid)
 ht = len(grid)
 wd = len(grid[0])
 
-O = (0,0)
-
 ################################
 # Part (a)
 ################################
@@ -63,12 +61,11 @@ def one_step(pt, dir):
 # energised = {(r,c):[] for r in range(wd) for c in range(ht)}
 energised = defaultdict(list)
 
-# The wavefront is an ordered dictionary of points; 
-# `wavefront[pt]` is a list of directions in which beams are moving through `pt`
-# Initialise every entry to `[]`.
-wavefront = defaultdict(list)
+# The wavefront is a list of (pt, dir).
+# wavefront = defaultdict(list)
 # wavefront = {(r,c):[] for r in range(wd) for c in range(ht)}
-wavefront[(0,0)] = ['E']
+O = (0,0)
+wavefront = [(O, 'E')]
 
 def advance_wave(pt, dir, wavefront, energised):
   '''Given a point and a direction, advance the beam by one step in that direction, 
@@ -82,35 +79,35 @@ def advance_wave(pt, dir, wavefront, energised):
   match grid[nr][nc]:   # What we do next depends on what we find at `new_pt`
     case '.': 
       # print("Meeting a '.' at " + str(new_pt))
-      wavefront[new_pt].append(dir)
+      wavefront.append((new_pt, dir))
     case '-': 
       # print("Meeting a '-' at " + str(new_pt))
       if (dir == 'W') | (dir == 'E'):  # If we're hitting `-` at the pointy end, pass through
-        wavefront[new_pt].append(dir)
+        wavefront.append((new_pt, dir))
       else:  # otherwise, propagate waves to 'W' and 'E' from this position
-        wavefront[new_pt].append('W')
-        wavefront[new_pt].append('E')
+        wavefront.append((new_pt, 'W'))
+        wavefront.append((new_pt, 'E'))
     case '|': 
       # print("Meeting a '|' at " + str(new_pt))
       if (dir == 'N') | (dir == 'S'):  # If we're hitting `|` at the pointy end, pass through
-        wavefront[new_pt].append(dir)
+        wavefront.append((new_pt, dir))
       else:  # otherwise, propagate waves to 'N' and 'S' from this position
-        wavefront[new_pt].append('N')
-        wavefront[new_pt].append('S')
+        wavefront.append((new_pt, 'N'))
+        wavefront.append((new_pt, 'S'))
     case '/': 
       # print("Meeting a '/' at " + str(new_pt))
       match dir:
-        case 'N': wavefront[new_pt].append('W')
-        case 'S': wavefront[new_pt].append('E')
-        case 'W': wavefront[new_pt].append('N')
-        case 'E': wavefront[new_pt].append('S')
+        case 'N': wavefront.append((new_pt, 'W'))
+        case 'S': wavefront.append((new_pt, 'E'))
+        case 'W': wavefront.append((new_pt, 'N'))
+        case 'E': wavefront.append((new_pt, 'S'))
     case '\\': 
       # print("Meeting a '\\' at " + str(new_pt))
       match dir:
-        case 'N': wavefront[new_pt].append('E')
-        case 'S': wavefront[new_pt].append('W')
-        case 'W': wavefront[new_pt].append('S')
-        case 'E': wavefront[new_pt].append('N')
+        case 'N': wavefront.append((new_pt, 'E'))
+        case 'S': wavefront.append((new_pt, 'W'))
+        case 'W': wavefront.append((new_pt, 'S'))
+        case 'E': wavefront.append((new_pt, 'N'))
     case _:
       raise ValueError("Wasn't expectng to find " + str(grid[nr][nc]) + " in the grid!")
   # print("After updating at point " + str(new_pt) + " in direction " + str(dir) + " we have: ")
@@ -139,16 +136,15 @@ def advance_wave(pt, dir, wavefront, energised):
 
 
 while wavefront:
-  (pt, dirs) = wavefront.popitem()
-  # print("Now we're at point " + str(pt) + " and we have to work through directions " + str(dirs))
-  for dir in dirs:
-    # if we've passed through `pt` in direction `dir`, don't redo it
-    if (dir in energised[pt]): 
-      # print("We've already examined direction " + str(dir) + " from point " + str(pt) + " so skipping it")
-      pass
-    else:
-      (wavefront, energised) = advance_wave(pt, dir, wavefront, energised)
-      
+  (pt, dir) = wavefront.pop()
+  # print("Now we're at point " + str(pt) + " moving in direction " + str(dir))
+  # if we've passed through `pt` in direction `dir`, don't redo it
+  if (dir in energised[pt]): 
+    # print("We've already examined direction " + str(dir) + " from point " + str(pt) + "; skipping")
+    pass
+  else:
+    (wavefront, energised) = advance_wave(pt, dir, wavefront, energised)
+
 print("wavefront")
 showD(wavefront)
 print("energised")
