@@ -1,5 +1,7 @@
 # https://adventofcode.com/2023/day/16
 
+from collections import OrderedDict
+
 # My utility functions
 from utils import (
 show, 
@@ -28,7 +30,7 @@ show(ip)
 ################################
 
 # How to step in each cardinal direction (change in row, change in column)
-dir = {
+dir_lookup = {
   'N':(-1,0),
   'S':( 1,0),
   'W':(0,-1),
@@ -37,13 +39,14 @@ dir = {
 
 # A list of points (r,c) that have a beam passing through
 energised = [(0,0)]
-# The wavefront is a dictionary of points; 
+# The wavefront is an ordered dictionary of points; 
 # `wavefront[pt]` is a list of directions in which beams are moving through `pt`
-wavefront = {(0,0):['E']}
-
-
+# It's ordered so at each step we can `pop` an element from it to advance
+wavefront = OrderedDict()
+wavefront[(0,0)] = ['E']
 
 while wavefront:
+  (pt, dirs) = wavefront.popitem()
   pass
 
 # def main_a(ip):
