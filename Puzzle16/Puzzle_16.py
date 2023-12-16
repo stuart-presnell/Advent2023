@@ -98,14 +98,7 @@ def advance_wave(G, pt, dir, wavefront, energised):
     case _:
       raise ValueError("Wasn't expectng to find " + str(G[nr][nc]) + " in the grid!")
   # print("After updating at point " + str(new_pt) + " in direction " + str(dir) + " we have: ")
-  # print("wavefront")
-  # showD(wavefront)
-  # print("energised")
-  # showD(energised)
-  # print()
   return (wavefront, energised)
-
-
 
 
 def main_a(G):
@@ -128,18 +121,12 @@ def main_a(G):
     else:
       (wavefront, energised) = advance_wave(G, pt, dir, wavefront, energised)
 
-  # print("wavefront")
-  # showD(wavefront)
-  # print("energised")
-  # showD(energised)
-
+  show(["".join(['#' if (row, col) in energised else '.' for col in range(len(G[0]))]) 
+        for row in range(len(G))])
   return len(energised)
-
-# grid = test_input
+  
 print(main_a(test_input))  # 46
-
-# grid = input
-# print(main_a())       # 
+# print(main_a(input))       # 7025 is too low
 
 # TTT.timecheck("Part (a)")  #
 
