@@ -9,7 +9,8 @@ def showD(d:dict):
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
+# chunk_splitlines, printT, showM, parse_nums, rotate90, close_bracket, cmp, qsort, 
+Best, 
 Timer,
 )
 TTT = Timer(1)
@@ -147,8 +148,23 @@ TTT.timecheck("Part (a)")  # ~ 15 ms
 # Part (b)
 ################################
 
-# def main_b(G):
-#   pass
+# Starting the beam in the fourth tile from the left in the top row, 51 tiles are energized
+# Ob = (-1,3)
+# print(fire_laser(test_input, Ob, 'S'))  # 51
+
+def main_b(G):
+  ht = len(G)
+  wd = len(G[0])
+  greatest_energy = Best()
+  # # Fire lasers from left
+  greatest_energy.reduce([fire_laser(G, (r, -1), 'E') for r in range(ht)])
+  # Fire lasers from right
+  greatest_energy.reduce([fire_laser(G, (r, wd), 'W') for r in range(ht)])
+  # # Fire lasers from top
+  greatest_energy.reduce([fire_laser(G, (-1, c), 'S') for c in range(wd)])
+  # # Fire lasers from bottom
+  greatest_energy.reduce([fire_laser(G, (ht, c), 'N') for c in range(wd)])
+  return greatest_energy.best_so_far
 
 # print(main_b(test_input))  # 
 # print(main_b(input))       # 
