@@ -1,4 +1,4 @@
-# https://adventofcode.com/2023/day/00
+# https://adventofcode.com/2023/day/16
 
 # My utility functions
 from utils import (
@@ -16,8 +16,8 @@ def parse_file_a(filename):
   f.close()
   return ip_file
 
-test_input = parse_file_a("Puzzle00_test.txt")
-input      = parse_file_a("Puzzle00_input.txt")
+test_input = parse_file_a("Puzzle16_test.txt")
+input      = parse_file_a("Puzzle16_input.txt")
 
 ip = test_input
 ip = input
