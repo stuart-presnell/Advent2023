@@ -107,17 +107,17 @@ def advance_wave(pt, dir):
     case '/': 
       energised[new_pt].append(dir)
       match dir:
-        case 'N': pass
-        case 'S': pass
-        case 'W': pass
-        case 'E': pass
+        case 'N': wavefront[new_pt].append('W')
+        case 'S': wavefront[new_pt].append('E')
+        case 'W': wavefront[new_pt].append('N')
+        case 'E': wavefront[new_pt].append('S')
     case '\\': 
       energised[new_pt].append(dir)
       match dir:
-        case 'N': pass
-        case 'S': pass
-        case 'W': pass
-        case 'E': pass
+        case 'N': wavefront[new_pt].append('E')
+        case 'S': wavefront[new_pt].append('W')
+        case 'W': wavefront[new_pt].append('S')
+        case 'E': wavefront[new_pt].append('N')
     case _:
       raise ValueError("Wasn't expectng to find " + str(grid[nr][nc]) + " in the grid!")
 
