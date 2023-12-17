@@ -146,6 +146,7 @@ def Dijkstra(matrix, START, END, criterion = lambda x,y,z: True, verbose = False
     return(t_dist)
 
 
+
 Dijkstra(ip, O, D)
 
 
