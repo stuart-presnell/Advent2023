@@ -65,6 +65,8 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
   ht = len(matrix)
   wd = len(matrix[0])
 
+# --------------------------------------------------
+  # TODO: Change this!  Now we can step up to 3 steps in any direction, but can't reverse
   # During each step, you can move exactly one square up, down, left, or right...
   def neighbours(x,y):
     '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
@@ -77,6 +79,12 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     return a list of the neighbours that are accessible per the adjacency criterion
     by default: whose height is at most one higher than [x,y]'''
     return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
+  
+  def step_cost(here, other):
+    '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
+    return 1
+# --------------------------------------------------
+
 
   # Assign to every node a tentative distance value, initialised to infinity
   # t_dist  = [[inf for _ in range(wd)] for _ in range(ht)]
@@ -88,8 +96,8 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
   # Give the starting node a distance of 0
   t_dist[START] = 0
 
-  # Make a Priority Queue of nodes that have not yet been visited
-  # each item on the Priority Queue is a pair (t, (x,y)), 
+  # Make a Priority Queue of nodes that have not yet been visited.
+  # Each item on the Priority Queue is a pair (t, (x,y)), 
   # where t is the tentative distance to point (x,y)
   # Being a Priority Queue means we can efficiently pop off the item with the smallest t
   unvisited = PQ()
@@ -103,24 +111,25 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
 
   def update_one_step():
     # select the unvisited node that is marked with the smallest tentative distance T; 
-    # mark it as visited
+    # mark it as visited by popping it from `unvisited`
     (T, (x,y)) = unvisited.pop_item_with_priority()
     # If the smallest T of any unvisited node is inf
     # then we've visited every accessible node, 
     # so tell the parent function to break
     if T == inf:  
-      return True  # This is collected by the parent function as a variable `finished`
+      return True  # This is collected by the parent function as a variable `FINISHED`
     if verbose: print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
     unvis_neighbours = [(a,b) for (a,b) in accessible_neighbours(x,y) if is_unvisited((a,b))]
     if verbose: print(unvis_neighbours)
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
-      # reset its tentative distance to t+1 if that's less than its current value
-      if T+1 < t_dist[(a,b)]: 
-        if verbose: print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+1))
-        t_dist[(a,b)] = T+1
-        # replace the point (a,b) in `unvisited` with new tentative distance T+1
-        unvisited.add_item((a,b), T+1)
+      # reset its tentative distance to T+1 if that's less than its current value
+      cost = step_cost((x,y), (a,b))
+      if T+cost < t_dist[(a,b)]: 
+        if verbose: print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+cost))
+        t_dist[(a,b)] = T+cost
+        # replace the point (a,b) in `unvisited` with new tentative distance T+cost
+        unvisited.add_item((a,b), T+cost)
     return False # We don't think we've reached every reachable square yet
 
   FINISHED = False
