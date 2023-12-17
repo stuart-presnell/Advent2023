@@ -62,7 +62,7 @@ BR = (ht-1, wd-1)
 
 # --------------------------------------------------
 # TODO: Change this!  Now we can step up to 3 steps in any direction, but can't reverse
-# During each step, you can move exactly one square up, down, left, or right...
+  # So we need to record our current position AND direction, and use this to determine neighbours
 def neighbours(x,y):
   '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
   raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
