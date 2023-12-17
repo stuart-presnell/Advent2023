@@ -55,9 +55,9 @@ def one_step(pt, dir):
 # new_pt = one_step(pt, dir)
 
 # Starting point is top left corner
-O = (0,0)
+TL = (0,0)
 # Destination is bottom right corner
-D = (ht-1, wd-1)
+BR = (ht-1, wd-1)
 
 
 # --------------------------------------------------
@@ -75,11 +75,21 @@ def ACCESSIBLE_NEIGHBOURS(matrix, x,y, criterion = lambda *args:True):
   by default: whose height is at most one higher than [x,y]'''
   return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
 
-def STEP_COST(here, other):
+def STEP_COST(matrix, here, other):
   '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
-  return 1
-# --------------------------------------------------
+  (r1,c1) = here
+  (r2,c2) = other
+  if r1 == r2:
+    c_steps = range(min(c1,c2)+1, max(c1,c2)+1)  # don't include first square, do include last
+    return sum([matrix[r1][c] for c in c_steps])
+  elif c1 == c2:
+    pass
+    r_steps = range(min(r1,r2)+1, max(r1,r2)+1)  # don't include first square, do include last
+    return sum([matrix[r][c1] for r in r_steps])
+  else:
+    raise ValueError("Can only move along rows and columns")
 
+# --------------------------------------------------
 
 def Dijkstra(matrix, START, END, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
   '''Given a `matrix` of points, with `START` and `END` points (or optionally `END = None`),
@@ -123,7 +133,7 @@ def Dijkstra(matrix, START, END, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = Fal
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
       # reset its tentative distance to T + STEP_COST(here, there) if that's less than its current value
-      cost = STEP_COST((x,y), (a,b))
+      cost = STEP_COST(matrix, (x,y), (a,b))
       if T+cost < t_dist[(a,b)]: 
         if verbose: print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+cost))
         t_dist[(a,b)] = T+cost
@@ -147,7 +157,7 @@ def Dijkstra(matrix, START, END, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = Fal
 
 
 
-Dijkstra(ip, O, D, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+# Dijkstra(ip, TL, BR, ACCESSIBLE_NEIGHBOURS, STEP_COST)
 
 
 # def main_a(ip_file):
