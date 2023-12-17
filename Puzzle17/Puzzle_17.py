@@ -60,31 +60,30 @@ O = (0,0)
 D = (ht-1, wd-1)
 
 
+# --------------------------------------------------
+# TODO: Change this!  Now we can step up to 3 steps in any direction, but can't reverse
+# During each step, you can move exactly one square up, down, left, or right...
+def neighbours(x,y):
+  '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
+  raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
+  return [(a,b) for (a,b) in raw_neighbours if (0 <= a < ht) and (0 <= b < wd)]
 
-def Dijkstra(matrix, START, END, criterion = lambda x,y,z: True, verbose = False):
+# ...but not every neighbour square is accessible; `criterion` tells us which are
+def ACCESSIBLE_NEIGHBOURS(matrix, x,y, criterion = lambda *args:True):
+  '''Given a pair of coordinates,
+  return a list of the neighbours that are accessible per the adjacency criterion
+  by default: whose height is at most one higher than [x,y]'''
+  return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
+
+def STEP_COST(here, other):
+  '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
+  return 1
+# --------------------------------------------------
+
+
+def Dijkstra(matrix, START, END, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
   ht = len(matrix)
   wd = len(matrix[0])
-
-# --------------------------------------------------
-  # TODO: Change this!  Now we can step up to 3 steps in any direction, but can't reverse
-  # During each step, you can move exactly one square up, down, left, or right...
-  def neighbours(x,y):
-    '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
-    raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
-    return [(a,b) for (a,b) in raw_neighbours if (0 <= a < ht) and (0 <= b < wd)]
-
-  # ...but not every neighbour square is accessible; `criterion` tells us which are
-  def ACCESSIBLE_NEIGHBOURS(x,y):
-    '''Given a pair of coordinates,
-    return a list of the neighbours that are accessible per the adjacency criterion
-    by default: whose height is at most one higher than [x,y]'''
-    return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
-  
-  def STEP_COST(here, other):
-    '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
-    return 1
-# --------------------------------------------------
-
 
   # Assign to every node a tentative distance value, initialised to infinity
   # Store this in a `defaultdict` for quicker lookup, since we don't need the matrix structure
@@ -114,7 +113,7 @@ def Dijkstra(matrix, START, END, criterion = lambda x,y,z: True, verbose = False
       return True  # This is collected by the parent function as a variable `FINISHED`
     if verbose: print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
     # Make a list of all the unvisited neighbours of current point `(x,y)`
-    unvis_neighbours = [pt for pt in ACCESSIBLE_NEIGHBOURS(x,y) if is_unvisited(pt)]
+    unvis_neighbours = [pt for pt in ACCESSIBLE_NEIGHBOURS(matrix, x,y) if is_unvisited(pt)]
     if verbose: print(unvis_neighbours)
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
@@ -143,7 +142,7 @@ def Dijkstra(matrix, START, END, criterion = lambda x,y,z: True, verbose = False
 
 
 
-Dijkstra(ip, O, D)
+Dijkstra(ip, O, D, ACCESSIBLE_NEIGHBOURS, STEP_COST)
 
 
 # def main_a(ip_file):
