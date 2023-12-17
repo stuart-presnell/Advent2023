@@ -96,12 +96,13 @@ def STEP_COST(matrix, here, other):
 
 # --------------------------------------------------
 
-def Dijkstra(matrix, START, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
-  '''Given a `matrix` of points, with a `START` point and a (possibly empty) set/list of `END` points,
+def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
+  '''Given a `matrix` of points, with a set/list of `START` points 
+  and a (possibly empty) set/list of `END` points,
   with a function returning a list of the `ACCESSIBLE_NEIGHBOURS` of any point
   and a function returning the `STEP_COST` of stepping from `pt1` to `pt2`,
-  run Dijkstra's algorithm to work out the cheapest route from `START` to each reachable point,
-  stopping when we reach one of the `ENDS` (if provided).'''
+  run Dijkstra's algorithm to work out the cheapest route from some `START` point 
+  to each reachable point, stopping when we reach any of the `END` points (if provided).'''
   ht = len(matrix)
   wd = len(matrix[0])
 
@@ -109,8 +110,11 @@ def Dijkstra(matrix, START, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = Fa
   # Store this in a `defaultdict` for quicker lookup, since we don't need the matrix structure
   t_dist = defaultdict(lambda : inf)
 
-  # Give the starting node a distance of 0
-  t_dist[START] = 0
+  # Give all the starting nodes a distance of 0
+  if not STARTS:
+    raise ValueError("Need at least one starting point")
+  for s in STARTS:
+    t_dist[s] = 0
 
   # Make a Priority Queue of nodes that have not yet been visited.
   # Each item on the queue is a pair (t, (x,y)), where t is the tentative distance to point (x,y)
@@ -162,7 +166,7 @@ def Dijkstra(matrix, START, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = Fa
 
 
 
-Dijkstra(ip, TL, [BR, (5,5)], ACCESSIBLE_NEIGHBOURS, STEP_COST)
+Dijkstra(ip, [TL, (5,5)], [BR], ACCESSIBLE_NEIGHBOURS, STEP_COST)
 
 
 # def main_a(ip_file):
