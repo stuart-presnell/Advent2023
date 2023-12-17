@@ -1,5 +1,7 @@
 # https://adventofcode.com/2023/day/17
 
+from math import inf
+
 # My utility functions
 from utils import (
 show, 
