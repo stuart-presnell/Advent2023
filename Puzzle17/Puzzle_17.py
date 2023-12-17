@@ -61,7 +61,7 @@ D = (ht-1, wd-1)
 
 
 
-def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 1, verbose = False):
+def Dijkstra(matrix, START, END, criterion = lambda x,y,z: True, verbose = False):
   ht = len(matrix)
   wd = len(matrix[0])
 
@@ -106,8 +106,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
         unvisited.add_item((x,y), t_dist[(x,y)])
 
   def is_unvisited(pt):
-    (x,y) = pt
-    return unvisited.find_item((x,y))
+    return unvisited.find_item(pt)
 
   def update_one_step():
     # select the unvisited node that is marked with the smallest tentative distance T; 
@@ -119,7 +118,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     if T == inf:  
       return True  # This is collected by the parent function as a variable `FINISHED`
     if verbose: print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
-    unvis_neighbours = [(a,b) for (a,b) in accessible_neighbours(x,y) if is_unvisited((a,b))]
+    unvis_neighbours = [pt for pt in accessible_neighbours(x,y) if is_unvisited(pt)]
     if verbose: print(unvis_neighbours)
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
@@ -147,7 +146,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     return(t_dist)
 
 
-
+Dijkstra(ip, O, D)
 
 
 # def main_a(ip_file):
