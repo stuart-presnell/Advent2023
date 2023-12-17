@@ -12,7 +12,7 @@ show,
 
 def parse_file_a(filename):
   f = open(filename)
-  ip_file = f.read().splitlines()
+  ip_file = [[int(n) for n in list(row)] for row in f.read().splitlines()]
   f.close()
   return ip_file
 
@@ -20,7 +20,7 @@ test_input = parse_file_a("Puzzle17_test.txt")
 input      = parse_file_a("Puzzle17_input.txt")
 
 ip = test_input
-ip = input
+# ip = input
 show(ip)
 
 ################################
