@@ -2,6 +2,7 @@
 
 from math import inf
 from PQueue import PQ
+from collections import defaultdict
 
 # My utility functions
 from utils import (
@@ -78,12 +79,14 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
 
   # Assign to every node a tentative distance value, initialised to infinity
-  t_dist  = [[inf for _ in range(wd)] for _ in range(ht)]
+  # t_dist  = [[inf for _ in range(wd)] for _ in range(ht)]
+  # Store this in a `defaultdict` for quicker lookup, since we don't need the matrix structure
+  t_dist = defaultdict(lambda : inf)
 
-  (STARTx,STARTy) = START
+  # (STARTx,STARTy) = START
 
   # Give the starting node a distance of 0
-  t_dist[STARTx][STARTy] = 0
+  t_dist[START] = 0
 
   # Make a Priority Queue of nodes that have not yet been visited
   # each item on the Priority Queue is a pair (t, (x,y)), 
@@ -92,7 +95,7 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
   unvisited = PQ()
   for x in range(ht):
     for y in range(wd):
-        unvisited.add_item((x,y), t_dist[x][y])
+        unvisited.add_item((x,y), t_dist[(x,y)])
 
   def is_unvisited(pt):
     (x,y) = pt
@@ -113,9 +116,9 @@ def Dijkstra(matrix, START, END, criterion = lambda other,here: other <= here + 
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
       # reset its tentative distance to t+1 if that's less than its current value
-      if T+1 < t_dist[a][b]: 
+      if T+1 < t_dist[(a,b)]: 
         if verbose: print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+1))
-        t_dist[a][b] = T+1
+        t_dist[(a,b)] = T+1
         # replace the point (a,b) in `unvisited` with new tentative distance T+1
         unvisited.add_item((a,b), T+1)
     return False # We don't think we've reached every reachable square yet
