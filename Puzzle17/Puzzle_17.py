@@ -54,8 +54,13 @@ def one_step(pt, dir):
 
 # new_pt = one_step(pt, dir)
 
+# State is a pair (pt, dir)
 # Starting point is top left corner
 TL = (0,0)
+# Two possible starting states
+Start_E = (TL, 'E')
+Start_S = (TL, 'S')
+
 # Destination is bottom right corner
 BR = (ht-1, wd-1)
 
