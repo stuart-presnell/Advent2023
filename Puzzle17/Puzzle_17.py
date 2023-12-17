@@ -96,12 +96,12 @@ def STEP_COST(matrix, here, other):
 
 # --------------------------------------------------
 
-def Dijkstra(matrix, START, END, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
-  '''Given a `matrix` of points, with `START` and `END` points (or optionally `END = None`),
+def Dijkstra(matrix, START, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
+  '''Given a `matrix` of points, with a `START` point and a (possibly empty) set/list of `END` points,
   with a function returning a list of the `ACCESSIBLE_NEIGHBOURS` of any point
   and a function returning the `STEP_COST` of stepping from `pt1` to `pt2`,
   run Dijkstra's algorithm to work out the cheapest route from `START` to each reachable point,
-  stopping when we reach `END` (if provided).'''
+  stopping when we reach one of the `ENDS` (if provided).'''
   ht = len(matrix)
   wd = len(matrix[0])
 
@@ -147,22 +147,22 @@ def Dijkstra(matrix, START, END, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = Fal
     return False # We don't think we've reached every reachable square yet
 
   FINISHED = False
-  if END:
-    # If we have a destination END in mind:
-    # Keep taking steps until the destination node END is marked as visited
+  if ENDS:
+    # If we have a destination (or set of possible destinations) in mind:
+    # Keep taking steps until one of the destinations in ENDS is marked as visited
     # or `update_one_step` reports that it has FINISHED exploring reachable squares
-    while (not FINISHED) & is_unvisited(END):
+    while (not FINISHED) & all([is_unvisited(x) for x in ENDS]):
       FINISHED = update_one_step()
     return(t_dist)
   else:  
-    # If we've passed `END = None` then walk to every square we can reach
+    # If we've passed `ENDS = set()` then walk to every square we can reach
     while (not FINISHED) & (not unvisited.is_empty()):
       FINISHED = update_one_step()
     return(t_dist)
 
 
 
-# Dijkstra(ip, TL, BR, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+Dijkstra(ip, TL, [BR, (5,5)], ACCESSIBLE_NEIGHBOURS, STEP_COST)
 
 
 # def main_a(ip_file):
