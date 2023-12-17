@@ -74,31 +74,27 @@ def Dijkstra(matrix, START, END, criterion = lambda x,y,z: True, verbose = False
     return [(a,b) for (a,b) in raw_neighbours if (0 <= a < ht) and (0 <= b < wd)]
 
   # ...but not every neighbour square is accessible; `criterion` tells us which are
-  def accessible_neighbours(x,y):
+  def ACCESSIBLE_NEIGHBOURS(x,y):
     '''Given a pair of coordinates,
     return a list of the neighbours that are accessible per the adjacency criterion
     by default: whose height is at most one higher than [x,y]'''
     return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
   
-  def step_cost(here, other):
+  def STEP_COST(here, other):
     '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
     return 1
 # --------------------------------------------------
 
 
   # Assign to every node a tentative distance value, initialised to infinity
-  # t_dist  = [[inf for _ in range(wd)] for _ in range(ht)]
   # Store this in a `defaultdict` for quicker lookup, since we don't need the matrix structure
   t_dist = defaultdict(lambda : inf)
-
-  # (STARTx,STARTy) = START
 
   # Give the starting node a distance of 0
   t_dist[START] = 0
 
   # Make a Priority Queue of nodes that have not yet been visited.
-  # Each item on the Priority Queue is a pair (t, (x,y)), 
-  # where t is the tentative distance to point (x,y)
+  # Each item on the queue is a pair (t, (x,y)), where t is the tentative distance to point (x,y)
   # Being a Priority Queue means we can efficiently pop off the item with the smallest t
   unvisited = PQ()
   for x in range(ht):
@@ -112,18 +108,18 @@ def Dijkstra(matrix, START, END, criterion = lambda x,y,z: True, verbose = False
     # select the unvisited node that is marked with the smallest tentative distance T; 
     # mark it as visited by popping it from `unvisited`
     (T, (x,y)) = unvisited.pop_item_with_priority()
-    # If the smallest T of any unvisited node is inf
-    # then we've visited every accessible node, 
+    # If the smallest T of any unvisited node is inf then we've visited every accessible node, 
     # so tell the parent function to break
     if T == inf:  
       return True  # This is collected by the parent function as a variable `FINISHED`
     if verbose: print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
-    unvis_neighbours = [pt for pt in accessible_neighbours(x,y) if is_unvisited(pt)]
+    # Make a list of all the unvisited neighbours of current point `(x,y)`
+    unvis_neighbours = [pt for pt in ACCESSIBLE_NEIGHBOURS(x,y) if is_unvisited(pt)]
     if verbose: print(unvis_neighbours)
     for (a,b) in unvis_neighbours:
       # for each unvisited neighbour, 
-      # reset its tentative distance to T+1 if that's less than its current value
-      cost = step_cost((x,y), (a,b))
+      # reset its tentative distance to T + STEP_COST(here, there) if that's less than its current value
+      cost = STEP_COST((x,y), (a,b))
       if T+cost < t_dist[(a,b)]: 
         if verbose: print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+cost))
         t_dist[(a,b)] = T+cost
