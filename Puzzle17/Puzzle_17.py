@@ -82,6 +82,11 @@ def STEP_COST(here, other):
 
 
 def Dijkstra(matrix, START, END, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
+  '''Given a `matrix` of points, with `START` and `END` points (or optionally `END = None`),
+  with a function returning a list of the `ACCESSIBLE_NEIGHBOURS` of any point
+  and a function returning the `STEP_COST` of stepping from `pt1` to `pt2`,
+  run Dijkstra's algorithm to work out the cheapest route from `START` to each reachable point,
+  stopping when we reach `END` (if provided).'''
   ht = len(matrix)
   wd = len(matrix[0])
 
