@@ -67,7 +67,11 @@ BR = (ht-1, wd-1)
 
 # --------------------------------------------------
 # TODO: Change this!  Now we can step up to 3 steps in any direction, but can't reverse
-  # So we need to record our current position AND direction, and use this to determine neighbours
+
+def allowed_move(matrix, pt, dir):
+  '''A permitted move from state `(pt, dir)` is 1-3 steps in `dir` from `pt` (staying within grid followed by a turn to the left or right.'''
+  pass
+
 def neighbours(x,y):
   '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
   raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
