@@ -126,13 +126,44 @@ def corners(ip):
     visited.pop()
   return visited
 
-show(nwise_cycled(['a', 'b', 'c', 'd', 'e'], 2))
+# show(nwise_cycled(['a', 'b', 'c', 'd', 'e'], 2))
+
+show(corners(test_input))
+
+def which_step(pt1, pt2):
+  '''Given two consecutive points, what direction was the step from `pt1` to `pt2`?'''
+  step = (pt2[0] - pt1[0], pt2[1] - pt1[1])
+  if (step[0] == 0):
+    if step[1] < 0:
+      return 'W'
+    elif step[1] > 0:
+      return 'E'
+  elif (step[1] == 0):
+    if step[0] < 0:
+      return 'N'
+    elif step[0] > 0:
+      return 'S'
+  else:
+    raise ValueError("Points were not distinct and orthogonal")
 
 def corner_shapes(L):
   '''Given a list `L` of corners visited, mark the shape of each corner by appending to each one
-  either 'L', 'J', 'F', or '7'. Return a list of `[pt, shape]`.'''
-  pass
+  either 'L', 'J', 'F', or '7'. Return a list of `[pt, shape]`.
+  Assumes that the list of points really are corners.'''
+  
+  
 
+  # T = nwise_cycled(L)
+  # for [pre, pt, post] in T[-1:] + T[:-1]:
+  #   if (pre[0] == pt[0]):  # Start 'W' or 'E'
+  #     if (post[1] == pt[1] + 1):  # Move 
+  #       pass
+
+
+# T = ['a', 'b', 'c', 'd', 'e']
+# print(corner_shapes(T))
+
+# print(T[-1:] + T[:-1])
 
 
 # dug = follow_instr(ip)
