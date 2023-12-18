@@ -129,11 +129,13 @@ def main_a(ip_file, seed = (1,1), verbose = False):
 def corners(ip):
   '''Given a list of instructions `ip` of the form `[dir, n, _]`, 
   return a list of points visited when we jump along those instructions, starting at `(0,0)`.'''
-  visited = [(0,0)]
+  visited = []
   pt = (0,0)
-  for [dir, n, _, _] in ip:
+  m = len(ip)
+  for i in range(len(ip)):
+    [dir, n, _, shape] = ip[i]
     step = dir_lookup[dir]
-    next_pt = (pt[0] + n*step[0], pt[1] + n*step[1])
+    next_pt = (pt[0] + n*step[0], pt[1] + n*step[1], ip[(i+1)%m][3])
     visited.append(next_pt)
     pt = next_pt
   if visited[-1] == visited[0]:
@@ -160,24 +162,6 @@ def which_step(pt1, pt2):
   else:
     raise ValueError("Points were not distinct and orthogonal")
 
-# def corner_shapes(L):
-#   '''Given a list `L` of corners visited, mark the shape of each corner by appending to each one
-#   either 'L', 'J', 'F', or '7'. Return a list of `[pt, shape]`.
-#   Assumes that the list of points really are corners.'''
-  
-  
-
-  # T = nwise_cycled(L)
-  # for [pre, pt, post] in T[-1:] + T[:-1]:
-  #   if (pre[0] == pt[0]):  # Start 'W' or 'E'
-  #     if (post[1] == pt[1] + 1):  # Move 
-  #       pass
-
-
-# T = ['a', 'b', 'c', 'd', 'e']
-# print(corner_shapes(T))
-
-# print(T[-1:] + T[:-1])
 
 
 # dug = follow_instr(ip)
