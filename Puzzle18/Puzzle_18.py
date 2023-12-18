@@ -98,36 +98,23 @@ display_grid(dug)
 # print(len(dug)) # 38
 print()
 
-def fill_row(dug, row, min_c, max_c):
-  '''Given a set of dug points, a row, and the max and min cols for that row, 
-  fill the interior of the row and return `dug` with those extra pts.'''
-  INSIDE = False
-  for col in range(min_c-1, max_c+1):
-    if (row,col) in dug:
-      INSIDE = not INSIDE  # flip INSIDE status when we hit a '#'
-    if INSIDE & ((row,col) not in dug):
-      dug.add((row,col))
-  return dug
-
-(min_r, min_c, max_r, max_c) = get_dimensions(dug)
-
-for row in range(min_r, max_r+1):
-  dug = fill_row(dug, row, min_c, max_c)
-# display_grid(dug)
-
-
 def flood_fill(dug, seed):
   (r,c) = seed
   if seed in dug:
     return dug
   else:  # fill this square and flood fill starting from the 4 cardinal neighbours
     dug.add(seed)
-    dug = flood_fill(dug, (r-1,c))
-    dug = flood_fill(dug, (r+1,c))
-    dug = flood_fill(dug, (r,c+1))
-    dug = flood_fill(dug, (r,c-1))
+    dug = flood_fill(dug, (r-1,c))  # N
+    dug = flood_fill(dug, (r+1,c))  # S
+    dug = flood_fill(dug, (r,c+1))  # E
+    dug = flood_fill(dug, (r,c-1))  # W
   return dug
 
+(min_r, min_c, max_r, max_c) = get_dimensions(dug)
+
+dug = flood_fill(dug, (1,1))  # Guessing a good starting point
+display_grid(dug)
+print(len(dug))
 
 # def main_a(ip_file):
 #   pass
