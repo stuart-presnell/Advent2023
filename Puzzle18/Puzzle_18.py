@@ -111,8 +111,8 @@ def main_a(ip_file, verbose = False):
   return len(dug)
   
 
-print(main_a(test_input, True))  # 
-# print(main_a(input, True))       # 
+# print(main_a(test_input, True))  # 
+print(main_a(input, True))       # 62500
 
 # TTT.timecheck("Part (a)")  #
 
