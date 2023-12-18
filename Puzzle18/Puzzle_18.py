@@ -69,23 +69,23 @@ def follow_instr(ip):
   return dug
 
 dug = follow_instr(test_input)
-dug = list(dug)
-dug.sort()
-print(dug)
+# dug = list(dug)
+# dug.sort()
+# print(dug)
 
 def get_dimensions(L):
-  '''Extract the min and max dimensions of the array.'''
+  '''Extract the min and max dimensions of the list of points.'''
   min_x = Best(inf, lambda x,y:x<y)
   min_y = Best(inf, lambda x,y:x<y)
   max_x = Best(-inf, lambda x,y:x>y)
   max_y = Best(-inf, lambda x,y:x>y)
-  for line in L:
-    min_x.reduce([pt[0] for pt in line])
-    max_x.reduce([pt[0] for pt in line])
-    min_y.reduce([pt[1] for pt in line])
-    max_y.reduce([pt[1] for pt in line])
+  min_x.reduce([pt[0] for pt in L])
+  max_x.reduce([pt[0] for pt in L])
+  min_y.reduce([pt[1] for pt in L])
+  max_y.reduce([pt[1] for pt in L])
   return (min_x.best_so_far,min_y.best_so_far,max_x.best_so_far,max_y.best_so_far)
 
+print(get_dimensions(dug))
 
 # def main_a(ip_file):
 #   pass
