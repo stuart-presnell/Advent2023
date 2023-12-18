@@ -116,6 +116,17 @@ for row in range(min_r, max_r+1):
 # display_grid(dug)
 
 
+def flood_fill(dug, seed):
+  (r,c) = seed
+  if seed in dug:
+    return dug
+  else:  # fill this square and flood fill starting from the 4 cardinal neighbours
+    dug.add(seed)
+    dug = flood_fill(dug, (r-1,c))
+    dug = flood_fill(dug, (r+1,c))
+    dug = flood_fill(dug, (r,c+1))
+    dug = flood_fill(dug, (r,c-1))
+  return dug
 
 
 # def main_a(ip_file):
