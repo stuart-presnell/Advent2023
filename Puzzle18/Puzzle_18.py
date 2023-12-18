@@ -36,10 +36,6 @@ dir_lookup = {
   'R':(0, 1)
 }
 
-# Define the set of squares that have been dug out
-# Initial square is defined to be (0,0)
-dug = {(0,0)}
-
 def n_steps(dug, pt, dir, n = 1):
   '''Given a set of `dug` squares, a starting `pt`, a `dir` and a number of squares to dig, 
   return an updated `dug` and a new position.'''
@@ -62,7 +58,17 @@ def n_steps(dug, pt, dir, n = 1):
         dug.add((r, c-i-1))
       return (dug, (r, c-n))
   
+def follow_instr(ip):
+  pt = (0,0)        # Initial square is defined to be (0,0)
+  dug = {(0,0)}     # Set of squares that have been dug out
+  for [dir, n, _] in ip:
+    (dug, pt) = n_steps(dug, pt, dir, n)
+  return dug
 
+dug = follow_instr(test_input)
+dug = list(dug)
+dug.sort()
+print(dug)
 
 
 # def main_a(ip_file):
