@@ -46,12 +46,12 @@ def n_steps(dug, pt, dir, n = 1):
   match dir:
     case 'U': 
       for i in range(n):
-        dug.add((r+i+1, c))
-      return (dug, (r+n, c))
-    case 'D': 
-      for i in range(n):
         dug.add((r-i-1, c))
       return (dug, (r-n, c))
+    case 'D': 
+      for i in range(n):
+        dug.add((r+i+1, c))
+      return (dug, (r+n, c))
     case 'R': 
       for i in range(n):
         dug.add((r, c+i+1))
