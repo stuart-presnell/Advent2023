@@ -68,11 +68,6 @@ def follow_instr(ip):
     (dug, pt) = n_steps(dug, pt, dir, n)
   return dug
 
-dug = follow_instr(test_input)
-# dug = list(dug)
-# dug.sort()
-# print(dug)
-
 def get_dimensions(L):
   '''Extract the min and max dimensions of the list of points.'''
   min_r = Best(inf, lambda x,y:x<y)
@@ -94,10 +89,6 @@ def display_grid(S):
       print('#' if (row,col) in S else '.', end='')
     print()
 
-display_grid(dug)
-# print(len(dug)) # 38
-print()
-
 def flood_fill(dug, seed):
   (r,c) = seed
   if seed in dug:
@@ -110,16 +101,14 @@ def flood_fill(dug, seed):
     dug = flood_fill(dug, (r,c-1))  # W
   return dug
 
-(min_r, min_c, max_r, max_c) = get_dimensions(dug)
+def main_a(ip_file, verbose = False):
+  dug = follow_instr(ip_file)  # Dig out the boundary according to the instructions
+  dug = flood_fill(dug, (1,1))    # Guessing a good starting point
+  if verbose: display_grid(dug)
+  return len(dug)
+  
 
-dug = flood_fill(dug, (1,1))  # Guessing a good starting point
-display_grid(dug)
-print(len(dug))
-
-# def main_a(ip_file):
-#   pass
-
-# print(main_a(test_input))  # 
+print(main_a(test_input, True))  # 
 # print(main_a(input))       # 
 
 # TTT.timecheck("Part (a)")  #
