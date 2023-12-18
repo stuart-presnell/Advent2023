@@ -42,16 +42,6 @@ dir_lookup = {
 ht = len(ip)
 wd = len(ip[0])
 
-def one_step(pt, dir):
-  step = dir_lookup[dir]
-  nr = pt[0] + step[0]
-  nc = pt[1] + step[1]
-  if (0 <= nr < ht) & (0 <= nc < wd):
-    return (nr, nc)
-  else:
-    # print(str((nr,nc)) + " is off the grid, so skip this!")
-    return None
-
 # new_pt = one_step(pt, dir)
 
 # State is a pair (pt, dir)
@@ -68,8 +58,25 @@ BR = (ht-1, wd-1)
 # --------------------------------------------------
 # TODO: Change this!  Now we can step up to 3 steps in any direction, but can't reverse
 
-def allowed_move(matrix, pt, dir):
+def n_steps(ht, wd, pt, dir, n = 1):
+  step = dir_lookup[dir]
+  nr = pt[0] + n * step[0]
+  nc = pt[1] + n * step[1]
+  if (0 <= nr < ht) & (0 <= nc < wd):
+    return (nr, nc)
+  else:
+    # print(str((nr,nc)) + " is off the grid, so skip this!")
+    return None
+
+def allowed_move(ht, wd, pt, dir):
   '''A permitted move from state `(pt, dir)` is 1-3 steps in `dir` from `pt` (staying within grid followed by a turn to the left or right.'''
+  step = dir_lookup[dir]
+  new_pts = []
+  for n in range(1,4):
+    nr = pt[0] + n * step[0]
+    nc = pt[1] + n * step[1]
+    (0 <= a < ht) and (0 <= b < wd)
+    pass
   pass
 
 def neighbours(x,y):
