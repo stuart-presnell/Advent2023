@@ -128,7 +128,8 @@ def main_a(ip_file, seed = (1,1), verbose = False):
   
 def corners(ip):
   '''Given a list of instructions `ip` of the form `[dir, n, _]`, 
-  return a list of points visited when we jump along those instructions, starting at `(0,0)`.'''
+  return a list of points visited when we jump along those instructions, starting at `(0,0)`;
+  annotate each corner with its shape, 'L', 'J', 'F', or '7'.'''
   visited = []
   pt = (0,0)
   m = len(ip)
@@ -162,7 +163,11 @@ def which_step(pt1, pt2):
   else:
     raise ValueError("Points were not distinct and orthogonal")
 
-
+# TODO: From a list of corner positions and corner shapes 
+  # we should be able to calculate the enclosed area.
+  # Think of the corners as stakes with string tied between them.
+  # In each row we need to know in which columns the strings sit, then take an alternating sum.
+  # As we go along the row we toggle between INSIDE and OUTSIDE as we cross a string or a 'L' or 'J'.
 
 # dug = follow_instr(ip)
 # display_grid(dug)
