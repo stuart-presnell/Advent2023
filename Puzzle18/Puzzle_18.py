@@ -143,15 +143,15 @@ input_b      = parse_file_b("Puzzle18_input.txt")
 
 ip = test_input_b
 # ip = input_b
-show(ip)
+# show(ip)
 
 
 
 # def main_b(ip_file):
 #   pass
 
-# print(main_b(test_input))  # 
-# print(main_b(input))       # 
+# print(main_a(test_input_b))  # 
+# print(main_a(input))       # 
 
 # TTT.timecheck("Part (b)")  #
 
