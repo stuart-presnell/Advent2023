@@ -111,6 +111,23 @@ def main_a(ip_file, seed = (1,1), verbose = False):
   if verbose: display_grid(dug)
   return len(dug)
   
+def corners(ip):
+  '''Given a list of instructions `ip` of the form `[dir, n, _]`, 
+  return a list of points visited when we jump along those instructions, starting at `(0,0)`.'''
+  visited = [(0,0)]
+  pt = (0,0)
+  for [dir, n, _] in ip:
+    step = dir_lookup[dir]
+    next_pt = (pt[0] + n*step[0], pt[1] + n*step[1])
+    visited.append(next_pt)
+    pt = next_pt
+  if visited[-1] == visited[0]:
+    visited.pop()
+  return visited
+
+# dug = follow_instr(ip)
+# display_grid(dug)
+# print(corners(ip))
 
 # print(main_a(test_input))  # 62
 # print(main_a(input))       # 62500
@@ -138,10 +155,10 @@ def parse_file_b(filename):
   f.close()
   return ip_file
 
-test_input_b = parse_file_b("Puzzle18_test.txt")
-input_b      = parse_file_b("Puzzle18_input.txt")
+# test_input_b = parse_file_b("Puzzle18_test.txt")
+# input_b      = parse_file_b("Puzzle18_input.txt")
 
-ip = test_input_b
+# ip = test_input_b
 # ip = input_b
 # show(ip)
 
