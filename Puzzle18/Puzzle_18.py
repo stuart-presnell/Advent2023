@@ -126,26 +126,31 @@ def main_a(ip_file, seed = (1,1), verbose = False):
   if verbose: display_grid(dug)
   return len(dug)
   
-def corners(ip):
+def corners_and_verts(ip):
   '''Given a list of instructions `ip` of the form `[dir, n, _]`, 
   return a list of points visited when we jump along those instructions, starting at `(0,0)`;
-  annotate each corner with its shape, 'L', 'J', 'F', or '7'.'''
+  annotate each corner with its shape, 'L', 'J', 'F', or '7'.
+  Also return a list of the vertical runs.'''
+  verts = []
   visited = []
   pt = (0,0)
   m = len(ip)
   for i in range(len(ip)):
     [dir, n, _, shape] = ip[i]
     step = dir_lookup[dir]
-    next_pt = (pt[0] + n*step[0], pt[1] + n*step[1], ip[(i+1)%m][3])
-    visited.append(next_pt)
+    next_pt = (pt[0] + n*step[0], pt[1] + n*step[1])
+    corner_type = ip[(i+1)%m][3]
+    visited.append((next_pt[0], next_pt[1], corner_type))
+    if (dir == 'U') | (dir == 'D'):
+      verts.append([pt, next_pt])
     pt = next_pt
   if visited[-1] == visited[0]:
     visited.pop()
-  return visited
+  visited.sort()
+  verts.sort()
+  return (visited, verts)
 
-# show(nwise_cycled(['a', 'b', 'c', 'd', 'e'], 2))
-
-show(corners(test_input))
+show(corners_and_verts(test_input))
 
 def which_step(pt1, pt2):
   '''Given two consecutive points, what direction was the step from `pt1` to `pt2`?'''
