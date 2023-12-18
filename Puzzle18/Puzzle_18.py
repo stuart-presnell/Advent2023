@@ -75,17 +75,20 @@ dug = follow_instr(test_input)
 
 def get_dimensions(L):
   '''Extract the min and max dimensions of the list of points.'''
-  min_x = Best(inf, lambda x,y:x<y)
-  min_y = Best(inf, lambda x,y:x<y)
-  max_x = Best(-inf, lambda x,y:x>y)
-  max_y = Best(-inf, lambda x,y:x>y)
-  min_x.reduce([pt[0] for pt in L])
-  max_x.reduce([pt[0] for pt in L])
-  min_y.reduce([pt[1] for pt in L])
-  max_y.reduce([pt[1] for pt in L])
-  return (min_x.best_so_far,min_y.best_so_far,max_x.best_so_far,max_y.best_so_far)
+  min_r = Best(inf, lambda x,y:x<y)
+  min_c = Best(inf, lambda x,y:x<y)
+  max_r = Best(-inf, lambda x,y:x>y)
+  max_c = Best(-inf, lambda x,y:x>y)
+  min_r.reduce([pt[0] for pt in L])
+  max_r.reduce([pt[0] for pt in L])
+  min_c.reduce([pt[1] for pt in L])
+  max_c.reduce([pt[1] for pt in L])
+  return (min_r.best_so_far,min_c.best_so_far,max_r.best_so_far,max_c.best_so_far)
 
-print(get_dimensions(dug))
+(min_r, min_c, max_r, max_c) = get_dimensions(dug)
+
+
+
 
 # def main_a(ip_file):
 #   pass
