@@ -36,6 +36,34 @@ dir_lookup = {
   'R':(0, 1)
 }
 
+# Define the set of squares that have been dug out
+# Initial square is defined to be (0,0)
+dug = {(0,0)}
+
+def n_steps(dug, pt, dir, n = 1):
+  '''Given a set of `dug` squares, a starting `pt`, a `dir` and a number of squares to dig, 
+  return an updated `dug` and a new position.'''
+  (r,c) = pt
+  match dir:
+    case 'U': 
+      for i in range(n):
+        dug.add((r+i+1, c))
+      return (dug, (r+n, c))
+    case 'D': 
+      for i in range(n):
+        dug.add((r-i-1, c))
+      return (dug, (r-n, c))
+    case 'R': 
+      for i in range(n):
+        dug.add((r, c+i+1))
+      return (dug, (r, c+n))
+    case 'L': 
+      for i in range(n):
+        dug.add((r, c-i-1))
+      return (dug, (r, c-n))
+  
+
+
 
 # def main_a(ip_file):
 #   pass
