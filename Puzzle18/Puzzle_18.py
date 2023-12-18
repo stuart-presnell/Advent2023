@@ -18,19 +18,33 @@ TTT = Timer()
 # Part (a)
 ################################
 
+corner_shape = {}
+corner_shape['RD'] = '7'
+corner_shape['RU'] = 'J'
+corner_shape['LD'] = 'F'
+corner_shape['LU'] = 'L'
+corner_shape['UL'] = '7'
+corner_shape['DL'] = 'J'
+corner_shape['UR'] = 'F'
+corner_shape['DR'] = 'L'
+
 def parse_file_a(filename):
   f = open(filename)
   ip_file = [line.split() for line in f.read().splitlines()]
-  ip_file = [[d, int(n), c] for [d, n, c] in ip_file]
   f.close()
-  return ip_file
+  ip_file = [[d, int(n), c] for [d, n, c] in ip_file]
+  op = []
+  for i in range(len(ip_file)):
+    corner_code = ip_file[i-1][0] + ip_file[i][0]
+    op.append(ip_file[i] + [corner_shape[corner_code]])
+  return op
 
 test_input = parse_file_a("Puzzle18_test.txt")
 input      = parse_file_a("Puzzle18_input.txt")
 
 ip = test_input
 # ip = input
-# show(ip)
+show(ip)
 
 
 # How to step in each cardinal direction (change in row, change in column)
@@ -66,7 +80,7 @@ def n_steps(dug, pt, dir, n = 1):
 def follow_instr(ip):
   pt = (0,0)        # Initial square is defined to be (0,0)
   dug = {(0,0)}     # Set of squares that have been dug out
-  for [dir, n, _] in ip:
+  for [dir, n, _, _] in ip:
     (dug, pt) = n_steps(dug, pt, dir, n)
   return dug
 
@@ -117,7 +131,7 @@ def corners(ip):
   return a list of points visited when we jump along those instructions, starting at `(0,0)`.'''
   visited = [(0,0)]
   pt = (0,0)
-  for [dir, n, _] in ip:
+  for [dir, n, _, _] in ip:
     step = dir_lookup[dir]
     next_pt = (pt[0] + n*step[0], pt[1] + n*step[1])
     visited.append(next_pt)
@@ -146,10 +160,10 @@ def which_step(pt1, pt2):
   else:
     raise ValueError("Points were not distinct and orthogonal")
 
-def corner_shapes(L):
-  '''Given a list `L` of corners visited, mark the shape of each corner by appending to each one
-  either 'L', 'J', 'F', or '7'. Return a list of `[pt, shape]`.
-  Assumes that the list of points really are corners.'''
+# def corner_shapes(L):
+#   '''Given a list `L` of corners visited, mark the shape of each corner by appending to each one
+#   either 'L', 'J', 'F', or '7'. Return a list of `[pt, shape]`.
+#   Assumes that the list of points really are corners.'''
   
   
 
@@ -170,7 +184,7 @@ def corner_shapes(L):
 # display_grid(dug)
 # print(corners(ip))
 
-# print(main_a(test_input))  # 62
+# print(main_a(test_input, verbose=True))  # 62
 # print(main_a(input))       # 62500
 
 # TTT.timecheck("Part (a)")  # ~ 57 ms
