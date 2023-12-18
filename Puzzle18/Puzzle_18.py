@@ -25,7 +25,7 @@ input      = parse_file_a("Puzzle18_input.txt")
 
 ip = test_input
 # ip = input
-show(ip)
+# show(ip)
 
 ################################
 # Part (a)
@@ -94,8 +94,27 @@ def display_grid(S):
       print('#' if (row,col) in S else '.', end='')
     print()
 
-# display_grid(dug)
+display_grid(dug)
 # print(len(dug)) # 38
+print()
+
+def fill_row(dug, row, min_c, max_c):
+  '''Given a set of dug points, a row, and the max and min cols for that row, 
+  fill the interior of the row and return `dug` with those extra pts.'''
+  INSIDE = False
+  for col in range(min_c-1, max_c+1):
+    if (row,col) in dug:
+      INSIDE = not INSIDE  # flip INSIDE status when we hit a '#'
+    if INSIDE & ((row,col) not in dug):
+      dug.add((row,col))
+  return dug
+
+(min_r, min_c, max_r, max_c) = get_dimensions(dug)
+
+for row in range(min_r, max_r+1):
+  dug = fill_row(dug, row, min_c, max_c)
+# display_grid(dug)
+
 
 
 
