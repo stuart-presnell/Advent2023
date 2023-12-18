@@ -109,7 +109,7 @@ def main_a(ip_file, verbose = False):
   
 
 print(main_a(test_input, True))  # 
-# print(main_a(input))       # 
+# print(main_a(input, True))       # 
 
 # TTT.timecheck("Part (a)")  #
 
