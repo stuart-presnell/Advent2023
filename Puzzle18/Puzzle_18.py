@@ -12,7 +12,8 @@ show,
 
 def parse_file_a(filename):
   f = open(filename)
-  ip_file = f.read().splitlines()
+  ip_file = [line.split() for line in f.read().splitlines()]
+  ip_file = [[d, int(n), c] for [d, n, c] in ip_file]
   f.close()
   return ip_file
 
