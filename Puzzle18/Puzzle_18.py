@@ -27,6 +27,15 @@ show(ip)
 # Part (a)
 ################################
 
+# How to step in each cardinal direction (change in row, change in column)
+dir_lookup = {
+  'U':(-1,0),
+  'D':( 1,0),
+  'L':(0,-1),
+  'R':(0, 1)
+}
+
+
 # def main_a(ip_file):
 #   pass
 
