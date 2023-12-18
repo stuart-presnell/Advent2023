@@ -87,7 +87,10 @@ def get_dimensions(L):
 
 (min_r, min_c, max_r, max_c) = get_dimensions(dug)
 
-
+for row in range(min_r, max_r+1):
+  for col in range(min_c, max_c+1):
+    print('#' if (row,col) in dug else '.', end='')
+  print()
 
 
 # def main_a(ip_file):
