@@ -7,9 +7,9 @@ from utils import (
 show, 
 # chunk_splitlines, printT, showM, showD, parse_nums, rotate90, close_bracket, cmp, qsort, 
 Best, 
-# Timer,
+Timer,
 )
-# TTT = Timer()
+TTT = Timer()
 
 ################################
 
@@ -111,10 +111,10 @@ def main_a(ip_file, verbose = False):
   return len(dug)
   
 
-# print(main_a(test_input, True))  # 
-print(main_a(input, True))       # 62500
+print(main_a(test_input))  # 62
+print(main_a(input))       # 62500
 
-# TTT.timecheck("Part (a)")  #
+# TTT.timecheck("Part (a)")  # ~ 57 ms
 
 ################################
 # Part (b)
