@@ -90,15 +90,18 @@ def display_grid(S):
     print()
 
 def flood_fill(dug, seed):
-  (r,c) = seed
-  if seed in dug:
-    return dug
-  else:  # fill this square and flood fill starting from the 4 cardinal neighbours
-    dug.add(seed)
-    dug = flood_fill(dug, (r-1,c))  # N
-    dug = flood_fill(dug, (r+1,c))  # S
-    dug = flood_fill(dug, (r,c+1))  # E
-    dug = flood_fill(dug, (r,c-1))  # W
+  to_check = [seed]
+  while to_check:
+    pt = to_check.pop()
+    if pt in dug:
+      continue
+    else:  # fill this square and add the 4 cardinal neighbours to `to_check`
+      (r,c) = pt
+      dug.add(pt)
+      to_check.append((r-1,c))  # N
+      to_check.append((r+1,c))  # S
+      to_check.append((r,c+1))  # E
+      to_check.append((r,c-1))  # W
   return dug
 
 def main_a(ip_file, verbose = False):
