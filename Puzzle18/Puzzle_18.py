@@ -105,9 +105,9 @@ def flood_fill(dug, seed):
       to_check.append((r,c-1))  # W
   return dug
 
-def main_a(ip_file, verbose = False):
+def main_a(ip_file, seed = (1,1), verbose = False):
   dug = follow_instr(ip_file)  # Dig out the boundary according to the instructions
-  dug = flood_fill(dug, (1,1))    # Guessing a good starting point
+  dug = flood_fill(dug, seed)    # Guessing a good starting point
   if verbose: display_grid(dug)
   return len(dug)
   
@@ -150,7 +150,7 @@ ip = test_input_b
 # def main_b(ip_file):
 #   pass
 
-# print(main_a(test_input_b))  # 
+# print(main_a(test_input_b, (0,0)))  # 
 # print(main_a(input))       # 
 
 # TTT.timecheck("Part (b)")  #
