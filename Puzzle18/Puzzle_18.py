@@ -146,11 +146,18 @@ ip = test_input_b
 # show(ip)
 
 
+# TODO: Find a new way to compute the area of the bounded region
+#   Don't store all points of border that are dug, just corners; use this to infer others
+#   Work row-by-row; store just positions of boundary points in each row
+#   Assume no borders are adjacent, so we can combine runs of '#' to single points
+#   Use even/odd to distinguish inside from outside
+#   Just count differences between exit and entrance points, don't fill between them.
+
 
 # def main_b(ip_file):
 #   pass
 
-# print(main_a(test_input_b, (0,0)))  # 
+# print(main_a(test_input_b, (0,0)))  # 6405262 is the wrong answer, should be 952408144115
 # print(main_a(input))       # 
 
 # TTT.timecheck("Part (b)")  #
