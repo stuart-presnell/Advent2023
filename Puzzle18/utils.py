@@ -91,6 +91,23 @@ def qsort(arr, CMP = lambda x,y:x<y):
     R = qsort([x for x in arr[1:] if not CMP(x,pivot)], CMP)   # all other elts
     return L + [pivot] + R
 
+def nwise_cycled(L, n=3):
+  '''Given a list `L`, return a list of all consecutive triples, cycling around the end of the list: 
+  `[L[0],L[1],L[2]]`,
+  `[L[1],L[2],L[3]]`, ..., 
+  `[L[-2],L[-1],L[0]]`,
+  `[L[-1],L[0],L[1]]`.
+  For `n`-tuples instead of triples, pass `n` as an optional argument.'''
+  m = len(L)
+  if m < n:  # If there are no triples...
+    return []
+  op = []
+  for i in range(m):
+    x = [L[(i+k)%m] for k in range(n)]
+    op.append(x)
+  return op
+
+
 
 class Best():
   '''A class to package up the notion of finding the most extreme example of something.

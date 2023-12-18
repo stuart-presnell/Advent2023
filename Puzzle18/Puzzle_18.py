@@ -6,6 +6,7 @@ from math import inf
 from utils import (
 show, 
 # chunk_splitlines, printT, showM, showD, parse_nums, rotate90, close_bracket, cmp, qsort, 
+nwise_cycled,
 Best, 
 Timer,
 )
@@ -124,22 +125,6 @@ def corners(ip):
   if visited[-1] == visited[0]:
     visited.pop()
   return visited
-
-def nwise_cycled(L, n=3):
-  '''Given a list `L`, return a list of all consecutive triples, cycling around the end of the list: 
-  `[L[0],L[1],L[2]]`,
-  `[L[1],L[2],L[3]]`, ..., 
-  `[L[-2],L[-1],L[0]]`,
-  `[L[-1],L[0],L[1]]`.
-  For `n`-tuples instead of triples, pass `n` as an optional argument.'''
-  m = len(L)
-  if m < n:  # If there are no triples...
-    return []
-  op = []
-  for i in range(m):
-    x = [L[(i+k)%m] for k in range(n)]
-    op.append(x)
-  return op
 
 show(nwise_cycled(['a', 'b', 'c', 'd', 'e'], 2))
 
