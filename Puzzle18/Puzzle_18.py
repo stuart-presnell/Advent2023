@@ -1,9 +1,12 @@
 # https://adventofcode.com/2023/day/18
 
+from math import inf
+
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, showD, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
+# chunk_splitlines, printT, showM, showD, parse_nums, rotate90, close_bracket, cmp, qsort, 
+Best, 
 # Timer,
 )
 # TTT = Timer()
@@ -69,6 +72,19 @@ dug = follow_instr(test_input)
 dug = list(dug)
 dug.sort()
 print(dug)
+
+def get_dimensions(L):
+  '''Extract the min and max dimensions of the array.'''
+  min_x = Best(inf, lambda x,y:x<y)
+  min_y = Best(inf, lambda x,y:x<y)
+  max_x = Best(-inf, lambda x,y:x>y)
+  max_y = Best(-inf, lambda x,y:x>y)
+  for line in L:
+    min_x.reduce([pt[0] for pt in line])
+    max_x.reduce([pt[0] for pt in line])
+    min_y.reduce([pt[1] for pt in line])
+    max_y.reduce([pt[1] for pt in line])
+  return (min_x.best_so_far,min_y.best_so_far,max_x.best_so_far,max_y.best_so_far)
 
 
 # def main_a(ip_file):
