@@ -129,7 +129,7 @@ def main_a(ip_file, verbose = False):
 def parse_hex_colour(H):
   dir_lookup = ['R', 'D', 'L', 'U']
   (n,d) = int(H[2:-2], 16), int(H[-2])
-  return (n, dir_lookup[d])
+  return [dir_lookup[d], n, '']
 
 def parse_file_b(filename):
   f = open(filename)
