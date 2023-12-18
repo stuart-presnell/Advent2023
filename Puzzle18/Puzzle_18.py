@@ -128,6 +128,13 @@ def corners(ip):
 
 show(nwise_cycled(['a', 'b', 'c', 'd', 'e'], 2))
 
+def corner_shapes(L):
+  '''Given a list `L` of corners visited, mark the shape of each corner by appending to each one
+  either 'L', 'J', 'F', or '7'. Return a list of `[pt, shape]`.'''
+  pass
+
+
+
 # dug = follow_instr(ip)
 # display_grid(dug)
 # print(corners(ip))
