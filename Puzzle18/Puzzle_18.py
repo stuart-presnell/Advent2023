@@ -13,6 +13,10 @@ TTT = Timer()
 
 ################################
 
+################################
+# Part (a)
+################################
+
 def parse_file_a(filename):
   f = open(filename)
   ip_file = [line.split() for line in f.read().splitlines()]
@@ -27,9 +31,6 @@ ip = test_input
 # ip = input
 # show(ip)
 
-################################
-# Part (a)
-################################
 
 # How to step in each cardinal direction (change in row, change in column)
 dir_lookup = {
@@ -111,14 +112,30 @@ def main_a(ip_file, verbose = False):
   return len(dug)
   
 
-print(main_a(test_input))  # 62
-print(main_a(input))       # 62500
+# print(main_a(test_input))  # 62
+# print(main_a(input))       # 62500
 
 # TTT.timecheck("Part (a)")  # ~ 57 ms
 
 ################################
 # Part (b)
 ################################
+
+def parse_file_b(filename):
+  f = open(filename)
+  ip_file = [line.split() for line in f.read().splitlines()]
+  ip_file = [[d, int(n), c] for [d, n, c] in ip_file]
+  f.close()
+  return ip_file
+
+test_input_b = parse_file_b("Puzzle18_test.txt")
+input_b      = parse_file_b("Puzzle18_input.txt")
+
+ip = test_input_b
+# ip = input_b
+show(ip)
+
+
 
 # def main_b(ip_file):
 #   pass
