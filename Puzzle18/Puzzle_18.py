@@ -121,10 +121,20 @@ def main_a(ip_file, verbose = False):
 # Part (b)
 ################################
 
+# Each hexadecimal code is six hexadecimal digits long. 
+# The first five encode the distance in meters as a five-digit hexadecimal number. 
+# The last hexadecimal digit encodes the direction to dig: 
+# 0 means R, 1 means D, 2 means L, and 3 means U.
+
+def parse_hex_colour(H):
+  dir_lookup = ['R', 'D', 'L', 'U']
+  (n,d) = int(H[2:-2], 16), int(H[-2])
+  return (n, dir_lookup[d])
+
 def parse_file_b(filename):
   f = open(filename)
   ip_file = [line.split() for line in f.read().splitlines()]
-  ip_file = [[d, int(n), c] for [d, n, c] in ip_file]
+  ip_file = [parse_hex_colour(c) for [_,_, c] in ip_file]
   f.close()
   return ip_file
 
