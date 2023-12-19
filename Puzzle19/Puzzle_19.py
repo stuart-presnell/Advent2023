@@ -28,15 +28,16 @@ ip = test_input
 # show(ip[0])
 
 def process_command(cmd):
-  '''Given a single command, such as `'a<2006'`, return a pair ('a', lambda x : x < 2006)'''
+  '''Given a single command, such as `'a<2006'`, return lambda 
+  that takes a dictionary `d` and checks whether `d['a'] < 2006`.'''
   if '<' in cmd:
     [var, n] = cmd.split('<')
-    return (var, lambda k : k < int(n))
+    return (lambda d : d[var] < int(n))
   elif '>' in cmd:
     [var, n] = cmd.split('>')
-    return (var, lambda k : k > int(n))
+    return (lambda d : d[var] > int(n))
   elif cmd == 'True':
-    return lambda _:True
+    return lambda _ : True
   else:
     raise ValueError("Expected either a </> comparison or 'True'.")
 
@@ -76,9 +77,11 @@ def follow_inst(d, part):
   # "All parts begin in the workflow named `in`."
   current_inst_name = 'in'
   while True:
+    if (current_inst_name == 'R') | (current_inst_name == 'A'):
+      return current_inst_name
     current_inst = d[current_inst_name]
-
-    pass
+    for check in current_inst:
+      pass
 
 # process_command('a<2006')
 # parse_command_line('px{a<2006:qkq,m>2090:A,rfg}')
