@@ -145,9 +145,9 @@ def parse_command_line_b(s):
   * the name of this instruction, e.g. 'px', 
   * the tuple of conditions that we must fail 
   * the condition that must be satisfied:
-  e.g. d['qkq'] = ('px', (), 'a<2006')
-       d['A']   = ('px', ('a<2006'), 'm>2090')
-       d['rfg'] = ('px', ('a<2006', 'm>2090'), 'True')
+  e.g. d['qkq'] = ('px', (), ('a<2006'))
+       d['A']   = ('px', ('a<2006'), ('m>2090'))
+       d['rfg'] = ('px', ('a<2006', 'm>2090'), ('True'))
   '''
   [name, s] = s.split('{')  # e.g. ['px', 'a<2006:qkq,m>2090:A,rfg}']
   s = s[:-1].split(',')     # e.g. ['a<2006:qkq', 'm>2090:A' , 'rfg']
@@ -202,6 +202,31 @@ def find_accepting_conditions(ip):
 x = find_accepting_conditions(test_input[0])
 # x = find_accepting_conditions(input[0])
 show(x)
+
+def simplify_conditions(L):
+  '''Given a tuple of conditions, e.g. `('a<2006', 'm>2090', 's<537', 'x>2440')`, 
+  return a dictionary whose `k` entry is the range of permitted values e.g. `'a' -> [1,2005]`.
+  By default, each range starts at `[1,4000]`.'''
+  d = {k : [1,4000] for k in ['x','m','a','s']}
+  for cnd in L:
+    if cnd == 'True': 
+      # print("Skipping 'True'")
+      continue  # Skip 'True'
+    # print(cnd)
+    k = cnd[0]
+    n = int(cnd[2:])
+    match cnd[1]:
+      case '<':
+        d[k][1] = min(d[k][1], n-1)
+      case '>':
+        d[k][0] = max(d[k][0], n+1)
+      case _:
+        raise ValueError("Expected a comparison")
+  return d
+
+simplify_conditions(('s<1351', 's>2770'))
+# simplify_conditions(('True', 'm<1801', 'm>838'))
+
 
 # for line in ip[0]:
 #   showD(parse_command_line_b(line))
