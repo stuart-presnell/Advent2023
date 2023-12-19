@@ -199,8 +199,9 @@ def find_accepting_conditions(ip):
         incomplete_routes_to_A.append((prev_pt, prev_Fail + Fail, prev_Pass + Pass))
   return complete_routes_to_A
 
-find_accepting_conditions(test_input[0])
-
+x = find_accepting_conditions(test_input[0])
+# x = find_accepting_conditions(input[0])
+show(x)
 
 # for line in ip[0]:
 #   showD(parse_command_line_b(line))
