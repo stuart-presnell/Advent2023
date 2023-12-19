@@ -1,6 +1,7 @@
 # https://adventofcode.com/2023/day/19
 
 from collections import defaultdict
+from math import prod
 
 # My utility functions
 from utils import (
@@ -245,12 +246,17 @@ def combine_ranges(r1, r2):
   [lo2, hi2] = r2
   return [max(lo1, lo2), min(hi1,hi2)]
 
-# for line in ip[0]:
-#   showD(parse_command_line_b(line))
-#   print()
+def capacity(cnd):
+  '''Given a dictionary of conditions, 
+  e.g. `{'x': [1, 4000], 'm': [839, 1800], 'a': [1, 4000], 's': [1351, 2770]}`
+  return the number of values compatible with those conditions.'''
+  return prod([cnd[k][1] - cnd[k][0] + 1  for k in cnd])
+
+# print(  capacity({'x': [1, 4000], 'm': [839, 1800], 'a': [1, 4000], 's': [1351, 2770]})  )
 
 def main_b(ip_file):
   AC = find_accepting_conditions(ip_file[0])
+  count = 0
   for (_, Fails, Passes) in AC:
     # print(Fails, Passes)
     F = simplify_conditions(Fails, False)
@@ -260,10 +266,12 @@ def main_b(ip_file):
     d = {}
     for k in ['x','m','a','s']:
       d[k] = combine_ranges(F[k], P[k])
-    print(d)
-    # print()
+    count += capacity(d)
+  return count
 
-print(main_b(test_input))  # 
+print(main_b(test_input))  #  
+# 167 409 079 868 000   -- CORRECT answer
+# 140 809 783 868 000   -- my answer :(
 # print(main_b(input))       # 
 
 # TTT.timecheck("Part (b)")  #
