@@ -91,12 +91,12 @@ def ACCESSIBLE_NEIGHBOURS(matrix, state):
   for n in range(1,4):
     nr = pt[0] + n * step[0]
     nc = pt[1] + n * step[1]
-    if (0 <= nr < ht) and (0 <= nc < wd):
+    if (nr,nc) in matrix:
       op.append(((nr,nc), lt))
       op.append(((nr,nc), rt))
   return op
 
-# print(ACCESSIBLE_NEIGHBOURS(ip, Start_S))
+# print(ACCESSIBLE_NEIGHBOURS(M, STARTS[1]))
 
 def STEP_COST(matrix, here, other):
   '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
