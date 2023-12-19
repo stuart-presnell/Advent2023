@@ -2,9 +2,6 @@ from math import inf
 from PQueue import PQ
 from collections import defaultdict
 
-# TODO: Edit `Dijkstra` to record the states visited along the shortest path taken
-# https://stackoverflow.com/a/28999743
-
 def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
   '''Given a `matrix`, represented as a dictionary whose keys are states,
   and a set/list of `START` states,
@@ -13,7 +10,9 @@ def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = F
   and a function `STEP_COST(matrix, st, st2)` returning an integer,
   run Dijkstra's algorithm to work out the cheapest route from some `START` state 
   to each reachable state, stopping when we reach any of the `END` states (if provided).
-  Return this as a dictionary whose keys are states and whose values are integers.'''
+  Return this as a dictionary whose keys are states and whose values are integers.
+  Also return, for each state assigned a shortest-path distance, a `previous` state;
+  this can be used to re-construct the specific shortest path from a `START` state.'''
 
   # Assign to every node a tentative distance value, initialised to infinity
   # Store this in a `defaultdict` for quicker lookup, since we don't need the matrix structure
@@ -34,6 +33,10 @@ def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = F
 
   def is_unvisited(state):
     return unvisited.find_item(state)
+
+  # A dictionary assigning a `previous` state to any state that gets a shortest path.
+  # See: https://stackoverflow.com/a/28999743
+  previous = {}
 
   def update_one_step():
     # select the unvisited node that is marked with the smallest tentative distance T; 
@@ -56,6 +59,8 @@ def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = F
         t_dist[st2] = T + cost
         # replace the point st2 in `unvisited` with new tentative distance T + cost
         unvisited.add_item(st2, T + cost)
+        # Record that the shortest path to `st2` passes through `st`
+        previous[st2] = st
     return False # We don't think we've reached every reachable square yet
 
   FINISHED = False
@@ -65,12 +70,12 @@ def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = F
     # or `update_one_step` reports that it has FINISHED exploring reachable squares
     while (not FINISHED) & all([is_unvisited(x) for x in ENDS]):
       FINISHED = update_one_step()
-    return(t_dist)
+    return (t_dist, previous)
   else:  
     # If we've passed `ENDS = set()` then walk to every square we can reach
     while (not FINISHED) & (not unvisited.is_empty()):
       FINISHED = update_one_step()
-    return(t_dist)
+    return (t_dist, previous)
 
 
 # def example1():
@@ -88,5 +93,5 @@ def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = F
 
 #   return Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False)
 
-# t = example1()
+# (t,p) = example1()
 # t[(4,2)]    # 6
