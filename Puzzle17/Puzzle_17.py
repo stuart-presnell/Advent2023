@@ -40,7 +40,6 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle17_test.txt")
 input      = parse_file_a("Puzzle17_input.txt")
 
-(M, STARTS, ENDS) = test_input
 # (M, STARTS, ENDS) = input
 
 ################################
@@ -101,15 +100,17 @@ def STEP_COST(matrix, here, other):
   ((r2,c2), _) = other
   if r1 == r2:
     c_steps = range(min(c1,c2)+1, max(c1,c2)+1)  # don't include first square, do include last
-    return sum([matrix[(r1,c)] for c in c_steps])
+    return sum([matrix[((r1,c), 'N')] for c in c_steps])
   elif c1 == c2:
     pass
     r_steps = range(min(r1,r2)+1, max(r1,r2)+1)  # don't include first square, do include last
-    return sum([matrix[(r,c1)] for r in r_steps])
+    return sum([matrix[((r,c1), 'N')] for r in r_steps])
   else:
     raise ValueError("Can only move along rows and columns")
 
+# --------------------------------------------------
 
+# (M, STARTS, ENDS) = test_input
 # showD(M)
 # print(STARTS)
 # print(ENDS)
@@ -118,21 +119,24 @@ def STEP_COST(matrix, here, other):
 #   STEP_COST(M, ((0,0), 'N'),  ((2,0), 'N'))
 # )
 
-# --------------------------------------------------
-
 # print(ACCESSIBLE_NEIGHBOURS(M, ((0, 0), 'S')))
-
-# t = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose=True)
-
-
-
+# t = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+# [t[e] for e in ENDS]
 # showD(t)
 
-# def main_a(ip_file):
-#   pass
+def main_a(ip_file):
+  (M, STARTS, ENDS) = ip_file
+  t = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+  return [(e, t[e]) for e in ENDS]
+
+# For `test_input` we get the following minimal costs:
+# ((12, 12), 'N')   =>  100
+# ((12, 12), 'S')   =>  100
+# ((12, 12), 'W')   =>  102
+# ((12, 12), 'E')   =>  102
 
 # print(main_a(test_input))  # 
-# print(main_a(input))       # 
+# print(main_a(input))       # 930 is too low
 
 # TTT.timecheck("Part (a)")  #
 
