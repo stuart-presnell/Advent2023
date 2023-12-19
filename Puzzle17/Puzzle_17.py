@@ -1,8 +1,6 @@
 # https://adventofcode.com/2023/day/17
 
-from math import inf
-from PQueue import PQ
-from collections import defaultdict
+from Dijkstra import Dijkstra
 
 # My utility functions
 from utils import (
@@ -115,75 +113,6 @@ def STEP_COST(matrix, here, other):
 
 # TODO: Edit Dijkstra to handle STATEs rather than POINTs (x,y)
   # In the present case, a state is a pair (pt, dir)
-
-def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
-  '''Given a `matrix` of points, with a set/list of `START` points 
-  and a (possibly empty) set/list of `END` points,
-  with a function returning a list of the `ACCESSIBLE_NEIGHBOURS` of any point
-  and a function returning the `STEP_COST` of stepping from `pt1` to `pt2`,
-  run Dijkstra's algorithm to work out the cheapest route from some `START` point 
-  to each reachable point, stopping when we reach any of the `END` points (if provided).'''
-  ht = len(matrix)
-  wd = len(matrix[0])
-
-  # Assign to every node a tentative distance value, initialised to infinity
-  # Store this in a `defaultdict` for quicker lookup, since we don't need the matrix structure
-  t_dist = defaultdict(lambda : inf)
-
-  # Give all the starting nodes a distance of 0
-  if not STARTS:
-    raise ValueError("Need at least one starting point")
-  for s in STARTS:
-    t_dist[s] = 0
-
-  # Make a Priority Queue of nodes that have not yet been visited.
-  # Each item on the queue is a pair (t, (x,y)), where t is the tentative distance to point (x,y)
-  # Being a Priority Queue means we can efficiently pop off the item with the smallest t
-  unvisited = PQ()
-  for x in range(ht):
-    for y in range(wd):
-        unvisited.add_item((x,y), t_dist[(x,y)])
-
-  def is_unvisited(pt):
-    return unvisited.find_item(pt)
-
-  def update_one_step():
-    # select the unvisited node that is marked with the smallest tentative distance T; 
-    # mark it as visited by popping it from `unvisited`
-    (T, (x,y)) = unvisited.pop_item_with_priority()
-    # If the smallest T of any unvisited node is inf then we've visited every accessible node, 
-    # so tell the parent function to break
-    if T == inf:  
-      return True  # This is collected by the parent function as a variable `FINISHED`
-    if verbose: print("Selected point (" + str(x) + "," + str(y) +") which has T = " + str(T)) 
-    # Make a list of all the unvisited neighbours of current point `(x,y)`
-    unvis_neighbours = [pt for pt in ACCESSIBLE_NEIGHBOURS(matrix, x,y) if is_unvisited(pt)]
-    if verbose: print(unvis_neighbours)
-    for (a,b) in unvis_neighbours:
-      # for each unvisited neighbour, 
-      # reset its tentative distance to T + STEP_COST(here, there) if that's less than its current value
-      cost = STEP_COST(matrix, (x,y), (a,b))
-      if T+cost < t_dist[(a,b)]: 
-        if verbose: print("Resetting (" + str(a) + "," + str(b) +") to " + str(T+cost))
-        t_dist[(a,b)] = T+cost
-        # replace the point (a,b) in `unvisited` with new tentative distance T+cost
-        unvisited.add_item((a,b), T+cost)
-    return False # We don't think we've reached every reachable square yet
-
-  FINISHED = False
-  if ENDS:
-    # If we have a destination (or set of possible destinations) in mind:
-    # Keep taking steps until one of the destinations in ENDS is marked as visited
-    # or `update_one_step` reports that it has FINISHED exploring reachable squares
-    while (not FINISHED) & all([is_unvisited(x) for x in ENDS]):
-      FINISHED = update_one_step()
-    return(t_dist)
-  else:  
-    # If we've passed `ENDS = set()` then walk to every square we can reach
-    while (not FINISHED) & (not unvisited.is_empty()):
-      FINISHED = update_one_step()
-    return(t_dist)
-
 
 
 Dijkstra(ip, [TL, (5,5)], [BR], ACCESSIBLE_NEIGHBOURS, STEP_COST)
