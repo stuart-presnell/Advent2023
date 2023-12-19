@@ -102,13 +102,23 @@ def follow_inst(d, part):
 # follow_inst(program, p)
 
 
-
 ################################
 # Part (a)
 ################################
 
-# def main_a(ip_file):
-#   pass
+def score(part):
+  return sum([part[l] for l in ['x', 'm', 'a', 's']])
+
+def main_a(ip_file):
+  program = parse_all_commands(ip_file[0])
+  parts = [parse_machine_part(item) for item in ip_file[1]]
+  # show(parts)
+  total_score = 0
+  for p in parts:
+    if follow_inst(program, p) == 'A':
+      # print(score(p))
+      total_score += score(p)
+  return total_score
 
 # print(main_a(test_input))  # 
 # print(main_a(input))       # 
