@@ -371,16 +371,12 @@ def flow(ip_file, terminals = ['A', 'R']):
   # The initial state has all of phase space at node 'id':
   to_process = [('in', {k : [1,4000] for k in ['x','m','a','s']})]
   # Initially nothing has flowed out to nodes 'A' or 'R'
-  A = []
-  R = []
+  op = {t : [] for t in terminals}
 
   while to_process:
     (node, region) = to_process.pop()   # We have a `region` of phase space concentrated at `node`
-    if node == 'A':
-      A.append(region)
-      continue
-    elif node == 'R':
-      R.append(region)
+    if node in terminals:
+      op[node].append(region)
       continue
 
     # Otherwise we're at a non-terminal node, so we want to:
@@ -400,16 +396,20 @@ def flow(ip_file, terminals = ['A', 'R']):
         region = FAIL
         #  and roll on to the next rule in `rule_list`
   # Now we've processed everything, and all of phase space should be assigned to 'A' or 'R'
-  return A
+  return op
+
+# showD(
+#   flow(test_input, ['px', 'qqz'])
+#   )
 
 
+def main_b_v2(ip_file):
+  # regions_at_A = flow(ip_file)['A']
+  # print(regions_at_A)
+  return sum([capacity(reg) for reg in flow(ip_file)['A']])
 
 
-# def main_b_v2(ip_file):
-#   pass
-
-
-# print(main_b_v2(test_input))  #  
+print(main_b_v2(test_input))  #  
 # print(main_b_v2(input))       # 
 
 
