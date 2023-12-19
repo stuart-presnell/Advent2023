@@ -3,7 +3,8 @@ from PQueue import PQ
 from collections import defaultdict
 
 def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
-  '''Given a `matrix` of states, with a set/list of `START` states
+  '''Given a `matrix`, represented as a dictionary whose keys are states,
+  and a set/list of `START` states,
   and a (possibly empty) set/list of `END` states,
   with a function returning a list of the `ACCESSIBLE_NEIGHBOURS` of any states
   and a function returning the `STEP_COST` of stepping from `st1` to `st2`,
@@ -23,16 +24,11 @@ def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = F
     t_dist[s] = 0
 
   # Make a Priority Queue of nodes that have not yet been visited.
-  # Each item on the queue is a pair (t, state), where t is the tentative distance to state state
-  # Being a Priority Queue means we can efficiently pop off the item with the smallest t
+  # Each item on the queue is a pair `(t, state)`, where `t` is the tentative distance to `state`
+  # Being a Priority Queue means we can efficiently pop off the item with the smallest `t`.
   unvisited = PQ()
-  for x in range(ht):
-    for y in range(wd):
-        for dir in ['N','W','S','E']:
-          state = ((x,y), dir)
-          unvisited.add_item(state, t_dist[state])
-# TODO: Can we make this a defaultdict 
-        # or some such structure that doesn't need to be explicitly initialised?
+  for state in matrix:
+    unvisited.add_item(state, t_dist[state])
 
   def is_unvisited(state):
     return unvisited.find_item(state)
