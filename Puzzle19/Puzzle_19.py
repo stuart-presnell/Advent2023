@@ -164,6 +164,12 @@ def parse_command_line_b(s):
 # showD(parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}'))
 
 def entry_paths(ip):
+  '''Given a list of strings such as `'px{a<2006:qkq,m>2090:A,rfg}'`, 
+  return a dictionary whose entry `D[k]` for each state `k`
+  is a list of the immediately preceding states that lead to `k`, 
+  each annotated with the conditions that must be failed and passed 
+  to go from that state to `k`.
+  - e.g. `D['A']` includes `('px', ('a<2006',), ('m>2090',))`.'''
   D = defaultdict(list)
   for line in ip:
     pcl = parse_command_line_b(line)
@@ -172,7 +178,7 @@ def entry_paths(ip):
     # showD(pcl)
   return D
 
-E = entry_paths(test_input[0])
+# E = entry_paths(test_input[0])
 # for k in E:
 #   print("To get into " + k + ": ")
 #   show(E[k])
@@ -207,6 +213,8 @@ def find_accepting_conditions(ip):
 def simplify_conditions(L, PASS = True):
   '''Given a tuple of conditions, e.g. `('a<2006', 'm>2090', 's<537', 'x>2440')`, 
   return a dictionary whose `k` entry is the range of permitted values e.g. `'a' -> [1,2005]`.
+  If `PASS = True` then the permitted values are those that satisfy all the given conditions.
+  If `PASS = False` then the permitted values are those that fail all the given conditions. (???)
   By default, each range starts at `[1,4000]`.'''
   d = {k : [1,4000] for k in ['x','m','a','s']}
   for cnd in L:
@@ -269,7 +277,7 @@ def main_b(ip_file):
     count += capacity(d)
   return count
 
-print(main_b(test_input))  #  
+# print(main_b(test_input))  #  
 # 167 409 079 868 000   -- CORRECT answer
 # 140 809 783 868 000   -- my answer :(
 # print(main_b(input))       # 
