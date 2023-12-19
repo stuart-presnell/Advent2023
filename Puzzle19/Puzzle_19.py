@@ -243,7 +243,7 @@ def combine_ranges(r1, r2):
   '''Given two ranges `[lo1, hi1]` and `[lo2, hi2]`, return their inersection.'''
   [lo1, hi1] = r1
   [lo2, hi2] = r2
-  return (max(lo1, lo2), min(hi1,hi2))
+  return [max(lo1, lo2), min(hi1,hi2)]
 
 # for line in ip[0]:
 #   showD(parse_command_line_b(line))
@@ -252,14 +252,18 @@ def combine_ranges(r1, r2):
 def main_b(ip_file):
   AC = find_accepting_conditions(ip_file[0])
   for (_, Fails, Passes) in AC:
-    print(Fails, Passes)
+    # print(Fails, Passes)
     F = simplify_conditions(Fails, False)
     P = simplify_conditions(Passes, True)
-    print(F)
-    print(P)
-    print()
+    # print(F)
+    # print(P)
+    d = {}
+    for k in ['x','m','a','s']:
+      d[k] = combine_ranges(F[k], P[k])
+    print(d)
+    # print()
 
-# print(main_b(test_input))  # 
+print(main_b(test_input))  # 
 # print(main_b(input))       # 
 
 # TTT.timecheck("Part (b)")  #
