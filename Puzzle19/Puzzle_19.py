@@ -262,25 +262,38 @@ def capacity(cnd):
 
 # print(  capacity({'x': [1, 4000], 'm': [839, 1800], 'a': [1, 4000], 's': [1351, 2770]})  )
 
-def main_b(ip_file):
-  AC = find_accepting_conditions(ip_file[0])
-  count = 0
-  for (_, Fails, Passes) in AC:
-    # print(Fails, Passes)
-    F = simplify_conditions(Fails, False)
-    P = simplify_conditions(Passes, True)
-    # print(F)
-    # print(P)
-    d = {}
-    for k in ['x','m','a','s']:
-      d[k] = combine_ranges(F[k], P[k])
-    count += capacity(d)
-  return count
+# def main_b(ip_file):
+#   AC = find_accepting_conditions(ip_file[0])
+#   count = 0
+#   for (_, Fails, Passes) in AC:
+#     # print(Fails, Passes)
+#     F = simplify_conditions(Fails, False)
+#     P = simplify_conditions(Passes, True)
+#     # print(F)
+#     # print(P)
+#     d = {}
+#     for k in ['x','m','a','s']:
+#       d[k] = combine_ranges(F[k], P[k])
+#     count += capacity(d)
+#   return count
 
 # print(main_b(test_input))  #  
 # 167 409 079 868 000   -- CORRECT answer
 # 140 809 783 868 000   -- my answer :(
 # print(main_b(input))       # 
+
+################################
+# Trying an alternative approach: start with a region of phase space [1,4000]^4 at 'in', 
+# then use the rules to divide and flow this through the graph
+# until everything is at 'R' or 'A' (where everything must eventually end up).
+# Then total up the region at 'A'.
+################################
+def main_b_v2(ip_file):
+  pass
+
+# print(main_b_v2(test_input))  #  
+# print(main_b_v2(input))       # 
+
 
 # TTT.timecheck("Part (b)")  #
 
