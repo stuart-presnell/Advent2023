@@ -84,16 +84,18 @@ def ACCESSIBLE_NEIGHBOURS(matrix, state):
   A permitted move from state `(pt, dir)` is 1-3 steps in `dir` from `pt` (staying within grid) followed by a turn to the left or right.'''
   (pt, dir) = state
   step = dir_lookup[dir]
+  lt = turn_lt(dir)
+  rt = turn_rt(dir)
   op = []
   for n in range(1,4):
     nr = pt[0] + n * step[0]
     nc = pt[1] + n * step[1]
     if (0 <= nr < ht) and (0 <= nc < wd):
-      op.append((nr,nc), turn_lt(dir))
-      op.append((nr,nc), turn_rt(dir))
+      op.append(((nr,nc), lt))
+      op.append(((nr,nc), rt))
   return op
 
-
+print(ACCESSIBLE_NEIGHBOURS(ip, Start_S))
 
 def STEP_COST(matrix, here, other):
   '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
@@ -110,6 +112,9 @@ def STEP_COST(matrix, here, other):
     raise ValueError("Can only move along rows and columns")
 
 # --------------------------------------------------
+
+# TODO: Edit Dijkstra to handle STATEs rather than POINTs (x,y)
+  # In the present case, a state is a pair (pt, dir)
 
 def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
   '''Given a `matrix` of points, with a set/list of `START` points 
