@@ -321,6 +321,8 @@ def parse_input_commands(ip):
 
 
 def main_b_v2(ip_file):
+  # Get the dictionary mapping node names to rule lists
+  D = parse_input_commands(ip_file[0])
   # The initial state has all of phase space at node 'id':
   to_process = [('id', {k : [1,4000] for k in ['x','m','a','s']})]
   # Initially nothing has flowed out to nodes 'A' or 'R'
@@ -334,9 +336,13 @@ def main_b_v2(ip_file):
     elif node == 'R':
       R.append(region)
       continue
-    # get the rule corresponding to `node`
-    # split `region` amongst the successor nodes according to that rule
-    # append these pairs of nodes and regions back onto `to_process`
+    # Otherwise we're at a non-terminal node
+    rule_list = D[node]   # get the rule list corresponding to `node`
+    for rule in rule_list:
+      # split `region` amongst the successor nodes according to that rule
+      # and append these pairs of nodes and regions back onto `to_process`
+      
+      pass
     pass
 
 # print(main_b_v2(test_input))  #  
