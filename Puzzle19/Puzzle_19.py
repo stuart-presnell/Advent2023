@@ -199,9 +199,9 @@ def find_accepting_conditions(ip):
         incomplete_routes_to_A.append((prev_pt, prev_Fail + Fail, prev_Pass + Pass))
   return complete_routes_to_A
 
-x = find_accepting_conditions(test_input[0])
+# x = find_accepting_conditions(test_input[0])
 # x = find_accepting_conditions(input[0])
-show(x)
+# show(x)
 
 def simplify_conditions(L, PASS = True):
   '''Given a tuple of conditions, e.g. `('a<2006', 'm>2090', 's<537', 'x>2440')`, 
@@ -236,16 +236,28 @@ def simplify_conditions(L, PASS = True):
           raise ValueError("Expected a comparison")
   return d
 
-simplify_conditions(('s<1351', 's>2770'), False)
-# simplify_conditions(('True', 'm<1801', 'm>838'))
+# print(  simplify_conditions(('s<1351', 's>2770'), False)  )
+# print(  simplify_conditions(('True', 'm<1801', 'm>838'))  )
 
+def combine_ranges(r1, r2):
+  '''Given two ranges `[lo1, hi1]` and `[lo2, hi2]`, return their inersection.'''
+  [lo1, hi1] = r1
+  [lo2, hi2] = r2
+  return (max(lo1, lo2), min(hi1,hi2))
 
 # for line in ip[0]:
 #   showD(parse_command_line_b(line))
 #   print()
 
-# def main_b(ip_file):
-#   pass
+def main_b(ip_file):
+  AC = find_accepting_conditions(ip_file[0])
+  for (_, Fails, Passes) in AC:
+    print(Fails, Passes)
+    F = simplify_conditions(Fails, False)
+    P = simplify_conditions(Passes, True)
+    print(F)
+    print(P)
+    print()
 
 # print(main_b(test_input))  # 
 # print(main_b(input))       # 
