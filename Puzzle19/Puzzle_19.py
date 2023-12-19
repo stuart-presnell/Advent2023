@@ -369,7 +369,7 @@ def main_b_v2(ip_file):
   # Get the dictionary mapping node names to rule lists
   D = parse_input_commands(ip_file[0])
   # The initial state has all of phase space at node 'id':
-  to_process = [('id', {k : [1,4000] for k in ['x','m','a','s']})]
+  to_process = [('in', {k : [1,4000] for k in ['x','m','a','s']})]
   # Initially nothing has flowed out to nodes 'A' or 'R'
   A = []
   R = []
