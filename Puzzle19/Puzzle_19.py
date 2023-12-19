@@ -23,9 +23,9 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle19_test.txt")
 input      = parse_file_a("Puzzle19_input.txt")
 
-# ip = test_input
+ip = test_input
 # ip = input
-# show(ip[0])
+show(ip[0])
 
 def process_command(cmd):
   '''Given a single command, such as `'a<2006'`, return lambda 
@@ -41,7 +41,7 @@ def process_command(cmd):
   else:
     raise ValueError("Expected either a </> comparison or 'True'.")
 
-def parse_command_line(s):
+def parse_command_line_a(s):
   '''Given a string such as `'px{a<2006:qkq,m>2090:A,rfg}'` return a command description.'''
   [name, s] = s.split('{')
   s = s[:-1].split(',')
@@ -58,7 +58,7 @@ def parse_all_commands(L):
   '''Given a list of command strings, return a dictionary.'''
   d = {}
   for line in L:
-    (name, s) = parse_command_line(line)
+    (name, s) = parse_command_line_a(line)
     d[name] = s
   return d
 
@@ -120,8 +120,8 @@ def main_a(ip_file):
       total_score += score(p)
   return total_score
 
-print(main_a(test_input))  # 19114
-print(main_a(input))       # 287054
+# print(main_a(test_input))  # 19114
+# print(main_a(input))       # 287054
 
 # TTT.timecheck("Part (a)")  # ~ 5 ms
 
@@ -132,6 +132,38 @@ print(main_a(input))       # 287054
 # Consider only your list of workflows; 
 # the list of part ratings that the Elves wanted you to sort is no longer relevant. 
 # How many distinct combinations of ratings will be accepted by the Elves' workflows?
+
+def parse_command_line_b(s):
+  '''Given a string such as `'px{a<2006:qkq,m>2090:A,rfg}'`,  
+  return a dict of destinations we can go to from here
+  where the key for each destination is:
+  * the name of this instruction, e.g. 'px', 
+  * the list of conditions that we must fail 
+  * the condition that must be satisfied:
+  e.g. d['qkq'] = ('px', [], 'a<2006')
+       d['A']   = ('px', ['a<2006'], 'm>2090')
+       d['rfg'] = ('px', ['a<2006', 'm>2090'], 'True')
+  '''
+  [name, s] = s.split('{')  # e.g. ['px', 'a<2006:qkq,m>2090:A,rfg}']
+  s = s[:-1].split(',')     # e.g. ['a<2006:qkq', 'm>2090:A' , 'rfg']
+  s = [cmd.split(':') for cmd in s]
+  print(s)
+  d = {}
+  for [cmp, dst] in s[:-1]:
+    # d[dst] = ???
+    pass
+  last_dst = s[-1][0]
+  # d[last_dst] = ????
+
+  # op = []
+  # for [cmp, dst] in s[:-1]:
+  #   op.append([process_command(cmp),dst])
+  # last_item = s.pop()[0]
+  # op.append([lambda _ : True, last_item])
+  # return (name, op)
+
+parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}')
+
 
 # def main_b(ip_file):
 #   pass
