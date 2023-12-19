@@ -288,6 +288,26 @@ def capacity(cnd):
 # until everything is at 'R' or 'A' (where everything must eventually end up).
 # Then total up the region at 'A'.
 ################################
+
+def parse_command_line_b_v2(s):
+  '''Given a string such as `'px{a<2006:qkq,m>2090:A,rfg}'`,  
+  return a pair `(name, L)` consisting of the node name `'px'` and a list `L`, 
+  where each entry in `L` is a pair `[cnd, dst]`.
+  - e.g. `('px',  [['a<2006','qkq'],  ['m>2090','A'],  ['', 'rfg']]  )`
+  Note that the last condition will be empty.'''
+  [name, s] = s.split('{')  # e.g. ['px', 'a<2006:qkq,m>2090:A,rfg}']
+  s = s[:-1].split(',')     # e.g. ['a<2006:qkq', 'm>2090:A' , 'rfg']
+  s = [cmd.split(':') for cmd in s]
+  last_item = s.pop()[0]
+  s.append(['', last_item])
+  return (name, s)
+
+
+# print( 
+#   parse_command_line_b_v2('px{a<2006:qkq,m>2090:A,rfg}')
+# )
+
+
 def main_b_v2(ip_file):
   # The initial state has all of phase space at node 'id':
   to_process = [('id', {k : [1,4000] for k in ['x','m','a','s']})]
