@@ -319,6 +319,17 @@ def parse_input_commands(ip):
 # D = parse_input_commands(test_input[0])
 # showD(D)
 
+def split_region(region, condition):
+  '''Given a region of phase space, 
+  - e.g. {'x': [1, 4000], 'm': [1, 4000], 'a': [1, 4000], 's': [1, 4000]}
+  and a `condition` e.g. 'a<2006' (assumed non-empty),
+  return the two subregions that satisfy and fail that condition
+  - {'x': [1, 4000], 'm': [1, 4000], 'a': [1, 2005], 's': [1, 4000]}
+  - {'x': [1, 4000], 'm': [1, 4000], 'a': [2006, 4000], 's': [1, 4000]}
+  '''
+
+  pass
+
 
 def main_b_v2(ip_file):
   # Get the dictionary mapping node names to rule lists
@@ -338,7 +349,9 @@ def main_b_v2(ip_file):
       continue
     # Otherwise we're at a non-terminal node
     rule_list = D[node]   # get the rule list corresponding to `node`
-    for rule in rule_list:
+    for [cnd, dst] in rule_list:
+      if not cnd:  # if the condition is empty, send the whole current region to `dst`
+        pass
       # split `region` amongst the successor nodes according to that rule
       # and append these pairs of nodes and regions back onto `to_process`
       
