@@ -13,9 +13,9 @@ unzip,
 # parse_nums, rotate90, 
 # close_bracket, cmp, qsort, nwise_cycled,
 # Best, 
-# Timer,
+Timer,
 )
-# TTT = Timer(1)
+TTT = Timer(1)
 
 ################################
 
@@ -126,10 +126,10 @@ def main_a(ip_file):
       total_score += score(p)
   return total_score
 
-# print(main_a(test_input))  # 19114
-# print(main_a(input))       # 287054
+print(main_a(test_input))  # 19114
+print(main_a(input))       # 287054
 
-# TTT.timecheck("Part (a)")  # ~ 5 ms
+TTT.timecheck("Part (a)")  # ~ 5 ms
 
 ################################
 # Part (b)
@@ -138,149 +138,6 @@ def main_a(ip_file):
 # Consider only your list of workflows; 
 # the list of part ratings that the Elves wanted you to sort is no longer relevant. 
 # How many distinct combinations of ratings will be accepted by the Elves' workflows?
-
-def parse_command_line_b(s):
-  '''Given a string such as `'px{a<2006:qkq,m>2090:A,rfg}'`,  
-  return a dict of destinations we can go to from here
-  where the key for each destination is:
-  * the name of this instruction, e.g. 'px', 
-  * the tuple of conditions that we must fail 
-  * the condition that must be satisfied:
-  e.g. d['qkq'] = ('px', (), ('a<2006'))
-       d['A']   = ('px', ('a<2006'), ('m>2090'))
-       d['rfg'] = ('px', ('a<2006', 'm>2090'), ('True'))
-  '''
-  [name, s] = s.split('{')  # e.g. ['px', 'a<2006:qkq,m>2090:A,rfg}']
-  s = s[:-1].split(',')     # e.g. ['a<2006:qkq', 'm>2090:A' , 'rfg']
-  s = [cmd.split(':') for cmd in s]
-  last_item = s.pop()[0]
-  s.append(['True', last_item])
-  [conds, dsts] = unzip(s)
-  d = {}
-  for i in range(len(dsts)):
-    d[dsts[i]] = (name, conds[:i], (conds[i],))
-  return d
-
-# showD(parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}'))
-
-def entry_paths(ip):
-  '''Given a list of strings such as `'px{a<2006:qkq,m>2090:A,rfg}'`, 
-  return a dictionary whose entry `D[k]` for each state `k`
-  is a list of the immediately preceding states that lead to `k`, 
-  each annotated with the conditions that must be failed and passed 
-  to go from that state to `k`.
-  - e.g. `D['A']` includes `('px', ('a<2006',), ('m>2090',))`.'''
-  D = defaultdict(list)
-  for line in ip:
-    pcl = parse_command_line_b(line)
-    for dest in pcl:
-      D[dest].append(pcl[dest])
-    # showD(pcl)
-  return D
-
-# E = entry_paths(test_input[0])
-# for k in E:
-#   print("To get into " + k + ": ")
-#   show(E[k])
-
-# show(E['A'])
-# print()
-# show(E['px'])
-
-def find_accepting_conditions(ip):
-  E = entry_paths(ip)
-  incomplete_routes_to_A = E['A']
-  complete_routes_to_A = []
-  while incomplete_routes_to_A:
-    rte = incomplete_routes_to_A.pop()
-    if rte[0] == 'in':
-      # print("This is a route from 'in' to 'A': ")
-      # print(rte)
-      complete_routes_to_A.append(rte)
-      continue
-    else:
-      (pt, Fail, Pass) = rte
-      # print("This is a route from '" + pt +  "' to 'A': ")
-      # print(rte)
-      for (prev_pt, prev_Fail, prev_Pass) in E[pt]:
-        incomplete_routes_to_A.append((prev_pt, prev_Fail + Fail, prev_Pass + Pass))
-  return complete_routes_to_A
-
-# x = find_accepting_conditions(test_input[0])
-# x = find_accepting_conditions(input[0])
-# show(x)
-
-def simplify_conditions(L, PASS = True):
-  '''Given a tuple of conditions, e.g. `('a<2006', 'm>2090', 's<537', 'x>2440')`, 
-  return a dictionary whose `k` entry is the range of permitted values e.g. `'a' -> [1,2005]`.
-  If `PASS = True` then the permitted values are those that satisfy all the given conditions.
-  If `PASS = False` then the permitted values are those that fail all the given conditions. (???)
-  By default, each range starts at `[1,4000]`.'''
-  d = {k : [1,4000] for k in ['x','m','a','s']}
-  for cnd in L:
-    if cnd == 'True': 
-      if PASS:
-        # print("Skipping 'True'")
-        continue  # Skip 'True'
-      else:
-        return None   # We can't FAIL a 'True', so there are no permitted values
-    # print(cnd)
-    k = cnd[0]
-    n = int(cnd[2:])
-    if PASS:   # If we're trying to PASS all the conditions
-      match cnd[1]:
-        case '<':
-          d[k][1] = min(d[k][1], n-1)
-        case '>':
-          d[k][0] = max(d[k][0], n+1)
-        case _:
-          raise ValueError("Expected a comparison")
-    else:      # If we're trying to FAIL all the conditions
-      match cnd[1]:
-        case '<':
-          d[k][0] = max(d[k][0], n)
-        case '>':
-          d[k][1] = min(d[k][1], n)
-        case _:
-          raise ValueError("Expected a comparison")
-  return d
-
-# print(  simplify_conditions(('s<1351', 's>2770'), False)  )
-# print(  simplify_conditions(('True', 'm<1801', 'm>838'))  )
-
-def combine_ranges(r1, r2):
-  '''Given two ranges `[lo1, hi1]` and `[lo2, hi2]`, return their inersection.'''
-  [lo1, hi1] = r1
-  [lo2, hi2] = r2
-  return [max(lo1, lo2), min(hi1,hi2)]
-
-def capacity(cnd):
-  '''Given a dictionary of conditions, 
-  e.g. `{'x': [1, 4000], 'm': [839, 1800], 'a': [1, 4000], 's': [1351, 2770]}`
-  return the number of values compatible with those conditions.'''
-  return prod([cnd[k][1] - cnd[k][0] + 1  for k in cnd])
-
-# print(  capacity({'x': [1, 4000], 'm': [839, 1800], 'a': [1, 4000], 's': [1351, 2770]})  )
-
-# def main_b(ip_file):
-#   AC = find_accepting_conditions(ip_file[0])
-#   count = 0
-#   for (_, Fails, Passes) in AC:
-#     # print(Fails, Passes)
-#     F = simplify_conditions(Fails, False)
-#     P = simplify_conditions(Passes, True)
-#     # print(F)
-#     # print(P)
-#     d = {}
-#     for k in ['x','m','a','s']:
-#       d[k] = combine_ranges(F[k], P[k])
-#     count += capacity(d)
-#   return count
-
-# print(main_b(test_input))  #  
-# 167 409 079 868 000   -- CORRECT answer
-# 140 809 783 868 000   -- my answer :(
-# print(main_b(input))       # 
 
 ################################
 # Trying an alternative approach: start with a region of phase space [1,4000]^4 at 'in', 
@@ -302,6 +159,7 @@ def parse_command_line_b_v2(s):
   s.append(['', last_item])
   return (name, s)
 
+
 def parse_input_commands(ip):
   '''Given a list of strings such as `'px{a<2006:qkq,m>2090:A,rfg}'`,  
   return a dictionary whose keys are the names e.g. `'px'`
@@ -312,12 +170,6 @@ def parse_input_commands(ip):
     D[name] = s
   return D
 
-# print( 
-#   parse_command_line_b_v2('px{a<2006:qkq,m>2090:A,rfg}')
-# )
-
-# D = parse_input_commands(test_input[0])
-# showD(D)
 
 def split_region(region, condition):
   '''Given a region of phase space, 
@@ -355,15 +207,6 @@ def split_region(region, condition):
       FAIL[var] = [lo, N]
   return (PASS, FAIL)
 
-# r = {'x': [1, 4000], 'm': [1, 4000], 'a': [1, 4000], 's': [1, 4000]}
-
-# (r1, r2) = (split_region(r, 'a<2006'))
-
-# print(r1)
-# print(r2)
-# print()
-
-# show(split_region(r2, 'a>2005'))
 
 def flow(ip_file, terminals = ['A', 'R']):
   # Get the dictionary mapping node names to rule lists
@@ -403,27 +246,174 @@ def flow(ip_file, terminals = ['A', 'R']):
       if FAIL:  # If there's any more region to process
         region = FAIL
         #  and roll on to the next rule in `rule_list`
-  # Now we've processed everything, and all of phase space should be assigned to 'A' or 'R'
+  # Now we've processed everything, 
+  # and all of phase space should be assigned to one of the `terminals`
   return op
 
-
-# X = flow(test_input, ['px', 'qqz'])
-# print("vvvvvvvv")
-# showD(X)
-
+def volume(reg):
+  '''Given a region of phase space
+  e.g. `{'x': [1, 4000], 'm': [839, 1800], 'a': [1, 4000], 's': [1351, 2770]}`
+  where for each `k` the associated pair `[lo,hi]` is the range of permitted values
+  for that parameter, 
+  return the total volume of phase space bounded by those constraints.
+  Since each parameter varies independently, this is the product of the ranges.'''
+  return prod([reg[k][1] - reg[k][0] + 1  for k in reg])
 
 def main_b_v2(ip_file):
-  # regions_at_A = flow(ip_file)['A']
-  # print(regions_at_A)
-  return sum([capacity(reg) for reg in flow(ip_file)['A']])
+  return sum([volume(reg) for reg in flow(ip_file)['A']])
 
 
-# print(main_b_v2(test_input))  
-#  167409079868000
-#  167409079868000
-print(main_b_v2(input))       # 
+print(main_b_v2(test_input))  #  167409079868000
+print(main_b_v2(input))       #  131619440296497
 
-
-# TTT.timecheck("Part (b)")  #
+TTT.timecheck("Part (b)")  # ~ 9 ms
 
 ################################
+
+# My first attempt: starting at 'A', trace back the routes that lead to 'A', 
+#  and work out the cumulative conditions that apply on each route
+# The first draft got the wrong answer on `test_input`, 
+# and there was basically no way to debug it (since we're given no further data).
+
+# def parse_command_line_b(s):
+#   '''Given a string such as `'px{a<2006:qkq,m>2090:A,rfg}'`,  
+#   return a dict of destinations we can go to from here
+#   where the key for each destination is:
+#   * the name of this instruction, e.g. 'px', 
+#   * the tuple of conditions that we must fail 
+#   * the condition that must be satisfied:
+#   e.g. d['qkq'] = ('px', (), ('a<2006'))
+#        d['A']   = ('px', ('a<2006'), ('m>2090'))
+#        d['rfg'] = ('px', ('a<2006', 'm>2090'), ('True'))
+#   '''
+#   [name, s] = s.split('{')  # e.g. ['px', 'a<2006:qkq,m>2090:A,rfg}']
+#   s = s[:-1].split(',')     # e.g. ['a<2006:qkq', 'm>2090:A' , 'rfg']
+#   s = [cmd.split(':') for cmd in s]
+#   last_item = s.pop()[0]
+#   s.append(['True', last_item])
+#   [conds, dsts] = unzip(s)
+#   d = {}
+#   for i in range(len(dsts)):
+#     d[dsts[i]] = (name, conds[:i], (conds[i],))
+#   return d
+
+# # showD(parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}'))
+
+# def entry_paths(ip):
+#   '''Given a list of strings such as `'px{a<2006:qkq,m>2090:A,rfg}'`, 
+#   return a dictionary whose entry `D[k]` for each state `k`
+#   is a list of the immediately preceding states that lead to `k`, 
+#   each annotated with the conditions that must be failed and passed 
+#   to go from that state to `k`.
+#   - e.g. `D['A']` includes `('px', ('a<2006',), ('m>2090',))`.'''
+#   D = defaultdict(list)
+#   for line in ip:
+#     pcl = parse_command_line_b(line)
+#     for dest in pcl:
+#       D[dest].append(pcl[dest])
+#     # showD(pcl)
+#   return D
+
+# # E = entry_paths(test_input[0])
+# # for k in E:
+# #   print("To get into " + k + ": ")
+# #   show(E[k])
+
+# # show(E['A'])
+# # print()
+# # show(E['px'])
+
+# def find_accepting_conditions(ip):
+#   E = entry_paths(ip)
+#   incomplete_routes_to_A = E['A']
+#   complete_routes_to_A = []
+#   while incomplete_routes_to_A:
+#     rte = incomplete_routes_to_A.pop()
+#     if rte[0] == 'in':
+#       # print("This is a route from 'in' to 'A': ")
+#       # print(rte)
+#       complete_routes_to_A.append(rte)
+#       continue
+#     else:
+#       (pt, Fail, Pass) = rte
+#       # print("This is a route from '" + pt +  "' to 'A': ")
+#       # print(rte)
+#       for (prev_pt, prev_Fail, prev_Pass) in E[pt]:
+#         incomplete_routes_to_A.append((prev_pt, prev_Fail + Fail, prev_Pass + Pass))
+#   return complete_routes_to_A
+
+# # x = find_accepting_conditions(test_input[0])
+# # x = find_accepting_conditions(input[0])
+# # show(x)
+
+# def simplify_conditions(L, PASS = True):
+#   '''Given a tuple of conditions, e.g. `('a<2006', 'm>2090', 's<537', 'x>2440')`, 
+#   return a dictionary whose `k` entry is the range of permitted values e.g. `'a' -> [1,2005]`.
+#   If `PASS = True` then the permitted values are those that satisfy all the given conditions.
+#   If `PASS = False` then the permitted values are those that fail all the given conditions. (???)
+#   By default, each range starts at `[1,4000]`.'''
+#   d = {k : [1,4000] for k in ['x','m','a','s']}
+#   for cnd in L:
+#     if cnd == 'True': 
+#       if PASS:
+#         # print("Skipping 'True'")
+#         continue  # Skip 'True'
+#       else:
+#         return None   # We can't FAIL a 'True', so there are no permitted values
+#     # print(cnd)
+#     k = cnd[0]
+#     n = int(cnd[2:])
+#     if PASS:   # If we're trying to PASS all the conditions
+#       match cnd[1]:
+#         case '<':
+#           d[k][1] = min(d[k][1], n-1)
+#         case '>':
+#           d[k][0] = max(d[k][0], n+1)
+#         case _:
+#           raise ValueError("Expected a comparison")
+#     else:      # If we're trying to FAIL all the conditions
+#       match cnd[1]:
+#         case '<':
+#           d[k][0] = max(d[k][0], n)
+#         case '>':
+#           d[k][1] = min(d[k][1], n)
+#         case _:
+#           raise ValueError("Expected a comparison")
+#   return d
+
+# # print(  simplify_conditions(('s<1351', 's>2770'), False)  )
+# # print(  simplify_conditions(('True', 'm<1801', 'm>838'))  )
+
+# def combine_ranges(r1, r2):
+#   '''Given two ranges `[lo1, hi1]` and `[lo2, hi2]`, return their inersection.'''
+#   [lo1, hi1] = r1
+#   [lo2, hi2] = r2
+#   return [max(lo1, lo2), min(hi1,hi2)]
+
+# def capacity(cnd):
+#   '''Given a dictionary of conditions, 
+#   e.g. `{'x': [1, 4000], 'm': [839, 1800], 'a': [1, 4000], 's': [1351, 2770]}`
+#   return the number of values compatible with those conditions.'''
+#   return prod([cnd[k][1] - cnd[k][0] + 1  for k in cnd])
+
+# # print(  capacity({'x': [1, 4000], 'm': [839, 1800], 'a': [1, 4000], 's': [1351, 2770]})  )
+
+# # def main_b(ip_file):
+# #   AC = find_accepting_conditions(ip_file[0])
+# #   count = 0
+# #   for (_, Fails, Passes) in AC:
+# #     # print(Fails, Passes)
+# #     F = simplify_conditions(Fails, False)
+# #     P = simplify_conditions(Passes, True)
+# #     # print(F)
+# #     # print(P)
+# #     d = {}
+# #     for k in ['x','m','a','s']:
+# #       d[k] = combine_ranges(F[k], P[k])
+# #     count += capacity(d)
+# #   return count
+
+# # print(main_b(test_input))  #  
+# # 167 409 079 868 000   -- CORRECT answer
+# # 140 809 783 868 000   -- my answer :(
+# # print(main_b(input))       # 
