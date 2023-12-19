@@ -20,7 +20,7 @@ def parse_file_a(filename):
   f.close()
   ht = len(ip_file)
   wd = len(ip_file[0])
-  M = {(r,c): ip_file[r][c] for r in range(ht) for c in range(wd)}
+  M = {((r,c), d): ip_file[r][c] for r in range(ht) for c in range(wd) for d in ['N','S','W','E']}
   
   # State is a pair (pt, dir)
   # Starting point is top left corner
@@ -90,12 +90,10 @@ def ACCESSIBLE_NEIGHBOURS(matrix, state):
   for n in range(1,4):
     nr = pt[0] + n * step[0]
     nc = pt[1] + n * step[1]
-    if (nr,nc) in matrix:
+    if ((nr,nc), dir) in matrix:
       op.append(((nr,nc), lt))
       op.append(((nr,nc), rt))
   return op
-
-# print(ACCESSIBLE_NEIGHBOURS(M, STARTS[1]))
 
 def STEP_COST(matrix, here, other):
   '''Given a pair of states, return the cost of stepping from `here` to `other`.'''
@@ -112,9 +110,9 @@ def STEP_COST(matrix, here, other):
     raise ValueError("Can only move along rows and columns")
 
 
-showD(M)
-print(STARTS)
-print(ENDS)
+# showD(M)
+# print(STARTS)
+# print(ENDS)
 
 # print(
 #   STEP_COST(M, ((0,0), 'N'),  ((2,0), 'N'))
@@ -122,8 +120,13 @@ print(ENDS)
 
 # --------------------------------------------------
 
-# Dijkstra(ip, [TL, (5,5)], [BR], ACCESSIBLE_NEIGHBOURS, STEP_COST)
+# print(ACCESSIBLE_NEIGHBOURS(M, ((0, 0), 'S')))
 
+# t = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose=True)
+
+
+
+# showD(t)
 
 # def main_a(ip_file):
 #   pass
