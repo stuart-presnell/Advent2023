@@ -2,6 +2,9 @@ from math import inf
 from PQueue import PQ
 from collections import defaultdict
 
+# TODO: Edit `Dijkstra` to record the states visited along the shortest path taken
+# https://stackoverflow.com/a/28999743
+
 def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False):
   '''Given a `matrix`, represented as a dictionary whose keys are states,
   and a set/list of `START` states,
