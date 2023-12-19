@@ -9,7 +9,7 @@ printT, showM, showD, parse_nums, rotate90,
 # Best, 
 # Timer,
 )
-# TTT = Timer()
+# TTT = Timer(1)
 
 ################################
 
@@ -123,11 +123,15 @@ def main_a(ip_file):
 print(main_a(test_input))  # 19114
 print(main_a(input))       # 287054
 
-# TTT.timecheck("Part (a)")  #
+# TTT.timecheck("Part (a)")  # ~ 5 ms
 
 ################################
 # Part (b)
 ################################
+
+# Consider only your list of workflows; 
+# the list of part ratings that the Elves wanted you to sort is no longer relevant. 
+# How many distinct combinations of ratings will be accepted by the Elves' workflows?
 
 # def main_b(ip_file):
 #   pass
