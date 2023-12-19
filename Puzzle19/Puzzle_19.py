@@ -327,9 +327,43 @@ def split_region(region, condition):
   - {'x': [1, 4000], 'm': [1, 4000], 'a': [1, 2005], 's': [1, 4000]}
   - {'x': [1, 4000], 'm': [1, 4000], 'a': [2006, 4000], 's': [1, 4000]}
   '''
+  PASS = region.copy()
+  FAIL = region.copy()
+  if '<' in condition:
+    [var, N] = condition.split('<')
+    N = int(N)
+    [lo,hi] = region[var]
+    if lo >= N:
+      PASS = None
+    elif hi < N:
+      PASS[var] = [lo,hi]
+      FAIL = None
+    else:
+      PASS[var] = [lo, N-1]
+      FAIL[var] = [N, hi]
+  elif '>' in condition:
+    [var, N] = condition.split('>')
+    N = int(N)
+    [lo,hi] = region[var]
+    if hi <= N:
+      PASS = None
+    elif lo > N:
+      PASS[var] = [lo,hi]
+      FAIL = None
+    else:
+      PASS[var] = [N+1,hi]
+      FAIL[var] = [lo, N]
+  return (PASS, FAIL)
 
-  pass
+# r = {'x': [1, 4000], 'm': [1, 4000], 'a': [1, 4000], 's': [1, 4000]}
 
+# (r1, r2) = (split_region(r, 'a<2006'))
+
+# print(r1)
+# print(r2)
+# print()
+
+# show(split_region(r2, 'a>2005'))
 
 def main_b_v2(ip_file):
   # Get the dictionary mapping node names to rule lists
@@ -353,7 +387,8 @@ def main_b_v2(ip_file):
       if not cnd:  # if the condition is empty, send the whole current region to `dst`
         pass
       # split `region` amongst the successor nodes according to that rule
-      # and append these pairs of nodes and regions back onto `to_process`
+      # check that neither of the regions is empty
+      # append these pairs of nodes and regions back onto `to_process`
       
       pass
     pass
