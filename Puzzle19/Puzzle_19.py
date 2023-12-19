@@ -28,7 +28,7 @@ input      = parse_file_a("Puzzle19_input.txt")
 
 ip = test_input
 # ip = input
-show(ip[0])
+# show(ip[0])
 
 def process_command(cmd):
   '''Given a single command, such as `'a<2006'`, return lambda 
@@ -141,11 +141,11 @@ def parse_command_line_b(s):
   return a dict of destinations we can go to from here
   where the key for each destination is:
   * the name of this instruction, e.g. 'px', 
-  * the list of conditions that we must fail 
+  * the tuple of conditions that we must fail 
   * the condition that must be satisfied:
-  e.g. d['qkq'] = ('px', [], 'a<2006')
-       d['A']   = ('px', ['a<2006'], 'm>2090')
-       d['rfg'] = ('px', ['a<2006', 'm>2090'], 'True')
+  e.g. d['qkq'] = ('px', (), 'a<2006')
+       d['A']   = ('px', ('a<2006'), 'm>2090')
+       d['rfg'] = ('px', ('a<2006', 'm>2090'), 'True')
   '''
   [name, s] = s.split('{')  # e.g. ['px', 'a<2006:qkq,m>2090:A,rfg}']
   s = s[:-1].split(',')     # e.g. ['a<2006:qkq', 'm>2090:A' , 'rfg']
@@ -153,24 +153,10 @@ def parse_command_line_b(s):
   last_item = s.pop()[0]
   s.append(['True', last_item])
   [conds, dsts] = unzip(s)
-  # print(conds)
-  # print(dsts)
   d = {}
   for i in range(len(dsts)):
-    d[dsts[i]] = (name)
+    d[dsts[i]] = (name, conds[:i], conds[i])
   return d
-  # for [cmp, dst] in s[:-1]:
-  #   # d[dst] = ???
-  #   pass
-  # last_dst = s[-1][0]
-  # d[last_dst] = ????
-
-  # op = []
-  # for [cmp, dst] in s[:-1]:
-  #   op.append([process_command(cmp),dst])
-  # 
-  # op.append([lambda _ : True, last_item])
-  # return (name, op)
 
 showD(parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}'))
 
