@@ -384,9 +384,12 @@ def main_b_v2(ip_file):
     # Otherwise we're at a non-terminal node
     rule_list = D[node]   # get the rule list corresponding to `node`
     for [cnd, dst] in rule_list:
-      if not cnd:  # if the condition is empty, send the whole current region to `dst`
-        pass
-      # split `region` amongst the successor nodes according to that rule
+      if not cnd:  # if the condition is empty, everything in the current region passes
+        PASS = region
+        FAIL = None
+      else:  # split `region` into PASS and FAIL according to the condition
+        (PASS, FAIL) = split_region(region, cnd)
+      # split `region` amongst the successor nodes according to PASS and FAIL
       # check that neither of the regions is empty
       # append these pairs of nodes and regions back onto `to_process`
       
