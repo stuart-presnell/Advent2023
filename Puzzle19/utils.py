@@ -36,6 +36,13 @@ def showD(d:dict):
     if d[k]: 
       print(k, ": ", d[k])
 
+# From: https://stackoverflow.com/a/22115957
+def unzip(iterable):
+    '''Given a list of `k` lists of length `n`, return an iterator of `n` `k`-tuples.
+    - e.g. [['a', 1, 10], ['b', 2, 20], ['c', 3, 30], ['d', 4, 40]] ->
+         [('a', 'b', 'c', 'd'), (1, 2, 3, 4), (10, 20, 30, 40)].'''
+    return zip(*iterable)
+
 def parse_nums(s:str, sep=" ") -> list[int]:
   '''Given a string of the form `"a<sep>b<sep>c<sep>...<sep>z"`, where each entry is a number, 
   return a `list[int]`'''
