@@ -36,8 +36,8 @@ def process_command(cmd):
   elif '>' in cmd:
     [var, n] = cmd.split('>')
     return (lambda d : d[var] > int(n))
-  elif cmd == 'True':
-    return lambda _ : True
+  # elif cmd == 'True':
+  #   return lambda _ : True
   else:
     raise ValueError("Expected either a </> comparison or 'True'.")
 
@@ -50,7 +50,7 @@ def parse_command_line(s):
   for [cmp, dst] in s[:-1]:
     op.append([process_command(cmp),dst])
   last_item = s.pop()[0]
-  op.append(['True', last_item])
+  op.append([lambda _ : True, last_item])
   return (name, op)
 
 
@@ -78,16 +78,30 @@ def follow_inst(d, part):
   current_inst_name = 'in'
   while True:
     if (current_inst_name == 'R') | (current_inst_name == 'A'):
+      # print("Finally reached " + current_inst_name)
       return current_inst_name
     current_inst = d[current_inst_name]
-    for check in current_inst:
-      pass
+    # print("Executing instruction " + current_inst_name)
+    # print(current_inst)
+    for [check, dst] in current_inst:
+      if check(part):
+        # print("Moving to " + dst)
+        current_inst_name = dst
+        break
+
 
 # process_command('a<2006')
 # parse_command_line('px{a<2006:qkq,m>2090:A,rfg}')
-print(parse_all_commands(ip[0]))
-show(ip[0])
-# parse_machine_part('{x=787,m=2655,a=1222,s=2876}')
+# show(ip[1])
+# p = parse_machine_part('{x=787,m=2655,a=1222,s=2876}')
+# print(p)
+# print()
+# program = parse_all_commands(ip[0])
+
+
+# follow_inst(program, p)
+
+
 
 ################################
 # Part (a)
