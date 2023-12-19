@@ -25,7 +25,25 @@ input      = parse_file_a("Puzzle19_input.txt")
 
 ip = test_input
 # ip = input
-# show(ip[1])
+show(ip[0])
+
+def parse_command_line(s):
+  '''Given a string such as `'px{a<2006:qkq,m>2090:A,rfg}'` return a command description.'''
+  [name, s] = s.split('{')
+  s = s[:-1].split(',')
+  s = [cmd.split(':') for cmd in s]
+  last_item = s.pop()[0]
+  s.append(['True', last_item])
+  return (name, s)
+
+
+def parse_all_commands(L):
+  '''Given a list of command strings, return a dictionary.'''
+  d = {}
+  for line in L:
+    (name, s) = parse_command_line(line)
+    d[name] = s
+  return d
 
 def parse_machine_part(s):
   '''Given a string such as `'{x=787,m=2655,a=1222,s=2876}'`, return a dictionary.'''
@@ -35,7 +53,11 @@ def parse_machine_part(s):
     d[l] = int(n)
   return d
 
+# parse_command_line('px{a<2006:qkq,m>2090:A,rfg}')
+
 # parse_machine_part('{x=787,m=2655,a=1222,s=2876}')
+
+# parse_all_commands(ip[0])
 
 ################################
 # Part (a)
