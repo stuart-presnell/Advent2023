@@ -268,6 +268,31 @@ print(main_b_v2(input))       #  131619440296497
 
 TTT.timecheck("Part (b)")  # ~ 9 ms
 
+
+# Just out of interest, using this code to re-solve part (a)
+
+def in_region(pt, region):
+  '''Given a `pt` e.g. `{'x': 787, 'm': 2655, 'a': 1222, 's': 2876}`
+  and a `region` e.g. `{'x': [1, 4000], 'm': [1, 838], 'a': [1, 1716], 's': [1351, 2770]}`, 
+  return whether `pt` is in `region`.'''
+  return all([region[k][0] <= pt[k] <= region[k][1] for k in pt])
+
+def main_a_v2(ip_file):
+  parts = [parse_machine_part(item) for item in ip_file[1]]
+  PR = flow(ip_file)['A']
+  TTT.timecheck("After flow")  # This part takes hardly any time
+
+  total_score = 0
+  for p in parts:
+     if any([in_region(p, region) for region in PR]):
+      total_score += score(p)
+  return total_score
+
+print(main_a_v2(test_input))  #   19114
+print(main_a_v2(input))       #  287054
+
+TTT.timecheck("Part (a) revisited")  # ~ 85 ms
+
 ################################
 
 # My first attempt: starting at 'A', trace back the routes that lead to 'A', 
