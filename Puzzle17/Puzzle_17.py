@@ -1,6 +1,6 @@
 # https://adventofcode.com/2023/day/17
 
-from Dijkstra import Dijkstra
+from Dijkstra import Dijkstra, recover_path
 
 # My utility functions
 from utils import (
@@ -110,7 +110,7 @@ def STEP_COST(matrix, here, other):
 
 # --------------------------------------------------
 
-# (M, STARTS, ENDS) = test_input
+(M, STARTS, ENDS) = test_input
 # showD(M)
 # print(STARTS)
 # print(ENDS)
@@ -118,9 +118,14 @@ def STEP_COST(matrix, here, other):
 # print(
 #   STEP_COST(M, ((0,0), 'N'),  ((2,0), 'N'))
 # )
-
 # print(ACCESSIBLE_NEIGHBOURS(M, ((0, 0), 'S')))
-# t = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+
+(t,p) = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+
+for e in ENDS:
+  print(recover_path(p,e))
+
+
 # [t[e] for e in ENDS]
 # showD(t)
 
@@ -130,7 +135,8 @@ def main_a(ip_file):
   return (t,p)
   # return [(e, t[e]) for e in ENDS]
 
-# (t,p) = main_a(test_input)
+
+
 # showD(p)
 
 # For `test_input` we get the following minimal costs:
