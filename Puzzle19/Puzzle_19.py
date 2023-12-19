@@ -157,7 +157,7 @@ def parse_command_line_b(s):
   [conds, dsts] = unzip(s)
   d = {}
   for i in range(len(dsts)):
-    d[dsts[i]] = (name, conds[:i], conds[i])
+    d[dsts[i]] = (name, conds[:i], (conds[i],))
   return d
 
 # showD(parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}'))
@@ -199,7 +199,7 @@ def find_accepting_conditions(ip):
         incomplete_routes_to_A.append((prev_pt, prev_Fail + Fail, prev_Pass + Pass))
   return incomplete_routes_to_A, complete_routes_to_A
 
-find_accepting_conditions(test_input[0])
+# find_accepting_conditions(test_input[0])
 
 
 # for line in ip[0]:
