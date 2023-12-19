@@ -78,6 +78,20 @@ def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = F
     return (t_dist, previous)
 
 
+
+def recover_path(p, e):
+  '''Given an ending state `e` and a dictionary `p` recording the previous state, 
+  recover the path leading to `e` and return this as a list, ending with `e`.'''
+  current = e
+  op = []
+  while current in p:
+    op.append(current)
+    current = p[current]
+  op.append(current)
+  op.reverse()
+  return op
+
+
 # def example1():
 #   M = {(x,y) : 1 for x in range(5) for y in range(3)}
 #   STARTS = [(0,0)]
