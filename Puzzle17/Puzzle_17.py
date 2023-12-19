@@ -58,15 +58,15 @@ ENDS = [(BR, dir) for dir in dir_lookup.keys()]
 
 # --------------------------------------------------
 
-def n_steps(ht, wd, pt, dir, n = 1):
-  step = dir_lookup[dir]
-  nr = pt[0] + n * step[0]
-  nc = pt[1] + n * step[1]
-  if (0 <= nr < ht) & (0 <= nc < wd):
-    return (nr, nc)
-  else:
-    # print(str((nr,nc)) + " is off the grid, so skip this!")
-    return None
+# def n_steps(ht, wd, pt, dir, n = 1):
+#   step = dir_lookup[dir]
+#   nr = pt[0] + n * step[0]
+#   nc = pt[1] + n * step[1]
+#   if (0 <= nr < ht) & (0 <= nc < wd):
+#     return (nr, nc)
+#   else:
+#     # print(str((nr,nc)) + " is off the grid, so skip this!")
+#     return None
 
 def turn_lt(dir):
   if dir == 'N': return 'W'
