@@ -373,6 +373,7 @@ def main_b_v2(ip_file):
   # Initially nothing has flowed out to nodes 'A' or 'R'
   A = []
   R = []
+
   while to_process:
     (node, region) = to_process.pop()   # We have a `region` of phase space concentrated at `node`
     if node == 'A':
@@ -381,20 +382,26 @@ def main_b_v2(ip_file):
     elif node == 'R':
       R.append(region)
       continue
-    # Otherwise we're at a non-terminal node
+
+    # Otherwise we're at a non-terminal node, so we want to:
+      # split `region` amongst the successor nodes according to the rule
+      # append these pairs of nodes and regions back onto `to_process`
     rule_list = D[node]   # get the rule list corresponding to `node`
     for [cnd, dst] in rule_list:
+      # Split `region` into PASS and FAIL according to the condition
       if not cnd:  # if the condition is empty, everything in the current region passes
-        PASS = region
-        FAIL = None
-      else:  # split `region` into PASS and FAIL according to the condition
+        to_process.append((dst, region))  # Assign the entire region to node `dst`
+      else:  
         (PASS, FAIL) = split_region(region, cnd)
-      # split `region` amongst the successor nodes according to PASS and FAIL
-      # check that neither of the regions is empty
-      # append these pairs of nodes and regions back onto `to_process`
-      
-      pass
-    pass
+
+      if PASS:
+        to_process.append((dst, PASS))  # Assign the PASS region to node `dst`
+      if FAIL:  # If there's any more region to process
+        region = FAIL
+        #  and roll on to the next rule in `rule_list`
+  # Now we've processed everything, and all of phase space should be assigned to 'A' or 'R'
+  return A
+
 
 # print(main_b_v2(test_input))  #  
 # print(main_b_v2(input))       # 
