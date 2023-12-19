@@ -25,16 +25,32 @@ input      = parse_file_a("Puzzle19_input.txt")
 
 ip = test_input
 # ip = input
-show(ip[0])
+# show(ip[0])
+
+def process_command(cmd):
+  '''Given a single command, such as `'a<2006'`, return a pair ('a', lambda x : x < 2006)'''
+  if '<' in cmd:
+    [var, n] = cmd.split('<')
+    return (var, lambda k : k < int(n))
+  elif '>' in cmd:
+    [var, n] = cmd.split('>')
+    return (var, lambda k : k > int(n))
+  elif cmd == 'True':
+    return lambda _:True
+  else:
+    raise ValueError("Expected either a </> comparison or 'True'.")
 
 def parse_command_line(s):
   '''Given a string such as `'px{a<2006:qkq,m>2090:A,rfg}'` return a command description.'''
   [name, s] = s.split('{')
   s = s[:-1].split(',')
   s = [cmd.split(':') for cmd in s]
+  op = []
+  for [cmp, dst] in s[:-1]:
+    op.append([process_command(cmp),dst])
   last_item = s.pop()[0]
-  s.append(['True', last_item])
-  return (name, s)
+  op.append(['True', last_item])
+  return (name, op)
 
 
 def parse_all_commands(L):
@@ -64,8 +80,10 @@ def follow_inst(d, part):
 
     pass
 
+# process_command('a<2006')
 # parse_command_line('px{a<2006:qkq,m>2090:A,rfg}')
-# parse_all_commands(ip[0])
+print(parse_all_commands(ip[0]))
+show(ip[0])
 # parse_machine_part('{x=787,m=2655,a=1222,s=2876}')
 
 ################################
