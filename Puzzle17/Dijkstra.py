@@ -6,12 +6,11 @@ def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = F
   '''Given a `matrix`, represented as a dictionary whose keys are states,
   and a set/list of `START` states,
   and a (possibly empty) set/list of `END` states,
-  with a function returning a list of the `ACCESSIBLE_NEIGHBOURS` of any states
-  and a function returning the `STEP_COST` of stepping from `st1` to `st2`,
+  with a function `ACCESSIBLE_NEIGHBOURS(matrix, st)` returning a list of states,
+  and a function `STEP_COST(matrix, st, st2)` returning an integer,
   run Dijkstra's algorithm to work out the cheapest route from some `START` state 
-  to each reachable state, stopping when we reach any of the `END` states (if provided).'''
-  ht = len(matrix)
-  wd = len(matrix[0])
+  to each reachable state, stopping when we reach any of the `END` states (if provided).
+  Return this as a dictionary whose keys are states and whose values are integers.'''
 
   # Assign to every node a tentative distance value, initialised to infinity
   # Store this in a `defaultdict` for quicker lookup, since we don't need the matrix structure
@@ -70,3 +69,21 @@ def Dijkstra(matrix, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = F
       FINISHED = update_one_step()
     return(t_dist)
 
+
+# def example1():
+#   M = {(x,y) : 1 for x in range(5) for y in range(3)}
+#   STARTS = [(0,0)]
+#   ENDS = [(4,2)]
+
+#   def ACCESSIBLE_NEIGHBOURS(matrix, st):
+#     (x,y) = st
+#     raw = [(x-1, y),(x+1, y),(x, y-1),(x, y+1)]
+#     return [pt for pt in raw if pt in matrix]
+
+#   def STEP_COST(matrix, st, st2):
+#     return 1
+
+#   return Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST, verbose = False)
+
+# t = example1()
+# t[(4,2)]    # 6
