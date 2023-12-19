@@ -126,8 +126,12 @@ def STEP_COST(matrix, here, other):
 
 def main_a(ip_file):
   (M, STARTS, ENDS) = ip_file
-  t = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
-  return [(e, t[e]) for e in ENDS]
+  (t,p) = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+  return (t,p)
+  # return [(e, t[e]) for e in ENDS]
+
+# (t,p) = main_a(test_input)
+# showD(p)
 
 # For `test_input` we get the following minimal costs:
 # ((12, 12), 'N')   =>  100
