@@ -34,7 +34,7 @@ def showD(d:dict):
   print only the key-value pairs where the value is non-null.'''
   for k in d:
     if d[k]: 
-      print(k, ": ", d[k])
+      print(k, "\t:\t", d[k])
 
 # From: https://stackoverflow.com/a/22115957
 def unzip(iterable):
