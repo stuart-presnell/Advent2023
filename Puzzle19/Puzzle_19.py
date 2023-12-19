@@ -203,28 +203,40 @@ x = find_accepting_conditions(test_input[0])
 # x = find_accepting_conditions(input[0])
 show(x)
 
-def simplify_conditions(L):
+def simplify_conditions(L, PASS = True):
   '''Given a tuple of conditions, e.g. `('a<2006', 'm>2090', 's<537', 'x>2440')`, 
   return a dictionary whose `k` entry is the range of permitted values e.g. `'a' -> [1,2005]`.
   By default, each range starts at `[1,4000]`.'''
   d = {k : [1,4000] for k in ['x','m','a','s']}
   for cnd in L:
     if cnd == 'True': 
-      # print("Skipping 'True'")
-      continue  # Skip 'True'
+      if PASS:
+        # print("Skipping 'True'")
+        continue  # Skip 'True'
+      else:
+        return None   # We can't FAIL a 'True', so there are no permitted values
     # print(cnd)
     k = cnd[0]
     n = int(cnd[2:])
-    match cnd[1]:
-      case '<':
-        d[k][1] = min(d[k][1], n-1)
-      case '>':
-        d[k][0] = max(d[k][0], n+1)
-      case _:
-        raise ValueError("Expected a comparison")
+    if PASS:   # If we're trying to PASS all the conditions
+      match cnd[1]:
+        case '<':
+          d[k][1] = min(d[k][1], n-1)
+        case '>':
+          d[k][0] = max(d[k][0], n+1)
+        case _:
+          raise ValueError("Expected a comparison")
+    else:      # If we're trying to FAIL all the conditions
+      match cnd[1]:
+        case '<':
+          d[k][0] = max(d[k][0], n)
+        case '>':
+          d[k][1] = min(d[k][1], n)
+        case _:
+          raise ValueError("Expected a comparison")
   return d
 
-simplify_conditions(('s<1351', 's>2770'))
+simplify_conditions(('s<1351', 's>2770'), False)
 # simplify_conditions(('True', 'm<1801', 'm>838'))
 
 
