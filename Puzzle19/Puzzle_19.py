@@ -53,11 +53,20 @@ def parse_machine_part(s):
     d[l] = int(n)
   return d
 
+def follow_inst(d, part):
+  '''Given a dictionary `d` containing a program of instructions, and a machine part `part`
+  (represented as a dictionary), 
+  apply the program in `d` to `part` and return either `'A'` or `'R'`.'''
+  # "All parts begin in the workflow named `in`."
+  current_inst_name = 'in'
+  while True:
+    current_inst = d[current_inst_name]
+
+    pass
+
 # parse_command_line('px{a<2006:qkq,m>2090:A,rfg}')
-
-# parse_machine_part('{x=787,m=2655,a=1222,s=2876}')
-
 # parse_all_commands(ip[0])
+# parse_machine_part('{x=787,m=2655,a=1222,s=2876}')
 
 ################################
 # Part (a)
