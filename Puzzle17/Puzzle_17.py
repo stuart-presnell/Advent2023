@@ -5,7 +5,9 @@ from Dijkstra import Dijkstra
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, showD, parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
+# chunk_splitlines, printT, showM, 
+showD, 
+# parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
 # Timer,
 )
 # TTT = Timer()
@@ -16,14 +18,33 @@ def parse_file_a(filename):
   f = open(filename)
   ip_file = [[int(n) for n in list(row)] for row in f.read().splitlines()]
   f.close()
-  return ip_file
+  ht = len(ip_file)
+  wd = len(ip_file[0])
+  M = {(r,c): ip_file[r][c] for r in range(ht) for c in range(wd)}
+  
+  # State is a pair (pt, dir)
+  # Starting point is top left corner
+  TL = (0,0)
+  # Two possible starting states
+  STARTS = [(TL, 'E'), (TL, 'S')]
+
+  # Destination is bottom right corner
+  # Compute this here while we have access to `wd` and `ht`
+  BR = (ht-1, wd-1)
+  ENDS = [(BR, dir) for dir in ['N','S','W','E']]
+
+  return (M, STARTS, ENDS)
+
+
 
 test_input = parse_file_a("Puzzle17_test.txt")
 input      = parse_file_a("Puzzle17_input.txt")
 
-ip = test_input
-# ip = input
-show(ip)
+(M, STARTS, ENDS) = test_input
+# (M, STARTS, ENDS) = input
+showD(M)
+print(STARTS)
+print(ENDS)
 
 ################################
 # Part (a)
@@ -37,23 +58,10 @@ dir_lookup = {
   'E':(0, 1)
 }
 
-ht = len(ip)
-wd = len(ip[0])
-
-M = {(r,c): ip[r][c] for r in range(ht) for c in range(wd)}
 # print(M)
 
 # new_pt = one_step(pt, dir)
 
-# State is a pair (pt, dir)
-# Starting point is top left corner
-TL = (0,0)
-# Two possible starting states
-STARTS = [(TL, 'E'), (TL, 'S')]
-
-# Destination is bottom right corner
-BR = (ht-1, wd-1)
-ENDS = [(BR, dir) for dir in dir_lookup.keys()]
 
 
 # --------------------------------------------------
