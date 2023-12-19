@@ -1,5 +1,7 @@
 # https://adventofcode.com/2023/day/19
 
+from collections import defaultdict
+
 # My utility functions
 from utils import (
 show, 
@@ -158,8 +160,30 @@ def parse_command_line_b(s):
     d[dsts[i]] = (name, conds[:i], conds[i])
   return d
 
-showD(parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}'))
+# showD(parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}'))
 
+def entry_paths(ip):
+  D = defaultdict(list)
+  for line in ip:
+    pcl = parse_command_line_b(line)
+    for dest in pcl:
+      D[dest].append(pcl[dest])
+    # showD(pcl)
+  return D
+
+E = entry_paths(test_input[0])
+# for k in E:
+#   print("To get into " + k + ": ")
+#   show(E[k])
+
+show(E['A'])
+print()
+show(E['px'])
+
+
+# for line in ip[0]:
+#   showD(parse_command_line_b(line))
+#   print()
 
 # def main_b(ip_file):
 #   pass
