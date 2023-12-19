@@ -56,7 +56,6 @@ BR = (ht-1, wd-1)
 
 
 # --------------------------------------------------
-# TODO: Change this!  Now we can step up to 3 steps in any direction, but can't reverse
 
 def n_steps(ht, wd, pt, dir, n = 1):
   step = dir_lookup[dir]
@@ -68,28 +67,33 @@ def n_steps(ht, wd, pt, dir, n = 1):
     # print(str((nr,nc)) + " is off the grid, so skip this!")
     return None
 
-def allowed_move(ht, wd, pt, dir):
-  '''A permitted move from state `(pt, dir)` is 1-3 steps in `dir` from `pt` (staying within grid followed by a turn to the left or right.'''
+def turn_lt(dir):
+  if dir == 'N': return 'W'
+  if dir == 'W': return 'S'
+  if dir == 'S': return 'E'
+  if dir == 'E': return 'N'
+
+def turn_rt(dir):
+  if dir == 'N': return 'E'
+  if dir == 'E': return 'S'
+  if dir == 'S': return 'W'
+  if dir == 'W': return 'N'
+
+def ACCESSIBLE_NEIGHBOURS(matrix, state):
+  '''Given a `state = (pt, dir)`, return a list of permitted next states.
+  A permitted move from state `(pt, dir)` is 1-3 steps in `dir` from `pt` (staying within grid) followed by a turn to the left or right.'''
+  (pt, dir) = state
   step = dir_lookup[dir]
-  new_pts = []
+  op = []
   for n in range(1,4):
     nr = pt[0] + n * step[0]
     nc = pt[1] + n * step[1]
-    (0 <= a < ht) and (0 <= b < wd)
-    pass
-  pass
+    if (0 <= nr < ht) and (0 <= nc < wd):
+      op.append((nr,nc), turn_lt(dir))
+      op.append((nr,nc), turn_rt(dir))
+  return op
 
-def neighbours(x,y):
-  '''Given a pair of coordinates, return a list of all NSWE neighbours within [0,wd) * [0,ht)'''
-  raw_neighbours = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
-  return [(a,b) for (a,b) in raw_neighbours if (0 <= a < ht) and (0 <= b < wd)]
 
-# ...but not every neighbour square is accessible; `criterion` tells us which are
-def ACCESSIBLE_NEIGHBOURS(matrix, x,y, criterion = lambda *args:True):
-  '''Given a pair of coordinates,
-  return a list of the neighbours that are accessible per the adjacency criterion
-  by default: whose height is at most one higher than [x,y]'''
-  return [(a,b) for (a,b) in neighbours(x,y) if criterion(matrix, (x,y), (a,b))]
 
 def STEP_COST(matrix, here, other):
   '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
