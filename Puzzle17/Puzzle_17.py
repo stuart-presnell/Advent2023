@@ -42,9 +42,6 @@ input      = parse_file_a("Puzzle17_input.txt")
 
 (M, STARTS, ENDS) = test_input
 # (M, STARTS, ENDS) = input
-showD(M)
-print(STARTS)
-print(ENDS)
 
 ################################
 # Part (a)
@@ -57,12 +54,6 @@ dir_lookup = {
   'W':(0,-1),
   'E':(0, 1)
 }
-
-# print(M)
-
-# new_pt = one_step(pt, dir)
-
-
 
 # --------------------------------------------------
 
@@ -107,18 +98,27 @@ def ACCESSIBLE_NEIGHBOURS(matrix, state):
 # print(ACCESSIBLE_NEIGHBOURS(M, STARTS[1]))
 
 def STEP_COST(matrix, here, other):
-  '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
-  (r1,c1) = here
-  (r2,c2) = other
+  '''Given a pair of states, return the cost of stepping from `here` to `other`.'''
+  ((r1,c1), _) = here
+  ((r2,c2), _) = other
   if r1 == r2:
     c_steps = range(min(c1,c2)+1, max(c1,c2)+1)  # don't include first square, do include last
-    return sum([matrix[r1][c] for c in c_steps])
+    return sum([matrix[(r1,c)] for c in c_steps])
   elif c1 == c2:
     pass
     r_steps = range(min(r1,r2)+1, max(r1,r2)+1)  # don't include first square, do include last
-    return sum([matrix[r][c1] for r in r_steps])
+    return sum([matrix[(r,c1)] for r in r_steps])
   else:
     raise ValueError("Can only move along rows and columns")
+
+
+showD(M)
+print(STARTS)
+print(ENDS)
+
+# print(
+#   STEP_COST(M, ((0,0), 'N'),  ((2,0), 'N'))
+# )
 
 # --------------------------------------------------
 
