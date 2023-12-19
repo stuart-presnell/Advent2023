@@ -40,6 +40,9 @@ dir_lookup = {
 ht = len(ip)
 wd = len(ip[0])
 
+M = {(r,c): ip[r][c] for r in range(ht) for c in range(wd)}
+# print(M)
+
 # new_pt = one_step(pt, dir)
 
 # State is a pair (pt, dir)
@@ -93,7 +96,7 @@ def ACCESSIBLE_NEIGHBOURS(matrix, state):
       op.append(((nr,nc), rt))
   return op
 
-print(ACCESSIBLE_NEIGHBOURS(ip, Start_S))
+# print(ACCESSIBLE_NEIGHBOURS(ip, Start_S))
 
 def STEP_COST(matrix, here, other):
   '''Given a pair of coordinates, return the cost of stepping from `here` to `other`'''
@@ -111,11 +114,7 @@ def STEP_COST(matrix, here, other):
 
 # --------------------------------------------------
 
-# TODO: Edit Dijkstra to handle STATEs rather than POINTs (x,y)
-  # In the present case, a state is a pair (pt, dir)
-
-
-Dijkstra(ip, [TL, (5,5)], [BR], ACCESSIBLE_NEIGHBOURS, STEP_COST)
+# Dijkstra(ip, [TL, (5,5)], [BR], ACCESSIBLE_NEIGHBOURS, STEP_COST)
 
 
 # def main_a(ip_file):
