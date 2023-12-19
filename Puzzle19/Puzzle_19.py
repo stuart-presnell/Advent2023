@@ -365,7 +365,7 @@ def split_region(region, condition):
 
 # show(split_region(r2, 'a>2005'))
 
-def main_b_v2(ip_file):
+def flow(ip_file, terminals = ['A', 'R']):
   # Get the dictionary mapping node names to rule lists
   D = parse_input_commands(ip_file[0])
   # The initial state has all of phase space at node 'id':
@@ -401,6 +401,12 @@ def main_b_v2(ip_file):
         #  and roll on to the next rule in `rule_list`
   # Now we've processed everything, and all of phase space should be assigned to 'A' or 'R'
   return A
+
+
+
+
+# def main_b_v2(ip_file):
+#   pass
 
 
 # print(main_b_v2(test_input))  #  
