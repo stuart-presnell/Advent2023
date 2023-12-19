@@ -177,8 +177,29 @@ E = entry_paths(test_input[0])
 #   show(E[k])
 
 show(E['A'])
-print()
-show(E['px'])
+# print()
+# show(E['px'])
+
+def find_accepting_conditions(ip):
+  E = entry_paths(ip)
+  incomplete_routes_to_A = E['A']
+  complete_routes_to_A = []
+  while incomplete_routes_to_A:
+    rte = incomplete_routes_to_A.pop()
+    if rte[0] == 'in':
+      print("This is a route from 'in' to 'A': ")
+      print(rte)
+      complete_routes_to_A.append(rte)
+      continue
+    else:
+      (pt, Fail, Pass) = rte
+      print("This is a route from '" + pt +  "' to 'A': ")
+      print(rte)
+      for (prev_pt, prev_Fail, prev_Pass) in E[pt]:
+        incomplete_routes_to_A.append((prev_pt, prev_Fail + Fail, prev_Pass + Pass))
+  return incomplete_routes_to_A, complete_routes_to_A
+
+find_accepting_conditions(test_input[0])
 
 
 # for line in ip[0]:
