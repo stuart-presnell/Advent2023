@@ -383,24 +383,33 @@ def flow(ip_file, terminals = ['A', 'R']):
       # split `region` amongst the successor nodes according to the rule
       # append these pairs of nodes and regions back onto `to_process`
     rule_list = D[node]   # get the rule list corresponding to `node`
+
     for [cnd, dst] in rule_list:
       # Split `region` into PASS and FAIL according to the condition
+      # print("Processing rule: ", cnd, dst) 
       if not cnd:  # if the condition is empty, everything in the current region passes
+        # print("No condition to apply, so the whole region goes to ", dst)
         to_process.append((dst, region))  # Assign the entire region to node `dst`
+        continue
       else:  
         (PASS, FAIL) = split_region(region, cnd)
+        # print("After applying condition '" + str(cnd) + "' we have: ")
+        # print("PASS = " + str(PASS))
+        # print("PASS = " + str(PASS))
 
       if PASS:
         to_process.append((dst, PASS))  # Assign the PASS region to node `dst`
+        # print("Some region passed, and this has been assigned to ", dst)
       if FAIL:  # If there's any more region to process
         region = FAIL
         #  and roll on to the next rule in `rule_list`
   # Now we've processed everything, and all of phase space should be assigned to 'A' or 'R'
   return op
 
-# showD(
-#   flow(test_input, ['px', 'qqz'])
-#   )
+
+# X = flow(test_input, ['px', 'qqz'])
+# print("vvvvvvvv")
+# showD(X)
 
 
 def main_b_v2(ip_file):
@@ -409,8 +418,10 @@ def main_b_v2(ip_file):
   return sum([capacity(reg) for reg in flow(ip_file)['A']])
 
 
-print(main_b_v2(test_input))  #  
-# print(main_b_v2(input))       # 
+# print(main_b_v2(test_input))  
+#  167409079868000
+#  167409079868000
+print(main_b_v2(input))       # 
 
 
 # TTT.timecheck("Part (b)")  #
