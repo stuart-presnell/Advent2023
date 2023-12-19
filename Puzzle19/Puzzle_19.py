@@ -289,7 +289,23 @@ def capacity(cnd):
 # Then total up the region at 'A'.
 ################################
 def main_b_v2(ip_file):
-  pass
+  # The initial state has all of phase space at node 'id':
+  to_process = [('id', {k : [1,4000] for k in ['x','m','a','s']})]
+  # Initially nothing has flowed out to nodes 'A' or 'R'
+  A = []
+  R = []
+  while to_process:
+    (node, region) = to_process.pop()   # We have a `region` of phase space concentrated at `node`
+    if node == 'A':
+      A.append(region)
+      continue
+    elif node == 'R':
+      R.append(region)
+      continue
+    # get the rule corresponding to `node`
+    # split `region` amongst the successor nodes according to that rule
+    # append these pairs of nodes and regions back onto `to_process`
+    pass
 
 # print(main_b_v2(test_input))  #  
 # print(main_b_v2(input))       # 
