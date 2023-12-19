@@ -23,7 +23,7 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle19_test.txt")
 input      = parse_file_a("Puzzle19_input.txt")
 
-ip = test_input
+# ip = test_input
 # ip = input
 # show(ip[0])
 
@@ -120,8 +120,8 @@ def main_a(ip_file):
       total_score += score(p)
   return total_score
 
-# print(main_a(test_input))  # 
-# print(main_a(input))       # 
+print(main_a(test_input))  # 19114
+print(main_a(input))       # 287054
 
 # TTT.timecheck("Part (a)")  #
 
