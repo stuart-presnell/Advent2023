@@ -49,11 +49,11 @@ M = {(r,c): ip[r][c] for r in range(ht) for c in range(wd)}
 # Starting point is top left corner
 TL = (0,0)
 # Two possible starting states
-Start_E = (TL, 'E')
-Start_S = (TL, 'S')
+STARTS = [(TL, 'E'), (TL, 'S')]
 
 # Destination is bottom right corner
 BR = (ht-1, wd-1)
+ENDS = [(BR, dir) for dir in dir_lookup.keys()]
 
 
 # --------------------------------------------------
