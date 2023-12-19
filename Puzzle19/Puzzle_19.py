@@ -4,7 +4,10 @@
 from utils import (
 show, 
 chunk_splitlines, 
-printT, showM, showD, parse_nums, rotate90, 
+# printT, showM, 
+showD, 
+unzip, 
+# parse_nums, rotate90, 
 # close_bracket, cmp, qsort, nwise_cycled,
 # Best, 
 # Timer,
@@ -147,22 +150,29 @@ def parse_command_line_b(s):
   [name, s] = s.split('{')  # e.g. ['px', 'a<2006:qkq,m>2090:A,rfg}']
   s = s[:-1].split(',')     # e.g. ['a<2006:qkq', 'm>2090:A' , 'rfg']
   s = [cmd.split(':') for cmd in s]
-  print(s)
+  last_item = s.pop()[0]
+  s.append(['True', last_item])
+  [conds, dsts] = unzip(s)
+  # print(conds)
+  # print(dsts)
   d = {}
-  for [cmp, dst] in s[:-1]:
-    # d[dst] = ???
-    pass
-  last_dst = s[-1][0]
+  for i in range(len(dsts)):
+    d[dsts[i]] = (name)
+  return d
+  # for [cmp, dst] in s[:-1]:
+  #   # d[dst] = ???
+  #   pass
+  # last_dst = s[-1][0]
   # d[last_dst] = ????
 
   # op = []
   # for [cmp, dst] in s[:-1]:
   #   op.append([process_command(cmp),dst])
-  # last_item = s.pop()[0]
+  # 
   # op.append([lambda _ : True, last_item])
   # return (name, op)
 
-parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}')
+showD(parse_command_line_b('px{a<2006:qkq,m>2090:A,rfg}'))
 
 
 # def main_b(ip_file):
