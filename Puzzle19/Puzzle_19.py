@@ -302,10 +302,22 @@ def parse_command_line_b_v2(s):
   s.append(['', last_item])
   return (name, s)
 
+def parse_input_commands(ip):
+  '''Given a list of strings such as `'px{a<2006:qkq,m>2090:A,rfg}'`,  
+  return a dictionary whose keys are the names e.g. `'px'`
+  and whose values are the lists of pairs produced by `parse_command_line_b_v2`.'''
+  D = {}
+  for line in ip:
+    (name, s) = parse_command_line_b_v2(line)
+    D[name] = s
+  return D
 
 # print( 
 #   parse_command_line_b_v2('px{a<2006:qkq,m>2090:A,rfg}')
 # )
+
+# D = parse_input_commands(test_input[0])
+# showD(D)
 
 
 def main_b_v2(ip_file):
