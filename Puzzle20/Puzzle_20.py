@@ -229,15 +229,18 @@ def main_a(ip_file):
   (_, P) = run_test(ip_file, 1000)
   return P['hi'] * P['lo']
 
-print(main_a(test_input01) == 32000000)  # 32000000
-print(main_a(test_input02) == 11687500)  # 11687500
-print(main_a(input))       # 944750144
+# print(main_a(test_input01) == 32000000)  # 32000000
+# print(main_a(test_input02) == 11687500)  # 11687500
+# print(main_a(input))       # 944750144
 
 # TTT.timecheck("Part (a)")  # ~ 270 ms
 
 ################################
 # Part (b)
 ################################
+
+# What is the fewest number of button presses required 
+# to deliver a single low pulse to the module named rx
 
 def process_pulse_queue_b(modules, pq, pulse_count, verbose = False):
   '''While there are still pulses to process, 
@@ -247,6 +250,8 @@ def process_pulse_queue_b(modules, pq, pulse_count, verbose = False):
     # show_queue(pq)
     # Get the next pulse from the queue
     (fr, to, hilo) = pq.get_nowait()
+    if (to == 'rx') & (hilo == 'lo'):
+      return (None, None)  # If we have a 'lo' pulse to 'rx', ALERT!
     pulse_count[hilo] += 1
     if verbose: print(fr + " -" + hilo + "-> " + to)
     # Pick out the module that receives the pulse
@@ -259,29 +264,24 @@ def process_pulse_queue_b(modules, pq, pulse_count, verbose = False):
   if verbose: print()
   return modules, pulse_count
 
-def run_test_b(ip, n, verbose = False):
+def main_b(ip):
   '''Given an input and a number of times to press the button, 
   press the button that many times with optional reporting along the way.'''
+  
+  number_of_presses = 0
   # Initialise the count of hi/lo pulses sent
   P = {hilo : 0 for hilo in ['hi', 'lo']}
   # Define the modules
   M = process_input(ip)
 
-  if verbose: print("Before pressing the button: ")
-  if verbose: show_module_states(M)
-
-  for i in range(1,n+1):
-    if verbose: print("About to do button press #" + str(i) + ": ")
+  while M:
+    number_of_presses += 1
     press_button(pulse_queue)
-    (M,P) = process_pulse_queue(M, pulse_queue, P, verbose)
-    if verbose: print("After button press #" + str(i) + ": ")
-    if verbose: show_module_states(M)
-  return (M,P)
+    (M,P) = process_pulse_queue(M, pulse_queue, P)
+  return number_of_presses
 
+main_b(input)
 
-
-# def main_b(ip_file):
-#   pass
 
 # print(main_b(test_input))  # 
 # print(main_b(input))       # 
