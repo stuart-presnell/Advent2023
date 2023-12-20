@@ -6,7 +6,9 @@ from queue import Queue
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, showD, unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
+# chunk_splitlines, printT, showM, 
+showD, 
+# unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
 # Best, 
 Timer,
 )
@@ -66,9 +68,20 @@ class Conj():
   def receive(self, p, fr):
     '''Given a pulse with hilo status `p` from sender `fr`,
     process it according to Conj rules
-    and return a (possibly empty) list of pulses emitted, to be put on the queue.'''
-    # TODO: Write Conj.receive()
-    pass
+    and return a (possibly empty) list of pulses emitted, to be put on the queue.
+    
+    "When a pulse is received, the conjunction module first updates its memory for that input. 
+    Then, if it remembers high pulses for all inputs, it sends a low pulse; 
+    otherwise, it sends a high pulse."'''
+    print("Conj module " + self.name + " received a " + p + " pulse from " + fr)
+    self.memory[fr] = p
+    print("Its memory is now: ")
+    showD(self.memory)
+    if (all([v == 'hi' for v in self.memory.values()])):
+      return [(self.name, d, 'lo') for d in self.dests]
+    else:
+      return [(self.name, d, 'hi') for d in self.dests]
+
 
 class Broadcast():
   def __init__(self, dests):
@@ -80,6 +93,7 @@ class Broadcast():
     '''Given a pulse with hilo status `p` from sender `fr`,
     process it according to Broadcast rules
     and return a (possibly empty) list of pulses emitted, to be put on the queue.
+    
     "When broadcaster receives a pulse, it sends the same pulse to all of its destination modules."'''
     return [(self.name, d, p) for d in self.dests]
 
@@ -145,8 +159,10 @@ def process_pulse_queue(modules, pq):
   '''While there are still pulses to process, 
   get each module to process its pulses and add its outputs back onto the pulse queue.'''
   while not pq.empty():
+    show_queue(pq)
     # Get the next pulse from the queue
     (fr, to, hilo) = pq.get_nowait()
+    print()
     print("Processing a pulse: " + fr + " -" + hilo + "-> " + to)
     # Pick out the module that receives the pulse
     m = modules[to]
@@ -161,8 +177,10 @@ def process_pulse_queue(modules, pq):
 M = process_input(ip)
 # show_queue(pulse_queue)
 
+print(M['inv'].dests)
+
 press_button(pulse_queue)
-process_pulse_queue(M, pulse_queue)
+# process_pulse_queue(M, pulse_queue)
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
