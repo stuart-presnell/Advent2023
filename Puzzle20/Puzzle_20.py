@@ -11,6 +11,7 @@ showD,
 # unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
 # Best, 
 Timer,
+Looper
 )
 # TTT = Timer()
 
@@ -206,8 +207,8 @@ def run_test(ip, n, verbose = False):
     if verbose: show_module_states(M)
   return M
 
-M1 = run_test(test_input01, 1, True)
-M2 = run_test(test_input02, 4, True)
+# M1 = run_test(test_input01, 1, True)
+# M2 = run_test(test_input02, 4, True)
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
