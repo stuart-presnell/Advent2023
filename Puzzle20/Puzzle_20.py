@@ -164,7 +164,9 @@ def show_queue(pq):
   print(pq.queue)
 
 def show_module_states(modules):
-  print([modules[m].state for m in modules])
+  print([(m, modules[m].state) for m in modules])
+  print([(m, modules[m].memory) for m in modules if modules[m].type == 'Conj'])
+  print()
 
 # Entries in pulse_queue are triples `(fr, to, hilo)` 
 # recording that a hi/lo pulse has been sent from module `fr` to module `to`
@@ -185,11 +187,11 @@ def process_pulse_queue(modules, pq):
     # Put these responses onto the pulse queue
     for pulse in replies:
       pq.put_nowait(pulse)
-  print("The pulse queue is now empty")
+  print()
   return modules
 
 M = process_input(ip)
-# show_queue(pulse_queue)
+
 show_module_states(M)
 
 press_button(pulse_queue)
