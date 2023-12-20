@@ -56,7 +56,7 @@ class FlipFlop():
         return [(self.name, d, 'hi') for d in self.dests]
       elif self.state: # "If it was on, it turns off and sends a low pulse."
         self.state = not self.state
-        return 'lo'
+        return [(self.name, d, 'lo') for d in self.dests]
 
 class Conj():
   def __init__(self, name, dests):
@@ -180,7 +180,7 @@ M = process_input(ip)
 print(M['inv'].dests)
 
 press_button(pulse_queue)
-# process_pulse_queue(M, pulse_queue)
+process_pulse_queue(M, pulse_queue)
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
