@@ -223,7 +223,6 @@ def run_test(ip, n, verbose = False):
 # show_module_states(M)
 # print(P)
 
-
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
 
@@ -235,7 +234,7 @@ print(main_a(test_input01) == 32000000)  # 32000000
 print(main_a(test_input02) == 11687500)  # 11687500
 print(main_a(input))       # 944750144
 
-# TTT.timecheck("Part (a)")  #
+# TTT.timecheck("Part (a)")  # ~ 270 ms
 
 ################################
 # Part (b)
