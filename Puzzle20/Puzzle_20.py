@@ -33,6 +33,17 @@ show(ip)
 # Part (a)
 ################################
 
+def process_input(ip_file):
+  '''Go through the lines of the input, create a dictionary `name -> [dests]`.'''
+  modules = {}
+  for [name, dests] in ip_file:
+    if (name[0] == '%') | (name[0] == '&'):
+      modules[name[1:]] = dests
+    else:
+      modules[name] = dests
+  return modules
+
+
 # def main_a(ip_file):
 #   pass
 
