@@ -178,13 +178,15 @@ def show_module_states(modules):
 # recording that a hi/lo pulse has been sent from module `fr` to module `to`
 pulse_queue = Queue()
 
-def process_pulse_queue(modules, pq, verbose = False):
+def process_pulse_queue(modules, pq, pulse_count, verbose = False):
   '''While there are still pulses to process, 
-  get each module to process its pulses and add its outputs back onto the pulse queue.'''
+  get each module to process its pulses and add its outputs back onto the pulse queue.
+  Keep a count in dictionary `pulse_count` of how many `'hi'` and `'lo'` pulses are sent.'''
   while not pq.empty():
     # show_queue(pq)
     # Get the next pulse from the queue
     (fr, to, hilo) = pq.get_nowait()
+    pulse_count[hilo] += 1
     if verbose: print(fr + " -" + hilo + "-> " + to)
     # Pick out the module that receives the pulse
     m = modules[to]
@@ -194,11 +196,14 @@ def process_pulse_queue(modules, pq, verbose = False):
     for pulse in replies:
       pq.put_nowait(pulse)
   if verbose: print()
-  return modules
+  return modules, pulse_count
 
 def run_test(ip, n, verbose = False):
   '''Given an input and a number of times to press the button, 
   press the button that many times with optional reporting along the way.'''
+  # Initialise the count of hi/lo pulses sent
+  P = {hilo : 0 for hilo in ['hi', 'lo']}
+  # Define the modules
   M = process_input(ip)
 
   if verbose: print("Before pressing the button: ")
@@ -207,16 +212,16 @@ def run_test(ip, n, verbose = False):
   for i in range(1,n+1):
     if verbose: print("About to do button press #" + str(i) + ": ")
     press_button(pulse_queue)
-    M = process_pulse_queue(M, pulse_queue, verbose)
+    (M,P) = process_pulse_queue(M, pulse_queue, P, verbose)
     if verbose: print("After button press #" + str(i) + ": ")
     if verbose: show_module_states(M)
-  return M
+  return (M,P)
 
-# M = run_test(test_input01, 1, False)
-# M = run_test(test_input02, 4)
-# M = run_test(input, 1000)
-# show_module_states(M)
-
+# (M, P) = run_test(test_input01, 1000)
+# (M, P) = run_test(test_input02, 1000)
+(M, P) = run_test(input, 1000)
+show_module_states(M)
+print(P)
 
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
