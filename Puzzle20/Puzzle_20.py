@@ -41,13 +41,17 @@ class FlipFlop():
     self.name = name
     self.dests = dests
     self.state = False
-  def receive(self, p):
+  def receive(self, p, fr):
+    '''Given a pulse with hilo status `p` from sender `fr`,
+    process it according to FlipFlop rules
+    and return a (possibly empty) list of pulses emitted, to be put on the queue.'''
     if p == 'hi':
-      pass  # "If a flip-flop module receives a high pulse, it is ignored and nothing happens."
+      return []  # "If a flip-flop module receives a high pulse, it is ignored and nothing happens."
     elif p == 'lo': # "However, if a flip-flop module receives a low pulse..."
       if not self.state:  # "If it was off, it turns on and sends a high pulse."
         self.state = not self.state
-        return 'hi'
+        # Send a `hi` pulse to all dests
+        return [(self.name, d, 'hi') for d in self.dests]
       elif self.state: # "If it was on, it turns off and sends a low pulse."
         self.state = not self.state
         return 'lo'
@@ -59,7 +63,11 @@ class Conj():
     self.dests = dests
     self.state = False
     self.memory = {}
-  def receive(self, p):
+  def receive(self, p, fr):
+    '''Given a pulse with hilo status `p` from sender `fr`,
+    process it according to Conj rules
+    and return a (possibly empty) list of pulses emitted, to be put on the queue.'''
+    # TODO: Write Conj.receive()
     pass
 
 class Broadcast():
@@ -68,9 +76,15 @@ class Broadcast():
     self.name = "broadcaster"
     self.dests = dests
     self.state = False
-  def receive(self, p):
+  def receive(self, p, fr):
+    '''Given a pulse with hilo status `p` from sender `fr`,
+    process it according to Broadcast rules
+    and return a (possibly empty) list of pulses emitted, to be put on the queue.'''
+    # TODO: Write Broadcast.receive()
     pass
 
+# TODO: Maybe remove `Button` class and replace with a `press_button()` function
+  # that queues a pulse to the right destination and triggers `process_queue`?
 class Button():
   def __init__(self,dests):
     self.type = "Button"
@@ -78,6 +92,7 @@ class Button():
     self.dests = dests
     self.state = False
   def press(self):
+    # TODO: Write Button.press()
     pass
 
 def process_input(ip_file):
@@ -127,17 +142,20 @@ def process_input(ip_file):
   return modules
 
 
-
-
-# Entries in pulse_queue are pairs `(fr, to, hilo)` 
+# Entries in pulse_queue are triples `(fr, to, hilo)` 
 # recording that a hi/lo pulse has been sent from module `fr` to module `to`
 pulse_queue = Queue()
 
-def process_pulse_queue():
+def process_pulse_queue(modules):
   '''While there are still pulses to process, 
   get each module to process its pulses and add its outputs back onto the pulse queue.'''
   while not pulse_queue.empty():
-    
+    # Get the next pulse from the queue
+    (fr, to, hilo) = pulse_queue.get(block=False, timeout=None)
+    # Pick out the module that receives the pulse
+    m = modules[to]
+
+
     pass
 
 
