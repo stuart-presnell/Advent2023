@@ -26,10 +26,10 @@ test_input01 = parse_file_a("Puzzle20_test01.txt")
 test_input02 = parse_file_a("Puzzle20_test02.txt")
 input      = parse_file_a("Puzzle20_input.txt")
 
-ip = test_input01
+# ip = test_input01
 # ip = test_input02
-# ip = input
-show(ip)
+ip = input
+# show(ip)
 
 ################################
 # Part (a)
@@ -37,6 +37,7 @@ show(ip)
 
 class FlipFlop():
   def __init__(self, name, dests):
+    self.type = "FlipFlop"
     self.name = name
     self.dests = dests
     self.state = False
@@ -53,6 +54,7 @@ class FlipFlop():
 
 class Conj():
   def __init__(self, name, dests):
+    self.type = "Conj"
     self.name = name
     self.dests = dests
     self.state = False
@@ -62,6 +64,7 @@ class Conj():
 
 class Broadcast():
   def __init__(self, dests):
+    self.type = "Broadcast"
     self.name = "broadcaster"
     self.dests = dests
     self.state = False
@@ -70,6 +73,7 @@ class Broadcast():
 
 class Button():
   def __init__(self,dests):
+    self.type = "Button"
     self.name = "button"
     self.dests = dests
     self.state = False
@@ -79,23 +83,54 @@ class Button():
 def process_input(ip_file):
   '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
   modules = {}
+  # First, go throuh all the lines and process just the Conj modules
+  for [name, dests] in ip_file:
+    if (name[0] == '&'):
+      name = name[1:]
+      # print("Processing a Conj module called " + name)
+      modules[name] = Conj(name, dests)
+  
+  # Now go through all the lines again and process all the other modules
+  # This lets us add `parent` information to the Conj modules so they know what to remember
   for [name, dests] in ip_file:
     if (name[0] == '%'):
-      modules[name[1:]] = FlipFlop(name[1:], dests)
+      name = name[1:]
+      # print("Processing a FlipFlop module called " + name)
+      modules[name] = FlipFlop(name, dests)
+      for m in dests:
+        # print("Checking whether to add myself as a parent to " + m)
+        if (m in modules):
+          if (modules[m].type == "Conj"):
+            # print("Yes, " + name + " is a parent of " + m)
+            modules[m].memory[name] = 'lo'    # Add the current module to `m`'s memory, set to 'lo'
     elif (name[0] == '&'):
-      modules[name[1:]] = Conj(name[1:], dests)
+      name = name[1:]
+      # print("ReProcessing a Conj module called " + name)
+      for m in dests:
+        # print("Checking whether to add myself as a parent to " + m)
+        if (m in modules):
+          if (modules[m].type == "Conj"):
+            # print("Yes, " + name + " is a parent of " + m)
+            modules[m].memory[name] = 'lo'    # Add the current module to `m`'s memory, set to 'lo'
     elif (name == 'broadcaster'):
+      # print("Processing a Broadcast module called " + name)
       modules[name] = Broadcast(dests)
+      for m in dests:
+        # print("Checking whether to add myself as a parent to " + m)
+        if (m in modules):
+          if (modules[m].type == "Conj"):
+            # print("Yes, " + name + " is a parent of " + m)
+            modules[m].memory[name] = 'lo'    # Add the current module to `m`'s memory, set to 'lo'
     else:
       raise ValueError("Expected module name to be 'broadcaster' or to start with '%' or '&'.")
   modules["button"] = Button(['broadcaster'])
   return modules
 
-# M = process_input(test_input01)
 
-# M["button"].dests
 
-# Entries in pulse_queue are pairs `(name, hilo)` recording that a hi/lo pulse has been sent to name
+
+# Entries in pulse_queue are pairs `(fr, to, hilo)` 
+# recording that a hi/lo pulse has been sent from module `fr` to module `to`
 pulse_queue = Queue()
 
 def process_pulse_queue():
@@ -104,6 +139,18 @@ def process_pulse_queue():
   while not pulse_queue.empty():
     
     pass
+
+
+
+M = process_input(ip)
+
+for k in M:
+ if M[k].type == 'Conj':
+  print(k,"\t", M[k].memory)
+#  (M["button"].type)
+
+
+
 
 # def main_a(ip_file):
 #   pass
