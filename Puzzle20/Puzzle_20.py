@@ -150,6 +150,9 @@ def press_button(pq:Queue):
 def show_queue(pq):
   print(pq.queue)
 
+def show_module_states(modules):
+  print([modules[m].state for m in modules])
+
 # Entries in pulse_queue are triples `(fr, to, hilo)` 
 # recording that a hi/lo pulse has been sent from module `fr` to module `to`
 pulse_queue = Queue()
@@ -174,9 +177,11 @@ def process_pulse_queue(modules, pq):
 
 M = process_input(ip)
 # show_queue(pulse_queue)
+show_module_states(M)
 
 press_button(pulse_queue)
 M = process_pulse_queue(M, pulse_queue)
+show_module_states(M)
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
