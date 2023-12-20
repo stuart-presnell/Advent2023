@@ -83,17 +83,15 @@ class Broadcast():
     # TODO: Write Broadcast.receive()
     pass
 
-# TODO: Maybe remove `Button` class and replace with a `press_button()` function
-  # that queues a pulse to the right destination and triggers `process_queue`?
-class Button():
-  def __init__(self,dests):
-    self.type = "Button"
-    self.name = "button"
-    self.dests = dests
-    self.state = False
-  def press(self):
-    # TODO: Write Button.press()
-    pass
+# class Button():
+#   def __init__(self,dests):
+#     self.type = "Button"
+#     self.name = "button"
+#     self.dests = dests
+#     self.state = False
+#   def press(self):
+#     # TODO: Write Button.press()
+#     pass
 
 def process_input(ip_file):
   '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
@@ -141,6 +139,11 @@ def process_input(ip_file):
   modules["button"] = Button(['broadcaster'])
   return modules
 
+def press_button(pq:Queue):
+  '''Simulate pressing the BUTTON:
+  "When you push the button, a single low pulse is sent directly to the broadcaster module."'''
+  pq.put_nowait('button', 'broadcaster', 'lo')
+  return pq
 
 # Entries in pulse_queue are triples `(fr, to, hilo)` 
 # recording that a hi/lo pulse has been sent from module `fr` to module `to`
