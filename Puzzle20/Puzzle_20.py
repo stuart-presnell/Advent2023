@@ -28,8 +28,8 @@ test_input01 = parse_file_a("Puzzle20_test01.txt")
 test_input02 = parse_file_a("Puzzle20_test02.txt")
 input      = parse_file_a("Puzzle20_input.txt")
 
-ip = test_input01
-# ip = test_input02
+# ip = test_input01
+ip = test_input02
 # ip = input
 # show(ip)
 
@@ -96,11 +96,24 @@ class Broadcast():
     "When broadcaster receives a pulse, it sends the same pulse to all of its destination modules."'''
     return [(self.name, d, p) for d in self.dests]
 
+class Output():
+  def __init__(self):
+    self.type = "Output"
+    self.name = "output"
+    self.dests = []
+    self.state = False
+  def receive(self, p, fr):
+    '''Output ignores all input pulses'''
+    return []
+
+
 def process_input(ip_file):
   '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
   modules = {}
   # First, go throuh all the lines and process just the Conj modules
   for [name, dests] in ip_file:
+    if 'output' in dests:
+      modules['output'] = Output()
     if (name[0] == '&'):
       name = name[1:]
       # print("Processing a Conj module called " + name)
