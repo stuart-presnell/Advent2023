@@ -178,14 +178,14 @@ def show_module_states(modules):
 # recording that a hi/lo pulse has been sent from module `fr` to module `to`
 pulse_queue = Queue()
 
-def process_pulse_queue(modules, pq):
+def process_pulse_queue(modules, pq, verbose = False):
   '''While there are still pulses to process, 
   get each module to process its pulses and add its outputs back onto the pulse queue.'''
   while not pq.empty():
     # show_queue(pq)
     # Get the next pulse from the queue
     (fr, to, hilo) = pq.get_nowait()
-    print(fr + " -" + hilo + "-> " + to)
+    if verbose: print(fr + " -" + hilo + "-> " + to)
     # Pick out the module that receives the pulse
     m = modules[to]
     # Send the pulse to `m`, collect any response pulses it replies with
@@ -193,7 +193,7 @@ def process_pulse_queue(modules, pq):
     # Put these responses onto the pulse queue
     for pulse in replies:
       pq.put_nowait(pulse)
-  print()
+  if verbose: print()
   return modules
 
 def run_test(ip, n, verbose = False):
@@ -207,14 +207,17 @@ def run_test(ip, n, verbose = False):
   for i in range(1,n+1):
     if verbose: print("About to do button press #" + str(i) + ": ")
     press_button(pulse_queue)
-    M = process_pulse_queue(M, pulse_queue)
+    M = process_pulse_queue(M, pulse_queue, verbose)
     if verbose: print("After button press #" + str(i) + ": ")
     if verbose: show_module_states(M)
   return M
 
-# M1 = run_test(test_input01, 1000)
-# M2 = run_test(test_input02, 1000)
-# M3 = run_test(input, 1)
+# M = run_test(test_input01, 1, False)
+# M = run_test(test_input02, 4)
+# M = run_test(input, 1000)
+# show_module_states(M)
+
+
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
@@ -225,7 +228,7 @@ def run_test(ip, n, verbose = False):
 # print(main_a(test_input))  # 
 # print(main_a(input))       # 
 
-TTT.timecheck("Part (a)")  #
+# TTT.timecheck("Part (a)")  #
 
 ################################
 # Part (b)
