@@ -35,18 +35,6 @@ show(ip)
 # Part (a)
 ################################
 
-def process_input(ip_file):
-  '''Go through the lines of the input, create a dictionary `name -> [dests]`.'''
-  modules = {}
-  for [name, dests] in ip_file:
-    if (name[0] == '%') | (name[0] == '&'):
-      modules[name[1:]] = dests
-    else:
-      modules[name] = dests
-  return modules
-
-# process_input(test_input01)
-
 pulse_queue = Queue()
 
 class FlipFlop():
@@ -64,15 +52,36 @@ class Conj():
 
 class Broadcast():
   def __init__(self, dests):
-    self.name = "broadcast"
+    self.name = "broadcaster"
     self.dests = dests
     self.state = False
 
 class Button():
-  def __init__(self,):
+  def __init__(self,dests):
     self.name = "button"
-    self.dests = []
+    self.dests = dests
     self.state = False
+
+
+
+def process_input(ip_file):
+  '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
+  modules = {}
+  for [name, dests] in ip_file:
+    if (name[0] == '%'):
+      modules[name[1:]] = FlipFlop(name[1:], dests)
+    elif (name[0] == '&'):
+      modules[name[1:]] = Conj(name[1:], dests)
+    elif (name == 'broadcaster'):
+      modules[name] = Broadcast(dests)
+    else:
+      raise ValueError("Expected module name to be 'broadcaster' or to start with '%' or '&'.")
+  modules["button"] = Button(['broadcaster'])
+  return modules
+
+# M = process_input(test_input01)
+
+# M["button"].dests
 
 
 
