@@ -13,7 +13,7 @@ showD,
 Timer,
 Looper
 )
-# TTT = Timer()
+TTT = Timer(1)
 
 ################################
 
@@ -111,16 +111,14 @@ class Output():
 def process_input(ip_file):
   '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
   modules = {}
-  # First, go throuh all the lines and process just the Conj modules
+  # First, go through all the lines and process just the Conj modules
   for [name, dests] in ip_file:
-    if 'output' in dests:
-      modules['output'] = Output()
     if (name[0] == '&'):
       name = name[1:]
       # print("Processing a Conj module called " + name)
       modules[name] = Conj(name, dests)
   
-  # Now go through all the lines again and process all the other modules
+  # Now go through all the lines again and process all the other transmitting modules
   # This lets us add `parent` information to the Conj modules so they know what to remember
   for [name, dests] in ip_file:
     if (name[0] == '%'):
@@ -153,6 +151,13 @@ def process_input(ip_file):
             modules[m].memory[name] = 'lo'    # Add the current module to `m`'s memory, set to 'lo'
     else:
       raise ValueError("Expected module name to be 'broadcaster' or to start with '%' or '&'.")
+    
+    # Finally, go through all the lines again, looking for destinations that aren't senders
+    for [name, dests] in ip_file:
+      for d in dests:
+        if d not in modules:
+          modules[d] = Output()
+
   return modules
 
 def press_button(pq:Queue):
@@ -207,8 +212,9 @@ def run_test(ip, n, verbose = False):
     if verbose: show_module_states(M)
   return M
 
-# M1 = run_test(test_input01, 1, True)
-# M2 = run_test(test_input02, 4, True)
+# M1 = run_test(test_input01, 1000)
+# M2 = run_test(test_input02, 1000)
+# M3 = run_test(input, 1)
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
@@ -219,7 +225,7 @@ def run_test(ip, n, verbose = False):
 # print(main_a(test_input))  # 
 # print(main_a(input))       # 
 
-# TTT.timecheck("Part (a)")  #
+TTT.timecheck("Part (a)")  #
 
 ################################
 # Part (b)
