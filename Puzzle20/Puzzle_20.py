@@ -73,15 +73,14 @@ class Conj():
     "When a pulse is received, the conjunction module first updates its memory for that input. 
     Then, if it remembers high pulses for all inputs, it sends a low pulse; 
     otherwise, it sends a high pulse."'''
-    print("Conj module " + self.name + " received a " + p + " pulse from " + fr)
+    # print("Conj module " + self.name + " received a " + p + " pulse from " + fr)
     self.memory[fr] = p
-    print("Its memory is now: ")
-    showD(self.memory)
+    # print("Its memory is now: ")
+    # showD(self.memory)
     if (all([v == 'hi' for v in self.memory.values()])):
       return [(self.name, d, 'lo') for d in self.dests]
     else:
       return [(self.name, d, 'hi') for d in self.dests]
-
 
 class Broadcast():
   def __init__(self, dests):
@@ -159,11 +158,10 @@ def process_pulse_queue(modules, pq):
   '''While there are still pulses to process, 
   get each module to process its pulses and add its outputs back onto the pulse queue.'''
   while not pq.empty():
-    show_queue(pq)
+    # show_queue(pq)
     # Get the next pulse from the queue
     (fr, to, hilo) = pq.get_nowait()
-    print()
-    print("Processing a pulse: " + fr + " -" + hilo + "-> " + to)
+    print(fr + " -" + hilo + "-> " + to)
     # Pick out the module that receives the pulse
     m = modules[to]
     # Send the pulse to `m`, collect any response pulses it replies with
@@ -177,10 +175,8 @@ def process_pulse_queue(modules, pq):
 M = process_input(ip)
 # show_queue(pulse_queue)
 
-print(M['inv'].dests)
-
 press_button(pulse_queue)
-process_pulse_queue(M, pulse_queue)
+M = process_pulse_queue(M, pulse_queue)
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
