@@ -79,9 +79,9 @@ class Broadcast():
   def receive(self, p, fr):
     '''Given a pulse with hilo status `p` from sender `fr`,
     process it according to Broadcast rules
-    and return a (possibly empty) list of pulses emitted, to be put on the queue.'''
-    # TODO: Write Broadcast.receive()
-    pass
+    and return a (possibly empty) list of pulses emitted, to be put on the queue.
+    "When broadcaster receives a pulse, it sends the same pulse to all of its destination modules."'''
+    return [(self.name, d, p) for d in self.dests]
 
 def process_input(ip_file):
   '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
@@ -159,9 +159,10 @@ def process_pulse_queue(modules, pq):
   return modules
 
 M = process_input(ip)
-show_queue(pulse_queue)
+# show_queue(pulse_queue)
 
 press_button(pulse_queue)
+process_pulse_queue(M, pulse_queue)
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
