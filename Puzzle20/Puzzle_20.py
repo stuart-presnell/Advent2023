@@ -199,9 +199,11 @@ def process_pulse_queue(modules, pq, pulse_count, verbose = False):
   if verbose: print()
   return modules, pulse_count
 
-def run_test(ip, n, verbose = False):
+def run_test(ip, n, tracking = [], verbose = False):
   '''Given an input and a number of times to press the button, 
-  press the button that many times with optional reporting along the way.'''
+  press the button that many times with optional reporting along the way.
+  If `tracking` is set, show the status of all modules in that list
+  after each press of the button.'''
   # Initialise the count of hi/lo pulses sent
   P = {hilo : 0 for hilo in ['hi', 'lo']}
   # Define the modules
@@ -216,6 +218,7 @@ def run_test(ip, n, verbose = False):
     (M,P) = process_pulse_queue(M, pulse_queue, P, verbose)
     if verbose: print("After button press #" + str(i) + ": ")
     if verbose: show_module_states(M)
+    if tracking: show_module_states(M, tracking)
   return (M,P)
 
 # (M, P) = run_test(test_input01, 1000)
@@ -253,9 +256,8 @@ def main_a(ip_file):
 
 # TODO: Try examining the status of the inputs to `rx` at each cycle, see if there's a repeating pattern with a detectable period.
 
-(M, P) = run_test(input, 1)
-show_module_states(M, ['hf'])
-
+(M, P) = run_test(input, 1, ['kz', 'sj'])
+# show_module_states(M, ['kz'])
 
 
 # def process_pulse_queue_b(modules, pq, pulse_count, verbose = False):
