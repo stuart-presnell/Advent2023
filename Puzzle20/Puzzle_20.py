@@ -35,8 +35,6 @@ show(ip)
 # Part (a)
 ################################
 
-pulse_queue = Queue()
-
 class FlipFlop():
   def __init__(self, name, dests):
     self.name = name
@@ -63,7 +61,6 @@ class Button():
     self.state = False
 
 
-
 def process_input(ip_file):
   '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
   modules = {}
@@ -83,7 +80,15 @@ def process_input(ip_file):
 
 # M["button"].dests
 
+# Entries in pulse_queue are pairs `(name, hilo)` recording that a hi/lo pulse has been sent to name
+pulse_queue = Queue()
 
+def process_pulse_queue():
+  '''While there are still pulses to process, 
+  get each module to process its pulses and add its outputs back onto the pulse queue.'''
+  while not pulse_queue.empty():
+    
+    pass
 
 # def main_a(ip_file):
 #   pass
