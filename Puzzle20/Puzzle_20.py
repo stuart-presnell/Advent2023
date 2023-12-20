@@ -279,23 +279,21 @@ def process_pulse_queue_b(modules, pq, pulse_count, verbose = False):
 (M, P) = run_test(input, 1)
 show_module_states(M, ['hf'])
 
-def main_b(ip):
-  '''Given an input and a number of times to press the button, 
-  press the button that many times with optional reporting along the way.'''
-  
-  number_of_presses = 0
-  # Initialise the count of hi/lo pulses sent
-  P = {hilo : 0 for hilo in ['hi', 'lo']}
-  # Define the modules
-  M = process_input(ip)
+# def main_b(ip):
+#   '''Given an input and a number of times to press the button, 
+#   press the button that many times with optional reporting along the way.'''
+#   number_of_presses = 0
+#   # Initialise the count of hi/lo pulses sent
+#   P = {hilo : 0 for hilo in ['hi', 'lo']}
+#   # Define the modules
+#   M = process_input(ip)
+#   while M:
+#     number_of_presses += 1
+#     press_button(pulse_queue)
+#     (M,P) = process_pulse_queue(M, pulse_queue, P)
+#   return number_of_presses
 
-  while M:
-    number_of_presses += 1
-    press_button(pulse_queue)
-    (M,P) = process_pulse_queue(M, pulse_queue, P)
-  return number_of_presses
-
-main_b(input)
+# main_b(input)
 
 
 # print(main_b(test_input))  # 
