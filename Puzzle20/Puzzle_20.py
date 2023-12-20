@@ -168,9 +168,11 @@ def press_button(pq:Queue):
 def show_queue(pq):
   print(pq.queue)
 
-def show_module_states(modules):
-  print([(m, modules[m].state) for m in modules])
-  print([(m, modules[m].memory) for m in modules if modules[m].type == 'Conj'])
+def show_module_states(modules, focus=[]):
+  '''Print `state` and `memory` of every module in `focus` (or, by default, every module).'''
+  if not focus: focus = modules
+  print([(m, modules[m].state) for m in focus])
+  print([(m, modules[m].memory) for m in focus if modules[m].type == 'Conj'])
   print()
 
 # Entries in pulse_queue are triples `(fr, to, hilo)` 
@@ -272,6 +274,10 @@ def process_pulse_queue_b(modules, pq, pulse_count, verbose = False):
       pq.put_nowait(pulse)
   if verbose: print()
   return modules, pulse_count
+
+
+(M, P) = run_test(input, 1)
+show_module_states(M, ['hf'])
 
 def main_b(ip):
   '''Given an input and a number of times to press the button, 
