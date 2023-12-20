@@ -190,13 +190,24 @@ def process_pulse_queue(modules, pq):
   print()
   return modules
 
-M = process_input(ip)
+def run_test(ip, n, verbose = False):
+  '''Given an input and a number of times to press the button, 
+  press the button that many times with optional reporting along the way.'''
+  M = process_input(ip)
 
-show_module_states(M)
+  if verbose: print("Before pressing the button: ")
+  if verbose: show_module_states(M)
 
-press_button(pulse_queue)
-M = process_pulse_queue(M, pulse_queue)
-show_module_states(M)
+  for i in range(1,n+1):
+    if verbose: print("About to do button press #" + str(i) + ": ")
+    press_button(pulse_queue)
+    M = process_pulse_queue(M, pulse_queue)
+    if verbose: print("After button press #" + str(i) + ": ")
+    if verbose: show_module_states(M)
+  return M
+
+M1 = run_test(test_input01, 1, True)
+M2 = run_test(test_input02, 4, True)
 
 # (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
