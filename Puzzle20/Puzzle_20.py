@@ -107,7 +107,6 @@ class Output():
     '''Output ignores all input pulses'''
     return []
 
-
 def process_input(ip_file):
   '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
   modules = {}
@@ -239,6 +238,47 @@ print(main_a(input))       # 944750144
 ################################
 # Part (b)
 ################################
+
+def process_pulse_queue_b(modules, pq, pulse_count, verbose = False):
+  '''While there are still pulses to process, 
+  get each module to process its pulses and add its outputs back onto the pulse queue.
+  Keep a count in dictionary `pulse_count` of how many `'hi'` and `'lo'` pulses are sent.'''
+  while not pq.empty():
+    # show_queue(pq)
+    # Get the next pulse from the queue
+    (fr, to, hilo) = pq.get_nowait()
+    pulse_count[hilo] += 1
+    if verbose: print(fr + " -" + hilo + "-> " + to)
+    # Pick out the module that receives the pulse
+    m = modules[to]
+    # Send the pulse to `m`, collect any response pulses it replies with
+    replies = m.receive(hilo, fr)
+    # Put these responses onto the pulse queue
+    for pulse in replies:
+      pq.put_nowait(pulse)
+  if verbose: print()
+  return modules, pulse_count
+
+def run_test_b(ip, n, verbose = False):
+  '''Given an input and a number of times to press the button, 
+  press the button that many times with optional reporting along the way.'''
+  # Initialise the count of hi/lo pulses sent
+  P = {hilo : 0 for hilo in ['hi', 'lo']}
+  # Define the modules
+  M = process_input(ip)
+
+  if verbose: print("Before pressing the button: ")
+  if verbose: show_module_states(M)
+
+  for i in range(1,n+1):
+    if verbose: print("About to do button press #" + str(i) + ": ")
+    press_button(pulse_queue)
+    (M,P) = process_pulse_queue(M, pulse_queue, P, verbose)
+    if verbose: print("After button press #" + str(i) + ": ")
+    if verbose: show_module_states(M)
+  return (M,P)
+
+
 
 # def main_b(ip_file):
 #   pass
