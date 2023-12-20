@@ -1,5 +1,7 @@
 # https://adventofcode.com/2023/day/20
 
+from queue import Queue
+
 # My utility functions
 # My utility functions
 from utils import (
@@ -42,6 +44,36 @@ def process_input(ip_file):
     else:
       modules[name] = dests
   return modules
+
+# process_input(test_input01)
+
+pulse_queue = Queue()
+
+class FlipFlop():
+  def __init__(self, name, dests):
+    self.name = name
+    self.dests = dests
+    self.state = False
+
+class Conj():
+  def __init__(self, name, dests):
+    self.name = name
+    self.dests = dests
+    self.state = False
+    self.memory = {}
+
+class Broadcast():
+  def __init__(self, dests):
+    self.name = "broadcast"
+    self.dests = dests
+    self.state = False
+
+class Button():
+  def __init__(self,):
+    self.name = "button"
+    self.dests = []
+    self.state = False
+
 
 
 # def main_a(ip_file):
