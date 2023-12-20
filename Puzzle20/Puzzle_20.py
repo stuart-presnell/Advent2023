@@ -240,7 +240,16 @@ def main_a(ip_file):
 ################################
 
 # What is the fewest number of button presses required 
-# to deliver a single low pulse to the module named rx
+# to deliver a single low pulse to the module named rx?
+
+# rx recieves a pulse only from &kz
+# So for rx to get a lo pulse, kz must remember a hi pulse from all its inputs
+# &hb -> &sj -> kz
+# &hf -> &qq -> kz
+# &dl -> &ls -> kz
+# &lq -> &bg -> kz
+
+# TODO: Try examining the status of the inputs to `rx` at each cycle, see if there's a repeating pattern with a detectable period.
 
 def process_pulse_queue_b(modules, pq, pulse_count, verbose = False):
   '''While there are still pulses to process, 
