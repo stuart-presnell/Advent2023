@@ -83,16 +83,6 @@ class Broadcast():
     # TODO: Write Broadcast.receive()
     pass
 
-# class Button():
-#   def __init__(self,dests):
-#     self.type = "Button"
-#     self.name = "button"
-#     self.dests = dests
-#     self.state = False
-#   def press(self):
-#     # TODO: Write Button.press()
-#     pass
-
 def process_input(ip_file):
   '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
   modules = {}
@@ -136,14 +126,16 @@ def process_input(ip_file):
             modules[m].memory[name] = 'lo'    # Add the current module to `m`'s memory, set to 'lo'
     else:
       raise ValueError("Expected module name to be 'broadcaster' or to start with '%' or '&'.")
-  modules["button"] = Button(['broadcaster'])
   return modules
 
 def press_button(pq:Queue):
   '''Simulate pressing the BUTTON:
   "When you push the button, a single low pulse is sent directly to the broadcaster module."'''
-  pq.put_nowait('button', 'broadcaster', 'lo')
+  pq.put_nowait(('button', 'broadcaster', 'lo'))
   return pq
+
+def show_queue(pq):
+  print(pq.queue)
 
 # Entries in pulse_queue are triples `(fr, to, hilo)` 
 # recording that a hi/lo pulse has been sent from module `fr` to module `to`
@@ -167,9 +159,11 @@ def process_pulse_queue(modules, pq):
   return modules
 
 M = process_input(ip)
+show_queue(pulse_queue)
 
-# pulse_queue.put(("broadcaster", 'a', 'hi'))
-(M, pulse_queue) = process_pulse_queue(M, pulse_queue)
+press_button(pulse_queue)
+
+# (M, pulse_queue) = process_pulse_queue(M, pulse_queue)
 # print(M)
 
 # def main_a(ip_file):
