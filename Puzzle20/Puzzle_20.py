@@ -16,12 +16,16 @@ def parse_file_a(filename):
   f = open(filename)
   ip_file = f.read().splitlines()
   f.close()
+  ip_file = [line.split(" -> ") for line in ip_file]
+  ip_file = [[line[0], line[1].split(", ")] for line in ip_file]
   return ip_file
 
-test_input = parse_file_a("Puzzle20_test.txt")
+test_input01 = parse_file_a("Puzzle20_test01.txt")
+test_input02 = parse_file_a("Puzzle20_test02.txt")
 input      = parse_file_a("Puzzle20_input.txt")
 
-ip = test_input
+ip = test_input01
+# ip = test_input02
 # ip = input
 show(ip)
 
