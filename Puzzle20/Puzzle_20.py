@@ -40,6 +40,16 @@ class FlipFlop():
     self.name = name
     self.dests = dests
     self.state = False
+  def receive(self, p):
+    if p == 'hi':
+      pass  # "If a flip-flop module receives a high pulse, it is ignored and nothing happens."
+    elif p == 'lo': # "However, if a flip-flop module receives a low pulse..."
+      if not self.state:  # "If it was off, it turns on and sends a high pulse."
+        self.state = not self.state
+        return 'hi'
+      elif self.state: # "If it was on, it turns off and sends a low pulse."
+        self.state = not self.state
+        return 'lo'
 
 class Conj():
   def __init__(self, name, dests):
@@ -47,19 +57,24 @@ class Conj():
     self.dests = dests
     self.state = False
     self.memory = {}
+  def receive(self, p):
+    pass
 
 class Broadcast():
   def __init__(self, dests):
     self.name = "broadcaster"
     self.dests = dests
     self.state = False
+  def receive(self, p):
+    pass
 
 class Button():
   def __init__(self,dests):
     self.name = "button"
     self.dests = dests
     self.state = False
-
+  def press(self):
+    pass
 
 def process_input(ip_file):
   '''Go through the lines of the input, create a module for each line.  Also create a `Button`.'''
