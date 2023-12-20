@@ -26,9 +26,9 @@ test_input01 = parse_file_a("Puzzle20_test01.txt")
 test_input02 = parse_file_a("Puzzle20_test02.txt")
 input      = parse_file_a("Puzzle20_input.txt")
 
-# ip = test_input01
+ip = test_input01
 # ip = test_input02
-ip = input
+# ip = input
 # show(ip)
 
 ################################
@@ -146,29 +146,28 @@ def process_input(ip_file):
 # recording that a hi/lo pulse has been sent from module `fr` to module `to`
 pulse_queue = Queue()
 
-def process_pulse_queue(modules):
+def process_pulse_queue(modules, pq):
   '''While there are still pulses to process, 
   get each module to process its pulses and add its outputs back onto the pulse queue.'''
-  while not pulse_queue.empty():
+  while not pq.empty():
     # Get the next pulse from the queue
-    (fr, to, hilo) = pulse_queue.get(block=False, timeout=None)
+    (fr, to, hilo) = pq.get_nowait()
+    print("Processing a pulse: " + fr + " -" + hilo + "-> " + to)
     # Pick out the module that receives the pulse
     m = modules[to]
-
-
-    pass
-
-
+    # Send the pulse to `m`, collect any response pulses it replies with
+    replies = m.receive(hilo, fr)
+    # Put these responses onto the pulse queue
+    for pulse in replies:
+      pq.put_nowait(pulse)
+  print("The pulse queue is now empty")
+  return modules
 
 M = process_input(ip)
 
-for k in M:
- if M[k].type == 'Conj':
-  print(k,"\t", M[k].memory)
-#  (M["button"].type)
-
-
-
+# pulse_queue.put(("broadcaster", 'a', 'hi'))
+(M, pulse_queue) = process_pulse_queue(M, pulse_queue)
+# print(M)
 
 # def main_a(ip_file):
 #   pass
