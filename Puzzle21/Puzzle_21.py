@@ -5,8 +5,10 @@ from scipy.sparse import coo_array
 
 # My utility functions
 from utils import (
-show, 
-# chunk_splitlines, printT, showM, showD, unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
+# show, 
+# chunk_splitlines, printT, showM, showD, 
+unzip, 
+# parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
 # Best, 
 Timer,
 )
@@ -102,16 +104,21 @@ def make_matrix(grid):
   # Go through each square of `grid`, 
   # populating `Adj` with the adjacencies to and from that square.
   # We use the fact that accessibility is symmetric and irreflexive in this grid,  
-  for r in range(ht):
-    for c in range(wd):
-      pass
-  data = []
-  R = []
-  C = []
-  Adj = coo_array((data, (R, C)), shape=(ht * wd, ht * wd))
-  print(Adj)
+
+  # for r in range(ht):
+  #   for c in range(wd):
+  #     pass
+  data_points = [[50,1,1]]
+  [data, R, C] = unzip(data_points)
+  # data = []
+  # R = []
+  # C = []
+  # Adj = coo_array((data, (R, C)), shape=(ht * wd, ht * wd))
+  Adj = coo_array((data, (R, C)), shape=(3,3))
+  print(Adj.toarray())
   pass
 
+make_matrix(M)
 
 # def main_b(ip_file):
 #   pass
