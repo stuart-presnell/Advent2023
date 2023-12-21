@@ -37,7 +37,21 @@ wd = len(M[0])
 def free(r,c):
   return (0 <= r <= ht) & (0 <= c <= wd) & (M[r][c] != '#')
 
+# Where could we be standing now?
+current = {S}
 
+def step(current):
+  '''Return all the free spaces that are 1 step away from a current position.'''
+  op = set()
+  for (r,c) in current:
+    ngb = [(r-1,c), (r+1,c), (r,c-1), (r,c+1)]
+    for pos in ngb:
+      if free(*pos):
+        op.add(pos)
+  return op
+
+print(current)
+print(step(current))
 
 ################################
 # Part (a)
