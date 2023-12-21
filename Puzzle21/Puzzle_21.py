@@ -38,20 +38,10 @@ input      = parse_file_a("Puzzle21_input.txt")
 M4 = [row[:4] for row in M[:4]]
 show(M4)
 
-ht = len(M)
-wd = len(M[0])
-
-def free(r,c):
-  if (0 <= r < ht) & (0 <= c < wd):
-    return (M[r][c] != '#')
-  else:
-    return False
-
-# Where could we be standing now?
-current = {S}
-
-def step(current):
-  '''Return all the free spaces that are 1 step away from a current position.'''
+def step(current, free):
+  '''Given a list/set of `current` positions
+  and a function reporting whether a square is `free`, 
+  return a set of the free spaces that are 1 step away from a current position.'''
   op = set()
   for (r,c) in current:
     ngb = [(r-1,c), (r+1,c), (r,c-1), (r,c+1)]
@@ -60,22 +50,27 @@ def step(current):
         op.add(pos)
   return op
 
-def n_steps(current, n):
-  for _ in range(n):
-    current = step(current)
-  return current
-
-# print(len(n_steps(current, 64))) # 3532
-
 ################################
 # Part (a)
 ################################
 
-# def main_a(ip_file):
-#   pass
+def main_a(ip_filename, n):
+  (M, S) = parse_file_a(ip_filename)
+  ht = len(M)
+  wd = len(M[0])
+  def free(r,c):
+    if (0 <= r < ht) & (0 <= c < wd):
+      return (M[r][c] != '#')
+    else:
+      return False
+  current = {S}
+  for _ in range(n):
+    current = step(current, free)
+  return len(current)
 
-# print(main_a(test_input))  # 
-# print(main_a(input))       # 
+print(main_a("Puzzle21_test.txt", 64))   # 42
+print(main_a("Puzzle21_input.txt", 64))  # 3532
+
 
 # TTT.timecheck("Part (a)")  #
 
@@ -122,7 +117,7 @@ def make_matrix(grid):
   # print(Adj.toarray())
   pass
 
-make_matrix(M4)
+# make_matrix(M4)
 
 # def main_b(ip_file):
 #   pass
