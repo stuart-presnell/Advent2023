@@ -99,15 +99,13 @@ def make_matrix(grid):
   `(ht * wd)` and so the adjacency matrix is `(ht * wd) x (ht * wd)`.'''
   ht = len(grid)
   wd = len(grid[0])
-  
-  # The adjacency matrix `Adj` has an entry for each pair of squares in `grid`.
-  # For most of these, the entry is zero; hence we use a sparse matrix.
-  # We populate `Adj` by providing three lists.
-  # To set `Adj[R][C] = d` we put (for some index `k`) 
-  # * `row[k]  = R`
-  # * `col[k]  = C`
-  # * `data[k] = d`
-  
+
+  def free(r,c):
+    if (0 <= r < ht) & (0 <= c < wd):
+      return (grid[r][c] != '#')
+    else:
+      return False
+
   # Go through each square of `grid`, 
   # populating `Adj` with the adjacencies to and from that square.
   # We use the fact that accessibility is symmetric and irreflexive in this grid,  
@@ -115,17 +113,20 @@ def make_matrix(grid):
   data_points = []
   for r in range(ht):
     for c in range(wd):
-      ngb = [(r-1,c), (r+1,c), (r,c-1), (r,c+1)]
-    for pos in ngb:
-      if free(*pos):
-        data_points.append([1, encode(r,c), encode(*pos)])
+      print("Looking for adjacencies for point ", r, c)
+      if grid[r][c] == '#': continue  # Skip blocked squares
+      ngb = [(r,c+1), (r+1,c)]  # Only need to consider points to S and E
+      for pos in ngb:
+        if free(*pos):
+          data_points.append([1, encode(r,c, wd), encode(*pos, wd)])
+          data_points.append([1, encode(*pos, wd), encode(r,c, wd)])
   
-  print(data_points)
-  Adj = make_coo(data_points, ht*wd, ht*wd)
+  show([(r,c) for [d,r,c] in data_points])
+  # Adj = make_coo(data_points, ht*wd, ht*wd)
   # print(Adj.toarray())
   pass
 
-# make_matrix(M4)
+make_matrix(M4)
 
 # def main_b(ip_file):
 #   pass
