@@ -29,7 +29,7 @@ input      = parse_file_a("Puzzle21_input.txt")
 (M, S) = test_input
 # M = input
 show(M)
-print(S)
+# print(S)
 
 ht = len(M)
 wd = len(M[0])
@@ -50,8 +50,13 @@ def step(current):
         op.add(pos)
   return op
 
-print(current)
-print(step(current))
+def n_steps(current, n):
+  for _ in range(n):
+    current = step(current)
+  return current
+
+for n in range(7):
+  print(n, len(n_steps(current, n)))
 
 ################################
 # Part (a)
