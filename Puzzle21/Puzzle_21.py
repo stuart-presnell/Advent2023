@@ -68,8 +68,8 @@ def main_a(ip_filename, n):
     current = step(current, free)
   return len(current)
 
-print(main_a("Puzzle21_test.txt", 64))   # 42
-print(main_a("Puzzle21_input.txt", 64))  # 3532
+# print(main_a("Puzzle21_test.txt", 64))   # 42
+# print(main_a("Puzzle21_input.txt", 64))  # 3532
 
 
 # TTT.timecheck("Part (a)")  #
@@ -80,6 +80,11 @@ print(main_a("Puzzle21_input.txt", 64))  # 3532
 
 STEPS_TO_TAKE = 26501365
 
+def encode(r,c, WD):
+  '''Squares of `grid` are numbered row-by-row, so `(r,c)` is square number `r*WD + c`.'''
+  return (r * WD) + c
+
+
 def make_matrix(grid):
   '''Given a `grid` (represented as a list of strings)
   in which some squares are accessible (`'.'` and `'S'`) and others are blocked (`'#'`),
@@ -87,9 +92,6 @@ def make_matrix(grid):
   `(ht * wd)` and so the adjacency matrix is `(ht * wd) x (ht * wd)`.'''
   ht = len(grid)
   wd = len(grid[0])
-  def encode(r,c):
-    '''Squares of `grid` are numbered row-by-row, so `(r,c)` is square number `r*wd + c`.'''
-    return (r * wd) + c
   
   # The adjacency matrix `Adj` has an entry for each pair of squares in `grid`.
   # For most of these, the entry is zero; hence we use a sparse matrix.
