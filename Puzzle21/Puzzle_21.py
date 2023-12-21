@@ -190,26 +190,35 @@ def sparse_power(M, n):
 # show_encoded(M5)
 
 
-# (M, S) = test_input
-(M, S) = input
-Adj2 = make_matrix(M)
-
-TTT.timecheck("After `make_matrix`")  # ~ 50 ms for `input`
-
-# Adj2.toarray()
-
-Adj2_CSR = Adj2.tocsr()
-
-TTT.timecheck("After `tocsr`")  # No further time
+(M, S) = test_input
+# (M, S) = input
+Adj = make_matrix(M)
+# AdjW = make_wraparound_matrix(M)
 
 
-# Adj2_sq = Adj2_CSR ** 2  # This is doing element-wise squaring, not matrix power!
-# Adj2_sq = Adj2_CSR @ Adj2_CSR # This works to square the matrix
-# TTT.timecheck("After squaring")  # No further time
+# TODO: Extract the appropriate row from the powered matrix, corresponding to steps from `S`.
+# TODO: Use this row to compute how many squares are exactly `n` steps from `S`
+# TODO: Would it be better (possible??) to use `True` in the adjacency matrix instead of `1`?
+#    After all, all we need is *whether* there's a path from `i` to `j` in `n` steps, 
+#     not *how many* paths there are.
 
-n = 6
-Adj2_sq = sparse_power(Adj2_CSR, n)
-TTT.timecheck("After raising to power " + str(n))  # Further ~ 20 ms for n=6, 13.5 sec for n=64!
+
+# TTT.timecheck("After `make_matrix`")  # ~ 50 ms for `input`
+
+# # Adj2.toarray()
+
+# Adj2_CSR = Adj2.tocsr()
+
+# TTT.timecheck("After `tocsr`")  # No further time
+
+
+# # Adj2_sq = Adj2_CSR ** 2  # This is doing element-wise squaring, not matrix power!
+# # Adj2_sq = Adj2_CSR @ Adj2_CSR # This works to square the matrix
+# # TTT.timecheck("After squaring")  # No further time
+
+# n = 6
+# Adj2_sq = sparse_power(Adj2_CSR, n)
+# TTT.timecheck("After raising to power " + str(n))  # Further ~ 20 ms for n=6, 13.5 sec for n=64!
 
 # Adj2_dense = Adj2_CSR.todense()
 # TTT.timecheck("After `todense`")  #  ~ 30 ms
