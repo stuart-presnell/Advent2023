@@ -214,6 +214,8 @@ TTT.timecheck("After raising to power " + str(n))
 
 # TODO: Extract the appropriate row from the powered matrix, corresponding to steps from `S`.
 # TODO: Use this row to compute how many squares are exactly `n` steps from `S`
+# TODO: Instead of taking powers of `Adj` directly, can we diagonalise `Adj` first?
+
 
 # TTT.timecheck("After `make_matrix`")  # ~ 50 ms for `input`
 
