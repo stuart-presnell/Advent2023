@@ -139,16 +139,17 @@ def make_matrix(grid):
           data_points.append([1, encode(r,c, wd), encode(*pos, wd)])
           data_points.append([1, encode(*pos, wd), encode(r,c, wd)])
   
-  data_points.sort()
-  show([(r,c) for [d,r,c] in data_points])
-  # Adj = make_coo(data_points, ht*wd, ht*wd)
-  # print(Adj.toarray())
-  pass
+  # data_points.sort()
+  # show([(r,c) for [d,r,c] in data_points])
+  return make_coo(data_points, ht*wd, ht*wd)
 
+
+M4 = top_corner(M, 4)
 # M5 = top_corner(M, 5)
 # show(M5)
 # show_encoded(M5)
-# make_matrix(M5)
+Adj4 = make_matrix(M4)
+Adj4.toarray()
 
 # def main_b(ip_file):
 #   pass
