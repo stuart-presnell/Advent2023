@@ -5,7 +5,7 @@ from scipy.sparse import coo_array
 
 # My utility functions
 from utils import (
-# show, 
+show, 
 # chunk_splitlines, printT, showM, showD, 
 unzip, 
 # parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
@@ -32,8 +32,11 @@ input      = parse_file_a("Puzzle21_input.txt")
 
 (M, S) = test_input
 # (M, S) = input
-show(M)
-# print(S)
+# show(M)
+
+# For testing purposes, extract the top left corner of `M`
+M4 = [row[:4] for row in M[:4]]
+show(M4)
 
 ht = len(M)
 wd = len(M[0])
@@ -105,20 +108,21 @@ def make_matrix(grid):
   # populating `Adj` with the adjacencies to and from that square.
   # We use the fact that accessibility is symmetric and irreflexive in this grid,  
 
-  # for r in range(ht):
-  #   for c in range(wd):
-  #     pass
-  data_points = [[50,1,1]]
-  [data, R, C] = unzip(data_points)
-  # data = []
-  # R = []
-  # C = []
+  data_points = []
+  for r in range(ht):
+    for c in range(wd):
+      ngb = [(r-1,c), (r+1,c), (r,c-1), (r,c+1)]
+    for pos in ngb:
+      if free(*pos):
+        data_points.append([1, encode(r,c), encode(*pos)])
+  
+  print(data_points)
+  # [data, R, C] = unzip(data_points)
   # Adj = coo_array((data, (R, C)), shape=(ht * wd, ht * wd))
-  Adj = coo_array((data, (R, C)), shape=(3,3))
-  print(Adj.toarray())
+  # print(Adj.toarray())
   pass
 
-make_matrix(M)
+make_matrix(M4)
 
 # def main_b(ip_file):
 #   pass
