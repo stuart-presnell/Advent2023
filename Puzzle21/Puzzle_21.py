@@ -72,8 +72,7 @@ def main_a(ip_filename, n):
 # print(main_a("Puzzle21_test.txt", 64))   # 42
 # print(main_a("Puzzle21_input.txt", 64))  # 3532
 
-
-# TTT.timecheck("Part (a)")  #
+# TTT.timecheck("Part (a)")  # ~ 60 ms
 
 ################################
 # Part (b)
@@ -194,8 +193,10 @@ def main_a_v2(ip_filename, n):
   S_row = Adj_pow[[S_code], :]
   return (S_row.nnz)
 
-print(main_a_v2("Puzzle21_test.txt", 64))   # 42
-# print(main_a_v2("Puzzle21_input.txt", 6))   # 16
+# print(main_a_v2("Puzzle21_test.txt", 64))   # 42
+# print(main_a_v2("Puzzle21_input.txt", 64))    # 3532
+
+# TTT.timecheck("main_a_v2")  # ~ 13.5 seconds
 
 
 # TODO: Extract the appropriate row from the powered matrix, corresponding to steps from `S`.
