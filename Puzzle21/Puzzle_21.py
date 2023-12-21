@@ -16,7 +16,12 @@ def parse_file_a(filename):
   f = open(filename)
   ip_file = f.read().splitlines()
   f.close()
-  return ip_file
+  for r in range(len(ip_file)):
+    if 'S' in ip_file[r]:
+      col = ip_file[r].index('S')
+      start = (r,col)
+      break
+  return ip_file, start
 
 test_input = parse_file_a("Puzzle21_test.txt")
 input      = parse_file_a("Puzzle21_input.txt")
