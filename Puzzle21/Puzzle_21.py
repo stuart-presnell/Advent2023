@@ -38,8 +38,14 @@ input      = parse_file_a("Puzzle21_input.txt")
 # show(M)
 
 # For testing purposes, extract the top left corner of `M`
-M4 = [row[:4] for row in M[:4]]
-show(M4)
+
+def top_corner(grid, n):
+  return [row[:n] for row in grid[:n]]
+
+M4 = top_corner(M, 4)
+M5 = top_corner(M, 5)
+
+# show(M4)
 
 def step(current, free):
   '''Given a list/set of `current` positions
@@ -98,7 +104,7 @@ def show_encoded(grid):
     max_digits
     )
 
-show_encoded(M)
+show_encoded(M4)
 
 def make_coo(data_coords, HT, WD):
   '''Given a list of triples `[d, r, c]` encoding that matrix element `M[r][c] = d`,
@@ -129,20 +135,24 @@ def make_matrix(grid):
   data_points = []
   for r in range(ht):
     for c in range(wd):
-      print("Looking for adjacencies for point ", r, c)
-      if grid[r][c] == '#': continue  # Skip blocked squares
+      if grid[r][c] == '#': 
+        # print("Skipping blocked square ", encode(r,c,wd))
+        continue  # Skip blocked squares
+  
+      # print("Looking for adjacencies for point ", encode(r,c,wd))
       ngb = [(r,c+1), (r+1,c)]  # Only need to consider points to S and E
       for pos in ngb:
         if free(*pos):
           data_points.append([1, encode(r,c, wd), encode(*pos, wd)])
           data_points.append([1, encode(*pos, wd), encode(r,c, wd)])
   
+  data_points.sort()
   show([(r,c) for [d,r,c] in data_points])
   # Adj = make_coo(data_points, ht*wd, ht*wd)
   # print(Adj.toarray())
   pass
 
-# make_matrix(M4)
+make_matrix(M4)
 
 # def main_b(ip_file):
 #   pass
