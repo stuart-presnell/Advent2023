@@ -144,6 +144,8 @@ def make_matrix(grid):
 def sparse_power(M, n):
   '''Compute the `n`th power of sparse matrix `M`, using repeated powers and `@` multiplication.
   https://stackoverflow.com/a/28703334'''
+  if n <= 1:
+    return M
   temp = sparse_power(M, n//2)
   if n % 2:     # if n is odd
     return M @ temp @ temp
@@ -174,8 +176,12 @@ TTT.timecheck("After `tocsr`")  # No further time
 # Adj2_sq = Adj2_CSR @ Adj2_CSR # This works to square the matrix
 # TTT.timecheck("After squaring")  # No further time
 
-Adj2_dense = Adj2_CSR.todense()
-TTT.timecheck("After `todense`")  #  ~ 30 ms
+n = 6
+Adj2_sq = sparse_power(Adj2_CSR, n)
+TTT.timecheck("After raising to power " + str(n))  # Further ~ 20 ms for n=6, 13.5 sec for n=64!
+
+# Adj2_dense = Adj2_CSR.todense()
+# TTT.timecheck("After `todense`")  #  ~ 30 ms
 
 # Adj2_sq = matrix_power(Adj2_dense, 2)
 # TTT.timecheck("After squaring dense matrix")  # > 30 seconds!
