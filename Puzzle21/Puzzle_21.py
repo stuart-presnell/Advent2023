@@ -26,9 +26,9 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle21_test.txt")
 input      = parse_file_a("Puzzle21_input.txt")
 
-(M, S) = test_input
-# M = input
-show(M)
+# (M, S) = test_input
+(M, S) = input
+# show(M)
 # print(S)
 
 ht = len(M)
@@ -58,7 +58,7 @@ def n_steps(current, n):
     current = step(current)
   return current
 
-# print(len(n_steps(current, 64)))
+print(len(n_steps(current, 64))) # 3532
 
 ################################
 # Part (a)
