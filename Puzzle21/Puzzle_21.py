@@ -153,6 +153,24 @@ def make_matrix(grid):
   data_points = make_matrix_data(grid)
   return make_coo(data_points, ht*wd, ht*wd)
 
+def make_wraparound_matrix(grid):
+  '''Given a `grid` (represented as a list of strings), 
+  use `make_matrix_data` to assemble the adjacency data;
+  then append more adjacencies corresponding to the toroidal wrap-around across the edges;
+  then make the `coo_array`.
+  If `grid` is `ht x wd` then the number of squares is 
+  `(ht * wd)` and so the adjacency matrix is `(ht * wd) x (ht * wd)`.'''
+  ht = len(grid)
+  wd = len(grid[0])
+  data_points = make_matrix_data(grid)
+  for r in range(ht):
+    data_points.append([1, encode(r,0, wd), encode(r,wd-1, wd)])
+    data_points.append([1, encode(r,wd-1, wd), encode(r,0, wd)])
+  for c in range(wd):
+    data_points.append([1, encode(0,c, wd), encode(ht-1,c, wd)])
+    data_points.append([1, encode(ht-1,c, wd), encode(0,c, wd)])
+  return make_coo(data_points, ht*wd, ht*wd)
+
 
 def sparse_power(M, n):
   '''Compute the `n`th power of sparse matrix `M`, using repeated powers and `@` multiplication.
