@@ -1,9 +1,8 @@
 # https://adventofcode.com/2023/day/21
 
 import numpy as np
-import scipy
+from scipy.sparse import coo_array
 
-# My utility functions
 # My utility functions
 from utils import (
 show, 
@@ -31,7 +30,7 @@ input      = parse_file_a("Puzzle21_input.txt")
 
 (M, S) = test_input
 # (M, S) = input
-# show(M)
+show(M)
 # print(S)
 
 ht = len(M)
@@ -61,7 +60,7 @@ def n_steps(current, n):
     current = step(current)
   return current
 
-print(len(n_steps(current, 64))) # 3532
+# print(len(n_steps(current, 64))) # 3532
 
 ################################
 # Part (a)
@@ -80,6 +79,39 @@ print(len(n_steps(current, 64))) # 3532
 ################################
 
 STEPS_TO_TAKE = 26501365
+
+def make_matrix(grid):
+  '''Given a `grid` (represented as a list of strings)
+  in which some squares are accessible (`'.'` and `'S'`) and others are blocked (`'#'`),
+  return its adjacency matrix.  If `grid` is `ht x wd` then the number of squares is 
+  `(ht * wd)` and so the adjacency matrix is `(ht * wd) x (ht * wd)`.'''
+  ht = len(grid)
+  wd = len(grid[0])
+  def encode(r,c):
+    '''Squares of `grid` are numbered row-by-row, so `(r,c)` is square number `r*wd + c`.'''
+    return (r * wd) + c
+  
+  # The adjacency matrix `Adj` has an entry for each pair of squares in `grid`.
+  # For most of these, the entry is zero; hence we use a sparse matrix.
+  # We populate `Adj` by providing three lists.
+  # To set `Adj[R][C] = d` we put (for some index `k`) 
+  # * `row[k]  = R`
+  # * `col[k]  = C`
+  # * `data[k] = d`
+  
+  # Go through each square of `grid`, 
+  # populating `Adj` with the adjacencies to and from that square.
+  # We use the fact that accessibility is symmetric and irreflexive in this grid,  
+  for r in range(ht):
+    for c in range(wd):
+      pass
+  data = []
+  R = []
+  C = []
+  Adj = coo_array((data, (R, C)), shape=(ht * wd, ht * wd))
+  print(Adj)
+  pass
+
 
 # def main_b(ip_file):
 #   pass
