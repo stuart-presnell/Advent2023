@@ -2,11 +2,14 @@
 
 import numpy as np
 from scipy.sparse import coo_array
+from math import log10, ceil
 
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, showD, 
+# chunk_splitlines, printT, 
+showM, 
+# showD, 
 unzip, 
 # parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
 # Best, 
@@ -84,6 +87,19 @@ def encode(r,c, WD):
   '''Squares of `grid` are numbered row-by-row, so `(r,c)` is square number `r*WD + c`.'''
   return (r * WD) + c
 
+def show_encoded(grid):
+  '''Given a `grid`, show the code numbers for each square, or `#`.'''
+  ht = len(grid)
+  wd = len(grid[0])
+  max_digits = ceil(log10(ht*wd)) - 1
+  blocked = ' '*(max_digits+1)  + '#'
+  showM(
+    [[encode(r,c,wd) if grid[r][c] != '#' else blocked for c in range(wd)] for r in range(ht)], 
+    max_digits
+    )
+
+show_encoded(M)
+
 def make_coo(data_coords, HT, WD):
   '''Given a list of triples `[d, r, c]` encoding that matrix element `M[r][c] = d`,
   and the required `HT` and `WD` of the matrix,
@@ -126,7 +142,7 @@ def make_matrix(grid):
   # print(Adj.toarray())
   pass
 
-make_matrix(M4)
+# make_matrix(M4)
 
 # def main_b(ip_file):
 #   pass
