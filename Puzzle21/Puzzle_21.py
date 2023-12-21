@@ -135,8 +135,8 @@ def make_matrix_data(grid):
       ngb = [(r,c+1), (r+1,c)]  # Only need to consider points to S and E
       for pos in ngb:
         if free(*pos):
-          data_points.append([1, encode(r,c, wd), encode(*pos, wd)])
-          data_points.append([1, encode(*pos, wd), encode(r,c, wd)])
+          data_points.append([True, encode(r,c, wd), encode(*pos, wd)])
+          data_points.append([True, encode(*pos, wd), encode(r,c, wd)])
   
   # data_points.sort()
   # show([(r,c) for [d,r,c] in data_points])
@@ -164,11 +164,11 @@ def make_wraparound_matrix(grid):
   wd = len(grid[0])
   data_points = make_matrix_data(grid)
   for r in range(ht):
-    data_points.append([1, encode(r,0, wd), encode(r,wd-1, wd)])
-    data_points.append([1, encode(r,wd-1, wd), encode(r,0, wd)])
+    data_points.append([True, encode(r,0, wd), encode(r,wd-1, wd)])
+    data_points.append([True, encode(r,wd-1, wd), encode(r,0, wd)])
   for c in range(wd):
-    data_points.append([1, encode(0,c, wd), encode(ht-1,c, wd)])
-    data_points.append([1, encode(ht-1,c, wd), encode(0,c, wd)])
+    data_points.append([True, encode(0,c, wd), encode(ht-1,c, wd)])
+    data_points.append([True, encode(ht-1,c, wd), encode(0,c, wd)])
   return make_coo(data_points, ht*wd, ht*wd)
 
 
@@ -184,41 +184,47 @@ def sparse_power(M, n):
     return temp @ temp
 
 
-# M2 = top_corner(M, 2)
 # M5 = top_corner(M, 5)
 # show(M5)
 # show_encoded(M5)
 
 
-(M, S) = test_input
-# (M, S) = input
+# (M, S) = test_input
+(M, S) = input
+# M2 = top_corner(M, 2)
+
+
 Adj = make_matrix(M)
 # AdjW = make_wraparound_matrix(M)
+
+# Adj.toarray()
+# Adj_CSR = Adj.tocsr()
+# Adj_sq = Adj_CSR @ Adj_CSR
+# Adj_sq.toarray()
+# Adj_3 = Adj_CSR @ Adj_sq
+# Adj_3.toarray()
+
+n = 6
+Adj_pow = sparse_power(Adj, n)
+# print(Adj_pow.toarray())
+TTT.timecheck("After raising to power " + str(n))
+
+
 
 
 # TODO: Extract the appropriate row from the powered matrix, corresponding to steps from `S`.
 # TODO: Use this row to compute how many squares are exactly `n` steps from `S`
-# TODO: Would it be better (possible??) to use `True` in the adjacency matrix instead of `1`?
-#    After all, all we need is *whether* there's a path from `i` to `j` in `n` steps, 
-#     not *how many* paths there are.
-
 
 # TTT.timecheck("After `make_matrix`")  # ~ 50 ms for `input`
 
-# # Adj2.toarray()
 
-# Adj2_CSR = Adj2.tocsr()
 
 # TTT.timecheck("After `tocsr`")  # No further time
 
 
 # # Adj2_sq = Adj2_CSR ** 2  # This is doing element-wise squaring, not matrix power!
-# # Adj2_sq = Adj2_CSR @ Adj2_CSR # This works to square the matrix
 # # TTT.timecheck("After squaring")  # No further time
 
-# n = 6
-# Adj2_sq = sparse_power(Adj2_CSR, n)
-# TTT.timecheck("After raising to power " + str(n))  # Further ~ 20 ms for n=6, 13.5 sec for n=64!
 
 # Adj2_dense = Adj2_CSR.todense()
 # TTT.timecheck("After `todense`")  #  ~ 30 ms
