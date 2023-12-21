@@ -35,7 +35,10 @@ ht = len(M)
 wd = len(M[0])
 
 def free(r,c):
-  return (0 <= r < ht) & (0 <= c < wd) & (M[r][c] != '#')
+  if (0 <= r < ht) & (0 <= c < wd):
+    return (M[r][c] != '#')
+  else:
+    return False
 
 # Where could we be standing now?
 current = {S}
