@@ -84,6 +84,13 @@ def encode(r,c, WD):
   '''Squares of `grid` are numbered row-by-row, so `(r,c)` is square number `r*WD + c`.'''
   return (r * WD) + c
 
+def make_coo(data_coords, HT, WD):
+  '''Given a list of triples `[d, r, c]` encoding that matrix element `M[r][c] = d`,
+  and the required `HT` and `WD` of the matrix,
+  return the sparse matrix `M` as a `coo_array`.'''
+  [data, R, C] = unzip(data_coords)
+  return coo_array((data, (R, C)), shape=(HT, WD))
+
 
 def make_matrix(grid):
   '''Given a `grid` (represented as a list of strings)
@@ -114,8 +121,7 @@ def make_matrix(grid):
         data_points.append([1, encode(r,c), encode(*pos)])
   
   print(data_points)
-  # [data, R, C] = unzip(data_points)
-  # Adj = coo_array((data, (R, C)), shape=(ht * wd, ht * wd))
+  Adj = make_coo(data_points, ht*wd, ht*wd)
   # print(Adj.toarray())
   pass
 
