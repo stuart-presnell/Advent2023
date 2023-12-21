@@ -3,6 +3,7 @@
 import numpy as np
 from scipy.sparse import coo_array
 from math import log10, ceil
+from numpy.linalg import matrix_power
 
 # My utility functions
 from utils import (
@@ -15,7 +16,7 @@ unzip,
 # Best, 
 Timer,
 )
-# TTT = Timer()
+TTT = Timer(1)
 
 ################################
 
@@ -32,10 +33,6 @@ def parse_file_a(filename):
 
 test_input = parse_file_a("Puzzle21_test.txt")
 input      = parse_file_a("Puzzle21_input.txt")
-
-(M, S) = test_input
-# (M, S) = input
-# show(M)
 
 # For testing purposes, extract the top left corner of `M`
 
@@ -144,12 +141,41 @@ def make_matrix(grid):
   return make_coo(data_points, ht*wd, ht*wd)
 
 
-M4 = top_corner(M, 4)
+# M2 = top_corner(M, 2)
 # M5 = top_corner(M, 5)
 # show(M5)
 # show_encoded(M5)
-Adj4 = make_matrix(M4)
-Adj4.toarray()
+
+
+# (M, S) = test_input
+(M, S) = input
+Adj2 = make_matrix(M)
+
+TTT.timecheck("After `make_matrix`")  # ~ 50 ms for `input`
+
+# Adj2.toarray()
+
+Adj2_CSR = Adj2.tocsr()
+
+TTT.timecheck("After `tocsr`")  # No further time
+
+
+# Adj2_sq = Adj2_CSR ** 2  # This is doing element-wise squaring, not matrix power!
+# Adj2_sq = Adj2_CSR @ Adj2_CSR # This works to square the matrix
+# TTT.timecheck("After squaring")  # No further time
+
+Adj2_dense = Adj2_CSR.todense()
+TTT.timecheck("After `todense`")  #  ~ 30 ms
+
+# Adj2_sq = matrix_power(Adj2_dense, 2)
+# TTT.timecheck("After squaring dense matrix")  # > 30 seconds!
+
+# Adj2_sq
+
+
+# Adj2_STHG = Adj2.to
+
+
 
 # def main_b(ip_file):
 #   pass
