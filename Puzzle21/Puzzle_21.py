@@ -141,6 +141,16 @@ def make_matrix(grid):
   return make_coo(data_points, ht*wd, ht*wd)
 
 
+def sparse_power(M, n):
+  '''Compute the `n`th power of sparse matrix `M`, using repeated powers and `@` multiplication.
+  https://stackoverflow.com/a/28703334'''
+  temp = sparse_power(M, n//2)
+  if n % 2:     # if n is odd
+    return M @ temp @ temp
+  else:
+    return temp @ temp
+
+
 # M2 = top_corner(M, 2)
 # M5 = top_corner(M, 5)
 # show(M5)
