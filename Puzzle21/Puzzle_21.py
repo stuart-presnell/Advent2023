@@ -26,8 +26,8 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle21_test.txt")
 input      = parse_file_a("Puzzle21_input.txt")
 
-# (M, S) = test_input
-(M, S) = input
+(M, S) = test_input
+# (M, S) = input
 # show(M)
 # print(S)
 
@@ -75,6 +75,8 @@ print(len(n_steps(current, 64))) # 3532
 ################################
 # Part (b)
 ################################
+
+STEPS_TO_TAKE = 26501365
 
 # def main_b(ip_file):
 #   pass
