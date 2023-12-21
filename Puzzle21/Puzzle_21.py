@@ -184,60 +184,23 @@ def sparse_power(M, n):
     return temp @ temp
 
 
-# M5 = top_corner(M, 5)
-# show(M5)
-# show_encoded(M5)
 
+def main_a_v2(ip_filename, n):
+  (M, S) = parse_file_a(ip_filename)
+  Adj = make_matrix(M)
+  Adj_pow = sparse_power(Adj, n)
+  Adj_pow = Adj_pow.tocsr()
+  S_code = encode(*S, len(M[0]))
+  S_row = Adj_pow[[S_code], :]
+  return (S_row.nnz)
 
-# (M, S) = test_input
-(M, S) = input
-# M2 = top_corner(M, 2)
-
-
-Adj = make_matrix(M)
-# AdjW = make_wraparound_matrix(M)
-
-# Adj.toarray()
-# Adj_CSR = Adj.tocsr()
-# Adj_sq = Adj_CSR @ Adj_CSR
-# Adj_sq.toarray()
-# Adj_3 = Adj_CSR @ Adj_sq
-# Adj_3.toarray()
-
-n = 6
-Adj_pow = sparse_power(Adj, n)
-# print(Adj_pow.toarray())
-TTT.timecheck("After raising to power " + str(n))
-
-
+print(main_a_v2("Puzzle21_test.txt", 64))   # 42
+# print(main_a_v2("Puzzle21_input.txt", 6))   # 16
 
 
 # TODO: Extract the appropriate row from the powered matrix, corresponding to steps from `S`.
 # TODO: Use this row to compute how many squares are exactly `n` steps from `S`
 # TODO: Instead of taking powers of `Adj` directly, can we diagonalise `Adj` first?
-
-
-# TTT.timecheck("After `make_matrix`")  # ~ 50 ms for `input`
-
-
-
-# TTT.timecheck("After `tocsr`")  # No further time
-
-
-# # Adj2_sq = Adj2_CSR ** 2  # This is doing element-wise squaring, not matrix power!
-# # TTT.timecheck("After squaring")  # No further time
-
-
-# Adj2_dense = Adj2_CSR.todense()
-# TTT.timecheck("After `todense`")  #  ~ 30 ms
-
-# Adj2_sq = matrix_power(Adj2_dense, 2)
-# TTT.timecheck("After squaring dense matrix")  # > 30 seconds!
-
-# Adj2_sq
-
-
-# Adj2_STHG = Adj2.to
 
 
 
