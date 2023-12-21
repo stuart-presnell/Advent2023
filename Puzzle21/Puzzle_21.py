@@ -35,7 +35,7 @@ ht = len(M)
 wd = len(M[0])
 
 def free(r,c):
-  return (0 <= r <= ht) & (0 <= c <= wd) & (M[r][c] != '#')
+  return (0 <= r < ht) & (0 <= c < wd) & (M[r][c] != '#')
 
 # Where could we be standing now?
 current = {S}
@@ -55,8 +55,7 @@ def n_steps(current, n):
     current = step(current)
   return current
 
-for n in range(7):
-  print(n, len(n_steps(current, n)))
+# print(len(n_steps(current, 64)))
 
 ################################
 # Part (a)
