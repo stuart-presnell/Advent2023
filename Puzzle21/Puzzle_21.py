@@ -1,5 +1,8 @@
 # https://adventofcode.com/2023/day/21
 
+import numpy as np
+import scipy
+
 # My utility functions
 # My utility functions
 from utils import (
