@@ -104,11 +104,13 @@ def make_coo(data_coords, HT, WD):
   return coo_array((data, (R, C)), shape=(HT, WD))
 
 
-def make_matrix(grid):
+def make_matrix_data(grid):
   '''Given a `grid` (represented as a list of strings)
   in which some squares are accessible (`'.'` and `'S'`) and others are blocked (`'#'`),
-  return its adjacency matrix.  If `grid` is `ht x wd` then the number of squares is 
-  `(ht * wd)` and so the adjacency matrix is `(ht * wd) x (ht * wd)`.'''
+  return the data needed to assemble its adjacency matrix:
+  specifically, a list of `[1, R, C]` where 
+  `R` is the `encode` of some point pt1 and
+  `C` is the `encode` of some adjacent point pt2.'''
   ht = len(grid)
   wd = len(grid[0])
 
@@ -138,6 +140,17 @@ def make_matrix(grid):
   
   # data_points.sort()
   # show([(r,c) for [d,r,c] in data_points])
+  return data_points
+
+def make_matrix(grid):
+  '''Given a `grid` (represented as a list of strings), 
+  use `make_matrix_data` to assemble the adjacency data, 
+  then make the `coo_array`.
+  If `grid` is `ht x wd` then the number of squares is 
+  `(ht * wd)` and so the adjacency matrix is `(ht * wd) x (ht * wd)`.'''
+  ht = len(grid)
+  wd = len(grid[0])
+  data_points = make_matrix_data(grid)
   return make_coo(data_points, ht*wd, ht*wd)
 
 
