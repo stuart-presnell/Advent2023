@@ -42,11 +42,6 @@ input      = parse_file_a("Puzzle21_input.txt")
 def top_corner(grid, n):
   return [row[:n] for row in grid[:n]]
 
-M4 = top_corner(M, 4)
-M5 = top_corner(M, 5)
-
-# show(M4)
-
 def step(current, free):
   '''Given a list/set of `current` positions
   and a function reporting whether a square is `free`, 
@@ -104,8 +99,6 @@ def show_encoded(grid):
     max_digits
     )
 
-show_encoded(M4)
-
 def make_coo(data_coords, HT, WD):
   '''Given a list of triples `[d, r, c]` encoding that matrix element `M[r][c] = d`,
   and the required `HT` and `WD` of the matrix,
@@ -152,7 +145,10 @@ def make_matrix(grid):
   # print(Adj.toarray())
   pass
 
-make_matrix(M4)
+# M5 = top_corner(M, 5)
+# show(M5)
+# show_encoded(M5)
+# make_matrix(M5)
 
 # def main_b(ip_file):
 #   pass
