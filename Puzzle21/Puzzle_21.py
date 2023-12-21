@@ -26,9 +26,18 @@ def parse_file_a(filename):
 test_input = parse_file_a("Puzzle21_test.txt")
 input      = parse_file_a("Puzzle21_input.txt")
 
-ip = test_input
-# ip = input
-show(ip)
+(M, S) = test_input
+# M = input
+show(M)
+print(S)
+
+ht = len(M)
+wd = len(M[0])
+
+def free(r,c):
+  return (0 <= r <= ht) & (0 <= c <= wd) & (M[r][c] != '#')
+
+
 
 ################################
 # Part (a)
