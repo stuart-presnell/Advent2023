@@ -61,18 +61,20 @@ def linear(B):
 
 # TODO: Determine where each brick will settle when they fall
   # TODO: Drop the bricks one by one, starting with the lowest
-  # TODO: Each brick covers some 2D area of the ground
+  # DONE: Each brick covers some 2D area of the ground
   # TODO: Find the max altitude of all squares covered by the brick; this is where it settles
   # TODO: In each (x,y) position covered by this brick, 
       # update the max altitude information and record the identity of the brick occupying the top.
+  # TODO: Record for the current brick the identity numbers of all bricks supporting it.
 
 def squares_covered(B):
   '''Return the set of `(x,y)`-coordinates covered by brick `B`.'''
   (x1,y1,_,x2,y2,_) = B
   return [(x,y) for x in range(x1, x2+1) for y in range(y1, y2+1)]
 
-# # At each `(x,y)` position, record the maximum height occupied above that square.
-mho = defaultdict(int)
+# At each `(x,y)` position, record the maximum height occupied above that square
+# and the identity number (i.e. index in the original list) of the top brick
+mho = defaultdict(lambda:(0,None))
 
 def drop_brick(B, mho):
   '''Given a brick `B` and the current max-height data `mho`,
@@ -95,7 +97,7 @@ def drop_brick(B, mho):
 def drop_all_bricks(L):
   '''Given a list of bricks `L`, drop each one with `drop_brick` (starting with an empty `mho`)
   and return a new list of brick positions.'''
-  mho = defaultdict(int)
+  mho = defaultdict(lambda:(0,None))
   new_positions = []
   for B in L:
     (mho, B) = drop_brick(B, mho)
