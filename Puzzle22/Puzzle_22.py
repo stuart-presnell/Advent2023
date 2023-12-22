@@ -40,7 +40,7 @@ input      = parse_file_a("Puzzle22_input.txt")
 
 ip = test_input
 # ip = input
-show(ip)
+# show(ip)
 
 ################################
 # Part (a)
@@ -131,10 +131,20 @@ def drop_all_bricks(L):
     supports.append(s_list)       # for each i, supports[i] is a list of bricks supporting brick L[i]
   return new_positions, supports
 
-new_positions, supports = drop_all_bricks(ip)
-show(new_positions)
-show(supports)
+# new_positions, supports = drop_all_bricks(ip)
+# show(new_positions)
+# show(supports)
 
+
+def main_a(ip_filename):
+  ip = parse_file_a(ip_filename)
+  _, supports = drop_all_bricks(ip)
+  show(supports)
+  sole_supporters = set()   # The set of bricks that are the only support for some brick above
+  for x in supports:    # Run through the support of each brick
+    if len(x) == 1:     # If a brick has exactly one supporter
+      sole_supporters.add(x[0])  # Add this supporter to `sole_supporters`
+  return sole_supporters
 
 
 
@@ -159,10 +169,9 @@ show(supports)
 
 
 
-# def main_a(ip_file):
-#   pass
 
-# print(main_a("Puzzle22_test.txt"))  # 
+
+print(main_a("Puzzle22_test.txt"))  # 
 # print(main_a("Puzzle22_input.txt"))       # 
 
 # TTT.timecheck("Part (a)")  #
