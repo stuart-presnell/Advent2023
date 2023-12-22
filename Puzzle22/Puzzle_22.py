@@ -13,9 +13,9 @@ Timer,
 
 ################################
 
-def altitude(L):
+def altitude(B):
   '''The `z`-coordinate of the lowest block of the brick.'''
-  return min(L[2], L[5])
+  return min(B[2], B[5])
 
 def parse_file_a(filename):
   '''Parse each line of the file as a tuple of 6 integers and sort them into order of altitude.'''
@@ -105,9 +105,16 @@ def drop_all_bricks(L):
 # TODO: Work out the dependency graph of bricks sitting on other bricks
 # TODO: Which bricks are the only support of the brick above? Any others can be destroyed.
 
-def sits_on(L):
+def find_supports(L):
   '''Given a list of bricks `L`, for each brick work out which other bricks it sits on.'''
-  pass
+  # Produce a dictionary whose keys are bricks, 
+  # where `support_of[B]` is a list of the bricks `B` sits on.
+  support_of = defaultdict(list)
+  for B in L:
+    h = altitude(B)
+    covered = squares_covered(B)
+    pass  # TODO: Which brick(s) is `B` directly sitting on?
+  return support_of
 
 def can_be_disintegrated(L):
   '''Given a list of bricks `L`, return a list of the bricks that are 
