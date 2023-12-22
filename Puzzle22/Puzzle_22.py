@@ -93,7 +93,12 @@ def drop_brick(B, mho):
 def drop_all_bricks(L):
   '''Given a list of bricks `L`, drop each one with `drop_brick` (starting with an empty `mho`)
   and return a new list of brick positions.'''
-  pass
+  mho = defaultdict(int)
+  new_positions = []
+  for B in L:
+    (mho, B) = drop_brick(B, mho)
+    new_positions.append(B)
+  return new_positions
 
 
 # TODO: Work out the dependency graph of bricks sitting on other bricks
