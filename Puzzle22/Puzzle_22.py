@@ -49,6 +49,13 @@ def xy_sorted(B):
   return ((x1<=x2) & (y1<=y2))
 # all([xy_sorted(B) for B in ip])
 
+# Verify that the bricks are all straight lines, not rectangles of >1 width
+def linear(B):
+  (x1,y1,_,x2,y2,_) = B
+  return ((x1==x2) | (y1==y2))
+print(all([linear(B) for B in ip]))
+
+
 
 def squares_covered(B):
   '''Return the set of `(x,y)`-coordinates covered by brick `B`.'''
