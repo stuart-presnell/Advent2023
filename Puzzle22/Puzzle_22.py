@@ -173,8 +173,8 @@ for i in range(len(supports)):
   print(i, supports[i])
 
 
-def depends_upon(supports, B):
-  '''The converse to `supports`: the set of bricks that would fall if `B` were removed.'''
+def depends_upon(supports, i):
+  '''The converse to `supports`: the set of bricks that would fall if brick number `i` were removed'''
   
   pass
 
