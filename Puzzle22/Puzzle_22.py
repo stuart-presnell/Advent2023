@@ -57,18 +57,6 @@ def linear(B):
 
 
 
-def squares_covered(B):
-  '''Return the set of `(x,y)`-coordinates covered by brick `B`.'''
-  (x1,y1,_,x2,y2,_) = B
-  return [(x,y) for x in range(x1, x2+1) for y in range(y1, y2+1)]
-
-
-# # At each `(x,y)` position, record the maximum height occupied above that square.
-mho = defaultdict(lambda _ : 0)
-
-
-
-
 
 # TODO: Determine where each brick will settle when they fall
   # TODO: Drop the bricks one by one, starting with the lowest
@@ -76,10 +64,38 @@ mho = defaultdict(lambda _ : 0)
   # TODO: Find the max altitude of all squares covered by the brick; this is where it settles
   # TODO: Update the max altitude information and move on to the next brick.
 
+def squares_covered(B):
+  '''Return the set of `(x,y)`-coordinates covered by brick `B`.'''
+  (x1,y1,_,x2,y2,_) = B
+  return [(x,y) for x in range(x1, x2+1) for y in range(y1, y2+1)]
+
+# # At each `(x,y)` position, record the maximum height occupied above that square.
+mho = defaultdict(lambda _ : 0)
+
+def drop_brick(B, mho):
+  '''Given a brick `B` and the current max-height data `mho`,
+  find the height that the brick will settle at
+  and return the updated `mho` and the new brick position.'''
+  pass
+
+def drop_all_bricks(L):
+  '''Given a list of bricks `L`, drop each one with `drop_brick` (starting with an empty `mho`)
+  and return a new list of brick positions.'''
+  pass
 
 
 # TODO: Work out the dependency graph of bricks sitting on other bricks
 # TODO: Which bricks are the only support of the brick above? Any others can be destroyed.
+
+def sits_on(L):
+  '''Given a list of bricks `L`, for each brick work out which other bricks it sits on.'''
+  pass
+
+def can_be_disintegrated(L):
+  '''Given a list of bricks `L`, return a list of the bricks that are 
+  not the only supporter of any other brick.'''
+  pass
+
 
 
 # def main_a(ip_file):
