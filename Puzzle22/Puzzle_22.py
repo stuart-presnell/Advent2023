@@ -11,7 +11,7 @@ showD,
 # Best, 
 Timer,
 )
-# TTT = Timer()
+# TTT = Timer(1)
 
 ################################
 
@@ -177,7 +177,7 @@ print(main_a("Puzzle22_test.txt"))   # 5
 print(main_a("Puzzle22_input.txt"))  # 421
 # 612 is too high
 
-# TTT.timecheck("Part (a)")  #
+# TTT.timecheck("Part (a)")  # ~ 8 ms
 
 ################################
 # Part (b)
