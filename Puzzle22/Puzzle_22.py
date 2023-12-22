@@ -3,15 +3,8 @@
 from collections import defaultdict
 
 # My utility functions
-from utils import (
-show, 
-# chunk_splitlines, printT, showM, 
-showD, 
-# unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
-# Best, 
-Timer,
-)
-# TTT = Timer(1)
+from utils import Timer
+TTT = Timer(1)
 
 ################################
 
@@ -35,10 +28,10 @@ def parse_file_a(filename):
   op.sort(key = lambda L: min(L[2], L[5]))
   return op
 
-test_input = parse_file_a("Puzzle22_test.txt")
-input      = parse_file_a("Puzzle22_input.txt")
+# test_input = parse_file_a("Puzzle22_test.txt")
+# input      = parse_file_a("Puzzle22_input.txt")
 
-ip = test_input
+# ip = test_input
 # ip = input
 # show(ip)
 
@@ -58,16 +51,6 @@ def linear(B):
   return ((x1==x2) | (y1==y2))
 # print(all([linear(B) for B in ip]))
 
-
-
-
-# TODO: Determine where each brick will settle when they fall
-  # TODO: Drop the bricks one by one, starting with the lowest
-  # DONE: Each brick covers some 2D area of the ground
-  # TODO: Find the max altitude of all squares covered by the brick; this is where it settles
-  # TODO: In each (x,y) position covered by this brick, 
-      # update the max altitude information and record the identity of the brick occupying the top.
-  # TODO: Record for the current brick the identity numbers of all bricks supporting it.
 
 def squares_covered(B):
   '''Return the set of `(x,y)`-coordinates covered by brick `B`.'''
@@ -107,18 +90,6 @@ def drop_brick(B, i, mho):
   return (mho, new_pos, supports)
 
 
-# mho, new_pos, supports = drop_brick(ip[0], 0, mho)
-# mho, new_pos, supports = drop_brick(ip[1], 1, mho)
-# mho, new_pos, supports = drop_brick(ip[2], 2, mho)
-# mho, new_pos, supports = drop_brick(ip[3], 3, mho)
-# mho, new_pos, supports = drop_brick(ip[4], 4, mho)
-# mho, new_pos, supports = drop_brick(ip[5], 5, mho)
-# mho, new_pos, supports = drop_brick(ip[6], 6, mho)
-# showD(mho)
-# print(new_pos)
-# print(supports)
-
-
 def drop_all_bricks(L):
   '''Given a list of bricks `L`, drop each one with `drop_brick` (starting with an empty `mho`)
   and return a new list of brick positions, plus a list of brick supports.'''
@@ -130,10 +101,6 @@ def drop_all_bricks(L):
     new_positions.append(npos)
     supports.append(s_list)       # for each i, supports[i] is a list of bricks supporting brick L[i]
   return new_positions, supports
-
-# new_positions, supports = drop_all_bricks(ip)
-# show(new_positions)
-# show(supports)
 
 def find_sole_supporters(supports):
   '''For each i, supports[i] is a list of bricks supporting brick L[i];
@@ -155,10 +122,10 @@ def main_a(ip_filename):
   return len(ip) - len(sole_supporters)
 
 
-# print(main_a("Puzzle22_test.txt"))   # 5
-# print(main_a("Puzzle22_input.txt"))  # 421
+print(main_a("Puzzle22_test.txt"))   # 5
+print(main_a("Puzzle22_input.txt"))  # 421
 
-# TTT.timecheck("Part (a)")  # ~ 8 ms
+TTT.timecheck("Part (a)")  # ~ 8 ms
 
 ################################
 # Part (b)
@@ -166,13 +133,6 @@ def main_a(ip_filename):
 
 # For each brick, determine how many other bricks would fall if that brick were disintegrated. 
 # What is the sum of the number of other bricks that would fall?
-
-# _, supports = drop_all_bricks(ip)
-# sole_supporters = find_sole_supporters(supports)
-# for i in range(len(supports)):
-#   print(i, supports[i])
-
-# print()
 
 def depends_upon(supports, i):
   '''The converse to `supports`: the set of bricks that would fall if brick number `i` were removed'''
@@ -183,9 +143,6 @@ def depends_upon(supports, i):
   would_fall.remove(i)  # We added `i` as a seed value, but it doesn't count
   return would_fall
 
-# for i in range(len(supports)):
-#   print(i, depends_upon(supports, i))
-
 def main_b(ip_filename):
   ip = parse_file_a(ip_filename)
   _, supports = drop_all_bricks(ip)
@@ -194,10 +151,9 @@ def main_b(ip_filename):
     count += len(depends_upon(supports, i))
   return count
 
-
 print(main_b("Puzzle22_test.txt"))  # 7
 print(main_b("Puzzle22_input.txt")) # 39247
 
-# TTT.timecheck("Part (b)")  #
+TTT.timecheck("Part (b)")  # ~ 110 ms
 
 ################################
