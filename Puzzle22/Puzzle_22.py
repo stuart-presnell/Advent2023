@@ -66,10 +66,16 @@ def squares_covered(B):
 # # At each `(x,y)` position, record the maximum height occupied above that square.
 max_height_occupied = defaultdict(lambda _ : 0)
 
+# TODO: Determine where each brick will settle when they fall
+  # TODO: Drop the bricks one by one, starting with the lowest
+  # TODO: Each brick covers some 2D area of the ground
+  # TODO: Find the max altitude of all squares covered by the brick; this is where it settles
+  # TODO: Update the max altitude information and move on to the next brick.
 
 
 
-
+# TODO: Work out the dependency graph of bricks sitting on other bricks
+# TODO: Which bricks are the only support of the brick above? Any others can be destroyed.
 
 
 # def main_a(ip_file):
