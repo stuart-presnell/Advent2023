@@ -35,12 +35,20 @@ test_input = parse_file_a("Puzzle22_test.txt")
 input      = parse_file_a("Puzzle22_input.txt")
 
 ip = test_input
-# ip = input
+ip = input
 show(ip)
 
 ################################
 # Part (a)
 ################################
+
+# Verify that the x- and y- coords are already sorted
+def xy_sorted(B):
+  (x1,y1,_,x2,y2,_) = B
+  return ((x1<=x2) & (y1<=y2))
+all([xy_sorted(B) for B in ip])
+
+
 
 # def main_a(ip_file):
 #   pass
