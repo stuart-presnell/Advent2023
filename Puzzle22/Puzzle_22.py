@@ -144,7 +144,8 @@ def main_a(ip_filename):
   for x in supports:    # Run through the support of each brick
     if len(x) == 1:     # If a brick has exactly one supporter
       sole_supporters.add(x[0])  # Add this supporter to `sole_supporters`
-  return sole_supporters
+  print(sole_supporters)
+  return len(ip) - len(sole_supporters)
 
 
 
@@ -171,8 +172,8 @@ def main_a(ip_filename):
 
 
 
-print(main_a("Puzzle22_test.txt"))  # 
-# print(main_a("Puzzle22_input.txt"))       # 
+# print(main_a("Puzzle22_test.txt"))   # 5
+print(main_a("Puzzle22_input.txt"))  # 612 is too high
 
 # TTT.timecheck("Part (a)")  #
 
