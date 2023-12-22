@@ -167,12 +167,12 @@ def main_a(ip_filename):
 # For each brick, determine how many other bricks would fall if that brick were disintegrated. 
 # What is the sum of the number of other bricks that would fall?
 
-_, supports = drop_all_bricks(ip)
-sole_supporters = find_sole_supporters(supports)
-for i in range(len(supports)):
-  print(i, supports[i])
+# _, supports = drop_all_bricks(ip)
+# sole_supporters = find_sole_supporters(supports)
+# for i in range(len(supports)):
+#   print(i, supports[i])
 
-print()
+# print()
 
 def depends_upon(supports, i):
   '''The converse to `supports`: the set of bricks that would fall if brick number `i` were removed'''
@@ -183,14 +183,20 @@ def depends_upon(supports, i):
   would_fall.remove(i)  # We added `i` as a seed value, but it doesn't count
   return would_fall
 
-for i in range(len(supports)):
-  print(i, depends_upon(supports, i))
+# for i in range(len(supports)):
+#   print(i, depends_upon(supports, i))
 
-# def main_b(ip_file):
-#   pass
+def main_b(ip_filename):
+  ip = parse_file_a(ip_filename)
+  _, supports = drop_all_bricks(ip)
+  count = 0
+  for i in range(len(supports)):
+    count += len(depends_upon(supports, i))
+  return count
 
-# print(main_b("Puzzle22_test.txt"))  # 
-# print(main_b("Puzzle22_input.txt"))       # 
+
+print(main_b("Puzzle22_test.txt"))  # 7
+print(main_b("Puzzle22_input.txt")) # 39247
 
 # TTT.timecheck("Part (b)")  #
 
