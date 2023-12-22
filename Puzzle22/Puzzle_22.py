@@ -150,32 +150,8 @@ def main_a(ip_filename):
   return len(ip) - len(sole_supporters)
 
 
-# XXXX: Work out the dependency graph of bricks sitting on other bricks
-# def find_supports(L):
-#   '''Given a list of bricks `L`, for each brick work out which other bricks it sits on.'''
-#   # Produce a dictionary whose keys are bricks, 
-#   # where `support_of[B]` is a list of the bricks `B` sits on.
-#   support_of = defaultdict(list)
-#   for B in L:
-#     h = altitude(B)
-#     covered = squares_covered(B)
-#     pass  # TODO: Which brick(s) is `B` directly sitting on?
-#   return support_of
-
-
-# # XXXX: Which bricks are the only support of the brick above? Any others can be destroyed.
-# def can_be_disintegrated(L):
-#   '''Given a list of bricks `L`, return a list of the bricks that are 
-#   not the only supporter of any other brick.'''
-#   pass
-
-
-
-
-
 print(main_a("Puzzle22_test.txt"))   # 5
 print(main_a("Puzzle22_input.txt"))  # 421
-# 612 is too high
 
 # TTT.timecheck("Part (a)")  # ~ 8 ms
 
