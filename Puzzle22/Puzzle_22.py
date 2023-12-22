@@ -70,7 +70,7 @@ def squares_covered(B):
   return [(x,y) for x in range(x1, x2+1) for y in range(y1, y2+1)]
 
 # # At each `(x,y)` position, record the maximum height occupied above that square.
-mho = defaultdict(lambda _ : 0)
+mho = defaultdict(int)
 
 def drop_brick(B, mho):
   '''Given a brick `B` and the current max-height data `mho`,
