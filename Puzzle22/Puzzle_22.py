@@ -132,28 +132,30 @@ def drop_all_bricks(L):
   return new_positions, supports
 
 new_positions, supports = drop_all_bricks(ip)
+show(new_positions)
+show(supports)
 
 
 
 
-# TODO: Work out the dependency graph of bricks sitting on other bricks
-# TODO: Which bricks are the only support of the brick above? Any others can be destroyed.
+# XXXX: Work out the dependency graph of bricks sitting on other bricks
+# def find_supports(L):
+#   '''Given a list of bricks `L`, for each brick work out which other bricks it sits on.'''
+#   # Produce a dictionary whose keys are bricks, 
+#   # where `support_of[B]` is a list of the bricks `B` sits on.
+#   support_of = defaultdict(list)
+#   for B in L:
+#     h = altitude(B)
+#     covered = squares_covered(B)
+#     pass  # TODO: Which brick(s) is `B` directly sitting on?
+#   return support_of
 
-def find_supports(L):
-  '''Given a list of bricks `L`, for each brick work out which other bricks it sits on.'''
-  # Produce a dictionary whose keys are bricks, 
-  # where `support_of[B]` is a list of the bricks `B` sits on.
-  support_of = defaultdict(list)
-  for B in L:
-    h = altitude(B)
-    covered = squares_covered(B)
-    pass  # TODO: Which brick(s) is `B` directly sitting on?
-  return support_of
 
-def can_be_disintegrated(L):
-  '''Given a list of bricks `L`, return a list of the bricks that are 
-  not the only supporter of any other brick.'''
-  pass
+# # XXXX: Which bricks are the only support of the brick above? Any others can be destroyed.
+# def can_be_disintegrated(L):
+#   '''Given a list of bricks `L`, return a list of the bricks that are 
+#   not the only supporter of any other brick.'''
+#   pass
 
 
 
