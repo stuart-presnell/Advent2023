@@ -63,7 +63,8 @@ def linear(B):
   # TODO: Drop the bricks one by one, starting with the lowest
   # TODO: Each brick covers some 2D area of the ground
   # TODO: Find the max altitude of all squares covered by the brick; this is where it settles
-  # TODO: Update the max altitude information and move on to the next brick.
+  # TODO: In each (x,y) position covered by this brick, 
+      # update the max altitude information and record the identity of the brick occupying the top.
 
 def squares_covered(B):
   '''Return the set of `(x,y)`-coordinates covered by brick `B`.'''
