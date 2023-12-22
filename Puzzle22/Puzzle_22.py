@@ -64,7 +64,11 @@ def squares_covered(B):
 
 
 # # At each `(x,y)` position, record the maximum height occupied above that square.
-max_height_occupied = defaultdict(lambda _ : 0)
+mho = defaultdict(lambda _ : 0)
+
+
+
+
 
 # TODO: Determine where each brick will settle when they fall
   # TODO: Drop the bricks one by one, starting with the lowest
