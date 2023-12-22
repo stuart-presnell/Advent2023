@@ -172,13 +172,19 @@ sole_supporters = find_sole_supporters(supports)
 for i in range(len(supports)):
   print(i, supports[i])
 
+print()
 
 def depends_upon(supports, i):
   '''The converse to `supports`: the set of bricks that would fall if brick number `i` were removed'''
-  
-  pass
+  would_fall = {i}  # initialise this with `i` itself; we'll remove this later
+  for b in range(i+1,len(supports)):    # no need to check bricks up to `i`
+    if set(supports[b]).issubset(would_fall):   # if all the bricks supporting `b` would fall
+      would_fall.add(b)
+  would_fall.remove(i)  # We added `i` as a seed value, but it doesn't count
+  return would_fall
 
-
+for i in range(len(supports)):
+  print(i, depends_upon(supports, i))
 
 # def main_b(ip_file):
 #   pass
