@@ -121,13 +121,19 @@ def drop_brick(B, i, mho):
 
 def drop_all_bricks(L):
   '''Given a list of bricks `L`, drop each one with `drop_brick` (starting with an empty `mho`)
-  and return a new list of brick positions.'''
-  mho = defaultdict(lambda:(0,None))
+  and return a new list of brick positions, plus a list of brick supports.'''
+  mho = defaultdict(lambda:[0,None])
   new_positions = []
-  for B in L:
-    (mho, B) = drop_brick(B, mho)
-    new_positions.append(B)
-  return new_positions
+  supports = []
+  for i in range(len(L)):
+    (mho, npos, s_list) = drop_brick(L[i], i, mho)
+    new_positions.append(npos)
+    supports.append(s_list)       # for each i, supports[i] is a list of bricks supporting brick L[i]
+  return new_positions, supports
+
+new_positions, supports = drop_all_bricks(ip)
+
+
 
 
 # TODO: Work out the dependency graph of bricks sitting on other bricks
