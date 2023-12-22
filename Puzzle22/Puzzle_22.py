@@ -155,14 +155,23 @@ def main_a(ip_filename):
   return len(ip) - len(sole_supporters)
 
 
-print(main_a("Puzzle22_test.txt"))   # 5
-print(main_a("Puzzle22_input.txt"))  # 421
+# print(main_a("Puzzle22_test.txt"))   # 5
+# print(main_a("Puzzle22_input.txt"))  # 421
 
 # TTT.timecheck("Part (a)")  # ~ 8 ms
 
 ################################
 # Part (b)
 ################################
+
+# For each brick, determine how many other bricks would fall if that brick were disintegrated. 
+# What is the sum of the number of other bricks that would fall?
+
+_, supports = drop_all_bricks(ip)
+for i in range(len(supports)):
+  print(i, supports[i])
+
+
 
 # def main_b(ip_file):
 #   pass
