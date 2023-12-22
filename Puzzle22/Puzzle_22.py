@@ -53,7 +53,7 @@ def xy_sorted(B):
 def linear(B):
   (x1,y1,_,x2,y2,_) = B
   return ((x1==x2) | (y1==y2))
-print(all([linear(B) for B in ip]))
+# print(all([linear(B) for B in ip]))
 
 
 
@@ -62,8 +62,13 @@ def squares_covered(B):
   (x1,y1,_,x2,y2,_) = B
   return [(x,y) for x in range(x1, x2+1) for y in range(y1, y2+1)]
 
-# for B in ip:
-#   print(squares_covered(B))
+
+# # At each `(x,y)` position, record the maximum height occupied above that square.
+max_height_occupied = defaultdict(lambda _ : 0)
+
+
+
+
 
 
 
