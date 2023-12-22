@@ -18,7 +18,7 @@ def altitude(L):
   return min(L[2], L[5])
 
 def parse_file_a(filename):
-  '''Parse each line of the file as a list of 6 integers and sort them into order of altitude.'''
+  '''Parse each line of the file as a tuple of 6 integers and sort them into order of altitude.'''
   f = open(filename)
   ip_file = f.read().splitlines()
   f.close()
@@ -27,6 +27,7 @@ def parse_file_a(filename):
     line = [item.split(',') for item in line.split('~')]
     line = line[0] + line[1]
     line = [int(n) for n in line]
+    line = tuple(line)
     op.append(line)
   # Finally, sort the bricks into order of altitude 
   op.sort(key = lambda L: min(L[2], L[5]))
@@ -85,7 +86,7 @@ def drop_brick(B, mho):
   # This brick will settle in the next available vertical position
   settle_height = max_height_below + 1
   brick_top = settle_height + brick_tallness
-  new_pos = [x1,y1,settle_height, x2,y2,brick_top]
+  new_pos = (x1,y1,settle_height, x2,y2,brick_top)
   for x in covered:
     mho[x] = brick_top
   return (mho, new_pos)
