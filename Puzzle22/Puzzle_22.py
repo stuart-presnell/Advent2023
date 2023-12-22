@@ -12,8 +12,12 @@ Timer,
 
 ################################
 
+def altitude(L):
+  '''The `z`-coordinate of the lowest block of the brick.'''
+  return min(L[2], L[5])
+
 def parse_file_a(filename):
-  '''Parse each line of the file as a list of 6 integers.'''
+  '''Parse each line of the file as a list of 6 integers and sort them into order of altitude.'''
   f = open(filename)
   ip_file = f.read().splitlines()
   f.close()
@@ -23,6 +27,8 @@ def parse_file_a(filename):
     line = line[0] + line[1]
     line = [int(n) for n in line]
     op.append(line)
+  # Finally, sort the bricks into order of altitude 
+  op.sort(key = lambda L: min(L[2], L[5]))
   return op
 
 test_input = parse_file_a("Puzzle22_test.txt")
