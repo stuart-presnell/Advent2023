@@ -1,6 +1,7 @@
 # https://adventofcode.com/2023/day/22
 
-# My utility functions
+from collections import defaultdict
+
 # My utility functions
 from utils import (
 show, 
