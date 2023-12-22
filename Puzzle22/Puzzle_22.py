@@ -168,8 +168,15 @@ def main_a(ip_filename):
 # What is the sum of the number of other bricks that would fall?
 
 _, supports = drop_all_bricks(ip)
+sole_supporters = find_sole_supporters(supports)
 for i in range(len(supports)):
   print(i, supports[i])
+
+
+def depends_upon(supports, B):
+  '''The converse to `supports`: the set of bricks that would fall if `B` were removed.'''
+  
+  pass
 
 
 
