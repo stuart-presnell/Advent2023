@@ -35,7 +35,7 @@ test_input = parse_file_a("Puzzle22_test.txt")
 input      = parse_file_a("Puzzle22_input.txt")
 
 ip = test_input
-ip = input
+# ip = input
 show(ip)
 
 ################################
@@ -46,7 +46,16 @@ show(ip)
 def xy_sorted(B):
   (x1,y1,_,x2,y2,_) = B
   return ((x1<=x2) & (y1<=y2))
-all([xy_sorted(B) for B in ip])
+# all([xy_sorted(B) for B in ip])
+
+
+def squares_covered(B):
+  '''Return the set of `(x,y)`-coordinates covered by brick `B`.'''
+  (x1,y1,_,x2,y2,_) = B
+  return [(x,y) for x in range(x1, x2+1) for y in range(y1, y2+1)]
+
+# for B in ip:
+#   print(squares_covered(B))
 
 
 
