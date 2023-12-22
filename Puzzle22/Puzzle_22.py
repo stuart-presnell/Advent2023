@@ -5,7 +5,9 @@ from collections import defaultdict
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, showD, unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
+# chunk_splitlines, printT, showM, 
+showD, 
+# unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
 # Best, 
 Timer,
 )
@@ -74,9 +76,9 @@ def squares_covered(B):
 
 # At each `(x,y)` position, record the maximum height occupied above that square
 # and the identity number (i.e. index in the original list) of the top brick
-mho = defaultdict(lambda:(0,None))
+mho = defaultdict(lambda:[0,None])
 
-def drop_brick(B, mho):
+def drop_brick(B, i, mho):
   '''Given a brick `B` and the current max-height data `mho`,
   find the height that the brick will settle at
   and return the updated `mho` and the new brick position.'''
@@ -85,14 +87,37 @@ def drop_brick(B, mho):
   # Which (x,y) squares are we looking at?
   covered = squares_covered(B)
   # How high is the obstruction below?
-  max_height_below = max([mho[x] for x in covered])
+  max_height_below = max([mho[x][0] for x in covered])
   # This brick will settle in the next available vertical position
   settle_height = max_height_below + 1
   brick_top = settle_height + brick_tallness
   new_pos = (x1,y1,settle_height, x2,y2,brick_top)
+  
+  # Use `mho` to work out which bricks are supporting the current brick
+  supports = []
   for x in covered:
-    mho[x] = brick_top
-  return (mho, new_pos)
+    if mho[x][0] == max_height_below:  # if the brick is getting support at this position
+      supports.append(mho[x][1])       # then record the id of the top brick in this pos
+
+  # Update `mho`: 
+  # * the maximum height over each covered square is the top of this brick;
+  # * the identity of the brick currently covering this square is the current brick id number
+  for x in covered:
+    mho[x] = [brick_top, i]
+  return (mho, new_pos, supports)
+
+
+# mho, new_pos, supports = drop_brick(ip[0], 0, mho)
+# mho, new_pos, supports = drop_brick(ip[1], 1, mho)
+# mho, new_pos, supports = drop_brick(ip[2], 2, mho)
+# mho, new_pos, supports = drop_brick(ip[3], 3, mho)
+# mho, new_pos, supports = drop_brick(ip[4], 4, mho)
+# mho, new_pos, supports = drop_brick(ip[5], 5, mho)
+# mho, new_pos, supports = drop_brick(ip[6], 6, mho)
+# showD(mho)
+# print(new_pos)
+# print(supports)
+
 
 def drop_all_bricks(L):
   '''Given a list of bricks `L`, drop each one with `drop_brick` (starting with an empty `mho`)
