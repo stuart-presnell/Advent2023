@@ -13,10 +13,17 @@ Timer,
 ################################
 
 def parse_file_a(filename):
+  '''Parse each line of the file as a list of 6 integers.'''
   f = open(filename)
   ip_file = f.read().splitlines()
   f.close()
-  return ip_file
+  op = []
+  for line in ip_file:
+    line = [item.split(',') for item in line.split('~')]
+    line = line[0] + line[1]
+    line = [int(n) for n in line]
+    op.append(line)
+  return op
 
 test_input = parse_file_a("Puzzle22_test.txt")
 input      = parse_file_a("Puzzle22_input.txt")
