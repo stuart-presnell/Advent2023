@@ -76,7 +76,19 @@ def drop_brick(B, mho):
   '''Given a brick `B` and the current max-height data `mho`,
   find the height that the brick will settle at
   and return the updated `mho` and the new brick position.'''
-  pass
+  (x1,y1,z1,x2,y2,z2) = B
+  brick_tallness = z2-z1
+  # Which (x,y) squares are we looking at?
+  covered = squares_covered(B)
+  # How high is the obstruction below?
+  max_height_below = max([mho[x] for x in covered])
+  # This brick will settle in the next available vertical position
+  settle_height = max_height_below + 1
+  brick_top = settle_height + brick_tallness
+  new_pos = [x1,y1,settle_height, x2,y2,brick_top]
+  for x in covered:
+    mho[x] = brick_top
+  return (mho, new_pos)
 
 def drop_all_bricks(L):
   '''Given a list of bricks `L`, drop each one with `drop_brick` (starting with an empty `mho`)
