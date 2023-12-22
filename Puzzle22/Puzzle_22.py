@@ -139,14 +139,15 @@ def drop_all_bricks(L):
 def main_a(ip_filename):
   ip = parse_file_a(ip_filename)
   _, supports = drop_all_bricks(ip)
-  show(supports)
+  # show(supports)
   sole_supporters = set()   # The set of bricks that are the only support for some brick above
   for x in supports:    # Run through the support of each brick
-    if len(x) == 1:     # If a brick has exactly one supporter
+    if len(set(x)) == 1:     # If a brick has exactly one supporter
       sole_supporters.add(x[0])  # Add this supporter to `sole_supporters`
-  print(sole_supporters)
+  if None in sole_supporters:     # Bricks that land on the ground have `None` as their support
+    sole_supporters.remove(None)  # Don't include this as a sole supporter
+  # print(sole_supporters)
   return len(ip) - len(sole_supporters)
-
 
 
 # XXXX: Work out the dependency graph of bricks sitting on other bricks
@@ -172,8 +173,9 @@ def main_a(ip_filename):
 
 
 
-# print(main_a("Puzzle22_test.txt"))   # 5
-print(main_a("Puzzle22_input.txt"))  # 612 is too high
+print(main_a("Puzzle22_test.txt"))   # 5
+print(main_a("Puzzle22_input.txt"))  # 421
+# 612 is too high
 
 # TTT.timecheck("Part (a)")  #
 
