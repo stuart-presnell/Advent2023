@@ -31,6 +31,10 @@ def parse_file(filename):
 # ip = input
 # show(ip)
 
+################################
+# Part (a)
+################################
+
 # "You're currently on the single path tile in the top row; 
 # your goal is to reach the single path tile in the bottom row."
 # By inspection, these are as follows in both `test_input` and `input`:
@@ -47,20 +51,18 @@ S = (0,1)
 # can be obtained by running the shortest-path algorithm on −G [...] 
 # derived from G by changing every weight to its negation.""
 
-################################
-# Part (a)
-################################
 
-def get_matrix(ip_file):
-  '''Given the parsed input file, return a dictionary 
+def matrix_to_dict(ip_file, excluded=['#']):
+  '''Given the parsed input file `ip_file`, which is a list of lists or a list of strings,
+  return a dictionary 
   whose keys are positions `(r,c)` 
   and whose values are the content of that square.
-  Don't represent squares that are `'#'`, just ignore them.'''
+  Don't represent squares whose content is in `excluded`, just ignore them.'''
   M = {}
   for r in range(len(ip_file)):
     for c in range(len(ip_file[0])):
       sq = ip_file[r][c]
-      if sq != '#':
+      if sq not in excluded:
         M[(r,c)] = sq
   return M
 
@@ -157,7 +159,7 @@ def main_a(ip_filename):
   ht = len(ip)
   wd = len(ip[0])
   E = (ht-1, wd-2)
-  M = get_matrix(ip)
+  M = matrix_to_dict(ip)
   # We start with one mouse at `S`, with its tail curled around it, having travelled no distance.
   current_mice = [(S,S,0)]
   # At the start, no mice have escaped to report path lengths
