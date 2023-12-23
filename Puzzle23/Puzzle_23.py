@@ -24,10 +24,10 @@ def parse_file(filename):
   f.close()
   return ip_file
 
-test_input = parse_file("Puzzle23_test.txt")
-input      = parse_file("Puzzle23_input.txt")
+# test_input = parse_file("Puzzle23_test.txt")
+# input      = parse_file("Puzzle23_input.txt")
 
-ip = test_input
+# ip = test_input
 # ip = input
 # show(ip)
 
@@ -37,9 +37,9 @@ ip = test_input
 S = (0,1)
 # E = (-1,-2)  # But we can't use this as the literal coords of `E`
 
-ht = len(ip)
-wd = len(ip[0])
-E = (ht-1, wd-2)
+# ht = len(ip)
+# wd = len(ip[0])
+# E = (ht-1, wd-2)
 
 # What is the longest walk you can take from `S` to `E` without stepping on the same square twice?
 # https://en.wikipedia.org/wiki/Longest_path_problem#Acyclic_graphs
@@ -64,8 +64,8 @@ def get_matrix(ip_file):
         M[(r,c)] = sq
   return M
 
-STARTS = [S]
-ENDS = None  # Leave this empty so the algorithm explores for as long as possible
+# STARTS = [S]
+# ENDS = None  # Leave this empty so the algorithm explores for as long as possible
 
 def ACCESSIBLE_NEIGHBOURS(matrix, st):
   '''Given the `matrix` and a particular position `st = (r,c)`, 
@@ -90,10 +90,6 @@ def ACCESSIBLE_NEIGHBOURS(matrix, st):
 def STEP_COST(matrix, st, st2):
   '''Since we're looking for the longest path, the step cost will be -1.'''
   return -1
-
-def main_a(ip_filename):
-  ip = parse_file(ip_filename)
-  pass
 
 # # showD(M)
 # print(ACCESSIBLE_NEIGHBOURS(M, (4,3)))
@@ -135,23 +131,48 @@ def dict_to_matrix(D, ht, wd, default='#'):
 # TODO: When we arrive at `E` we should have a list of all path lengths from `S` to `E`.
 # TODO: Finally, return the length of the longest path from `S` to `E`.
 
-M = get_matrix(test_input)
+# M = get_matrix(test_input)
 # showD(M)
 
 # A dictionary mapping each visited point to the list of path-lengths from `S` to that point
-path_lengths = defaultdict(list)
-path_lengths[S] = [0]
+# path_lengths = defaultdict(list)
+# path_lengths[S] = [0]
 
 # A list of currently occupied squares, each tagged with the previous square visited.
 # Think of these as mice exploring the graph, each occupying a square and dragging its tail behind.
-current_sites = [(S, S)]   # The mouse starts with its tail curled around it at `S`!
+# current_sites = [(S, S)]   # The mouse starts with its tail curled around it at `S`!
 
+################################
+################################
 
 def non_previous_neighbours(matrix, pos, prev):
   '''Filter out `prev` from the accesible neighbours of `st`.'''
-  return [pt for pt in ACCESSIBLE_NEIGHBOURS(M, pos) if pt != prev]
+  return [pt for pt in ACCESSIBLE_NEIGHBOURS(matrix, pos) if pt != prev]
 
 # TODO: Try something simpler: just run individual mice through the maze, each recording its current and previous positions and the distance it has travelled. Keep a queue of mice currently running. At each step a mouse updates and replaces itself on the queue with a copy of itself for each available forward step. When a mouse hits `E`, collect its distance and let it fall off the queue.
+
+
+def main_a(ip_filename):
+  ip = parse_file(ip_filename)
+  ht = len(ip)
+  wd = len(ip[0])
+  E = (ht-1, wd-2)
+  M = get_matrix(ip)
+  # We start with one mouse at `S`, with its tail curled around it, having travelled no distance.
+  current_mice = [(S,S,0)]
+  # At the start, no mice have escaped to report path lengths
+  complete_path_lengths = []
+
+  while current_mice:
+    (pos, prev, d) = current_mice.pop()
+    if pos == E:  # if this mouse has escaped
+      complete_path_lengths.append(d)
+    for next_pos in non_previous_neighbours(M, pos, prev):
+      current_mice.append((next_pos, pos, d+1))
+
+  # print(complete_path_lengths)
+  return max(complete_path_lengths)
+
 
 # print(path_lengths)
 # for (pos,prev) in current_sites:
@@ -163,8 +184,8 @@ def non_previous_neighbours(matrix, pos, prev):
 # print()
 # print(path_lengths)
   
-# print(main_a("Puzzle23_test.txt"))  # 
-# print(main_a("Puzzle23_input.txt")) # 
+print(main_a("Puzzle23_test.txt"))  # 
+print(main_a("Puzzle23_input.txt")) # 
 
 # TTT.timecheck("Part (a)")  #
 
