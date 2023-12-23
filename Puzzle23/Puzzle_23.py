@@ -1,5 +1,6 @@
 # https://adventofcode.com/2023/day/23
 
+import re
 from Dijkstra import Dijkstra
 from math import ceil, log10, inf
 from collections import defaultdict
@@ -25,11 +26,11 @@ def parse_file(filename):
   f.close()
   return ip_file
 
-test_input = parse_file("Puzzle23_test.txt")
-# input      = parse_file("Puzzle23_input.txt")
+# test_input = parse_file("Puzzle23_test.txt")
+input      = parse_file("Puzzle23_input.txt")
 
-ip = test_input
-# ip = input
+# ip = test_input
+ip = input
 # show(ip)
 
 ################################
@@ -157,7 +158,7 @@ def extract_graph(matrix):
     if (pt in vertices) & (l > 0): # if this is an extended tendril reaching a known vertex
       # print("Found a new edge between ", V, " and ", pt)
       edges.add((V, pt, l))
-      edges.add((pt, V, l))
+      # edges.add((pt, V, l))
       if pt == E:  # if, moreover, the vertex is `E` then there's nothing more to do
         pass
       else:  # otherwise start a new tendril from this vertex, ready to start growing
@@ -170,7 +171,7 @@ def extract_graph(matrix):
       # print("Found a new vertex at ", pt)
       vertices.add(pt)
       edges.add((V, pt, l))
-      edges.add((pt, V, l))
+      # edges.add((pt, V, l))
       # print("Adding the edge between ", V, " and ", pt)
       tendrils.append((pt, pt, 0))
     # Otherwise, it's either a tendril of length zero at a vertex, or a tendril mid-way along an edge
@@ -196,6 +197,11 @@ def extract_graph(matrix):
   return vertices, edges
 
 V, E = extract_graph(M)
+V = list(V)
+E = list(E)
+show(V)
+show(E)
+
 
 # print(main_b_v1("Puzzle23_test.txt"))  # 154
 # print(main_b_v1("Puzzle23_input.txt")) # 
