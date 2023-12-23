@@ -2,6 +2,7 @@
 
 from Dijkstra import Dijkstra
 from math import ceil, log10
+from collections import defaultdict
 
 # My utility functions
 from utils import (
@@ -126,6 +127,7 @@ def dict_to_matrix(D, ht, wd, default='#'):
 # TODO: Try a different approach to enumerate (the lengths of) all paths from `S` to `E`.
 # TODO: Start with [0] at S; {S} is the current set of occupied squares.
 # TODO: For each curently occupied square, also record the *previous* square we were at.
+
 # TODO: For each currently occupied square `x`, find all non-previous squares accesible from it.
 # TODO: If L is the list of path lengths to `x`, for each of these neighbours we *append* map(+1, L).
 # TODO: If we arrive at an already-visited square, appending will combine the sets of paths.
@@ -134,6 +136,14 @@ def dict_to_matrix(D, ht, wd, default='#'):
 
 M = get_matrix(test_input)
 # showD(M)
+
+# A dictionary mapping each visited point to the list of path-lengths from `S` to that point
+path_lengths = defaultdict(list)
+path_lengths[S] = [0]
+
+# A list of currently occupied squares, each tagged with the previous square visited.
+# Think of these as mice exploring the graph, each occupying a square and dragging its tail behind.
+current_sites = [(S, S)]   # The mouse starts with its tail curled around it at `S`!
 
 # print(main_a("Puzzle23_test.txt"))  # 
 # print(main_a("Puzzle23_input.txt")) # 
