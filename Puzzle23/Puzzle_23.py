@@ -36,8 +36,9 @@ ip = test_input
 S = (0,1)
 # E = (-1,-2)  # But we can't use this as the literal coords of `E`
 
-STARTS = [S]
-ENDS = None  # Leave this empty so the algorithm explores for as long as possible
+ht = len(ip)
+wd = len(ip[0])
+E = (ht-1, wd-2)
 
 # What is the longest walk you can take from `S` to `E` without stepping on the same square twice?
 # https://en.wikipedia.org/wiki/Longest_path_problem#Acyclic_graphs
@@ -61,6 +62,9 @@ def get_matrix(ip_file):
       if sq != '#':
         M[(r,c)] = sq
   return M
+
+STARTS = [S]
+ENDS = None  # Leave this empty so the algorithm explores for as long as possible
 
 def ACCESSIBLE_NEIGHBOURS(matrix, st):
   '''Given the `matrix` and a particular position `st = (r,c)`, 
@@ -90,19 +94,12 @@ def main_a(ip_filename):
   ip = parse_file(ip_filename)
   pass
 
-
-M = get_matrix(test_input)
-# show(M)
-ht = len(test_input)
-wd = len(test_input[0])
-E = (ht-1, wd-2)
-
 # # showD(M)
 # print(ACCESSIBLE_NEIGHBOURS(M, (4,3)))
 
-(T,P) = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
-for pos in T:
-  T[pos] = -T[pos]
+# (T,P) = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+# for pos in T:
+#   T[pos] = -T[pos]
 
 def dict_to_matrix(D, ht, wd, default='#'):
   '''Given a dictionary `D` whose keys are pairs `(r,c)`
@@ -120,7 +117,7 @@ def dict_to_matrix(D, ht, wd, default='#'):
     op.append(op_row)
   return op
 
-M2 = dict_to_matrix(T, ht, wd)
+# M2 = dict_to_matrix(T, ht, wd)
 # showM(M2, 1)
 
 ################################
@@ -134,6 +131,9 @@ M2 = dict_to_matrix(T, ht, wd)
 # TODO: If we arrive at an already-visited square, appending will combine the sets of paths.
 # TODO: When we arrive at `E` we should have a list of all path lengths from `S` to `E`.
 # TODO: Finally, return the length of the longest path from `S` to `E`.
+
+M = get_matrix(test_input)
+# showD(M)
 
 # print(main_a("Puzzle23_test.txt"))  # 
 # print(main_a("Puzzle23_input.txt")) # 
