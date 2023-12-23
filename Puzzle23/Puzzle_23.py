@@ -1,5 +1,7 @@
 # https://adventofcode.com/2023/day/23
 
+from Dijkstra import Dijkstra
+
 # My utility functions
 from utils import (
 show, 
