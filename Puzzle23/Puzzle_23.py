@@ -5,7 +5,9 @@ from Dijkstra import Dijkstra
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, showD, unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
+# chunk_splitlines, printT, showM, 
+showD, 
+# unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
 # Best, 
 Timer,
 )
@@ -48,9 +50,17 @@ dirs = ['^', '>', 'v', '<']
 ################################
 
 def get_matrix(ip_file):
-  '''Given the parsed input file, return 
-  a dictionary whose keys are states positions `(r,c)` and values are the content of that square.'''
-  pass
+  '''Given the parsed input file, return a dictionary 
+  whose keys are positions `(r,c)` 
+  and whose values are the content of that square.
+  Don't represent squares that are `'#'`, just ignore them.'''
+  M = {}
+  for r in range(len(ip_file)):
+    for c in range(len(ip_file[0])):
+      sq = ip_file[r][c]
+      if sq != '#':
+        M[(r,c)] = sq
+  return M
 
 def ACCESSIBLE_NEIGHBOURS(matrix, st):
   '''Given the `matrix` and a particular position `st = (r,c)`, 
