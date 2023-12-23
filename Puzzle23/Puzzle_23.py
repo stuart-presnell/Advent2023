@@ -32,7 +32,7 @@ show(ip)
 # your goal is to reach the single path tile in the bottom row."
 # By inspection, these are as follows in both `test_input` and `input`:
 S = (0,1)
-E = (-1,-2)
+# E = (-1,-2)  # But we can't use this as the literal coords of `E`!
 
 STARTS = [S]
 ENDS = None  # Leave this empty so the algorithm explores for as long as possible
@@ -80,11 +80,6 @@ def ACCESSIBLE_NEIGHBOURS(matrix, st):
   # Now filter down to those positions that are actually in `matrix`.
   return [pt for pt in NSWE if pt in matrix]
 
-# M = get_matrix(test_input)
-# # showD(M)
-# print(ACCESSIBLE_NEIGHBOURS(M, (4,3)))
-
-
 def STEP_COST(matrix, st, st2):
   '''Since we're looking for the longest path, the step cost will be -1.'''
   return -1
@@ -92,6 +87,22 @@ def STEP_COST(matrix, st, st2):
 def main_a(ip_filename):
   ip = parse_file(ip_filename)
   pass
+
+
+M = get_matrix(test_input)
+# show(M)
+ht = len(test_input)
+wd = len(test_input[0])
+E = (ht-1, wd-2)
+
+# # showD(M)
+# print(ACCESSIBLE_NEIGHBOURS(M, (4,3)))
+
+(T,P) = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+
+print(T[E])
+
+
 
 # print(main_a("Puzzle23_test.txt"))  # 
 # print(main_a("Puzzle23_input.txt")) # 
