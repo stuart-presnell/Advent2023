@@ -32,6 +32,9 @@ show(ip)
 S = (0,1)
 E = (-1,-2)
 
+STARTS = [S]
+ENDS = None  # Leave this empty so the algorithm explores for as long as possible
+
 dirs = ['^', '>', 'v', '<']
 
 # What is the longest walk you can take from `S` to `E` without stepping on the same square twice?
@@ -43,6 +46,21 @@ dirs = ['^', '>', 'v', '<']
 ################################
 # Part (a)
 ################################
+
+def get_matrix(ip_file):
+  '''Given the parsed input file, return 
+  a dictionary whose keys are states positions `(r,c)` and values are the content of that square.'''
+  pass
+
+def ACCESSIBLE_NEIGHBOURS(matrix, st):
+  '''Given the `matrix` and a particular position `st = (r,c)`, 
+  return the list of accessible positions reachable in one step from `st`.
+  NB: DO WE NEED TO DO SOMETHING TO PREVENT THE ALGORITHM FROM RE-CROSSING ITS PATH?'''
+  pass
+
+def STEP_COST(matrix, st, st2):
+  '''Since we're looking for the longest path, the step cost will be -1.'''
+  return -1
 
 def main_a(ip_filename):
   ip = parse_file(ip_filename)
