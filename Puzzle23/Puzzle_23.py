@@ -30,7 +30,7 @@ test_input = parse_file("Puzzle23_test.txt")
 
 ip = test_input
 # ip = input
-show(ip)
+# show(ip)
 
 ################################
 # Part (a)
@@ -133,15 +133,69 @@ def ACCESSIBLE_NEIGHBOURS_b(matrix, st):
 # so rather than traversing through the grid step by step we can hop from vertex to vertex.
 
 M = matrix_to_dict(ip)
-showD(M)
+# showD(M)
+ht = len(ip)
+wd = len(ip[0])
+S = (0,1)
+E = (ht-1, wd-2)
+# print(E)
+
 
 def extract_graph(matrix):
-  '''Given a dictionary `matrix` representing the grid, 
-  return a graph, represented by a dictionary whose keys are vertices
-  and whose values are dictionaries mapping vertices to edge-lengths (or `inf` for disconnection).'''
-  pass
+  '''Given a dictionary `matrix` representing the grid, return a graph 
+  represented by a set of vertices and a set `(v1, v2, l)` and `(v2, v1, l)` of weighted edges.'''
+  unvisited = set(matrix.keys())
+  vertices = {S, E}
+  edges = set()
+  # A list of half-edges `(V, pt, l)`, each emanating from vertex `V`, 
+  # reaching to `pt` so far, currently of length `l`.
+  tendrils = [(S,S,0)]   
+  while tendrils:
+    # print(tendrils)
+    (V, pt, l) = tendrils.pop()
+    # print("Growing tendril", V, pt, l)
+    if (pt in vertices) & (l > 0): # if this is an extended tendril reaching a known vertex
+      # print("Found a new edge between ", V, " and ", pt)
+      edges.add((V, pt, l))
+      edges.add((pt, V, l))
+      if pt == E:  # if, moreover, the vertex is `E` then there's nothing more to do
+        pass
+      else:  # otherwise start a new tendril from this vertex, ready to start growing
+        tendrils.append((pt, pt, 0))
+      continue  # we're done with this tendril; move on to the next
+    # Otherwise, the tendril has not extended to a known vertex, 
+    # so we need to know about the neighbourhood ot `pt`.
+    N = ACCESSIBLE_NEIGHBOURS_b(matrix, pt)
+    if (len(N) >= 3) & (l > 0):    # if this is an extended tendril reaching a NEW vertex
+      # print("Found a new vertex at ", pt)
+      vertices.add(pt)
+      edges.add((V, pt, l))
+      edges.add((pt, V, l))
+      # print("Adding the edge between ", V, " and ", pt)
+      tendrils.append((pt, pt, 0))
+    # Otherwise, it's either a tendril of length zero at a vertex, or a tendril mid-way along an edge
+    # Either way, let it grow into all unvisited neighbouring squares
+    elif (len(N) == 2):  # if it's midway along an edge
+      for pt2 in N:
+        if (pt2 in unvisited) & (pt2 != V):  # don't let it grow backward or into its starting vertex
+          tendrils.append((V, pt2, l+1))
+      unvisited.remove(pt)
+    elif (l == 0):  # if it's a tendril of length zero at a vertex
+      # Filter N to just the unvisited neighbouring points
+      N = [pt for pt in N if pt in unvisited]
+      # if there are no unvisited paths neighbouring this vertex then it's done
+      if N == []:
+        # unvisited.remove(pt)
+        continue  # move on to the next tendril
+      else:
+      # we want to start one tendril growing along an unvisited path departing this vertex
+      # but we also want to revisit this vertex later to let further tendrils grow from it.
+        pt2 = N[-1]
+        tendrils.append((pt,pt,0))
+        tendrils.append((pt,pt2,1))
+  return vertices, edges
 
-
+V, E = extract_graph(M)
 
 # print(main_b_v1("Puzzle23_test.txt"))  # 154
 # print(main_b_v1("Puzzle23_input.txt")) # 
