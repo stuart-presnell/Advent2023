@@ -7,6 +7,7 @@ from collections import defaultdict
 # My utility functions
 from utils import (
 show, 
+matrix_to_dict,
 # chunk_splitlines, printT, 
 showM, 
 showD, 
@@ -51,20 +52,6 @@ S = (0,1)
 # can be obtained by running the shortest-path algorithm on −G [...] 
 # derived from G by changing every weight to its negation.""
 
-
-def matrix_to_dict(ip_file, excluded=['#']):
-  '''Given the parsed input file `ip_file`, which is a list of lists or a list of strings,
-  return a dictionary 
-  whose keys are positions `(r,c)` 
-  and whose values are the content of that square.
-  Don't represent squares whose content is in `excluded`, just ignore them.'''
-  M = {}
-  for r in range(len(ip_file)):
-    for c in range(len(ip_file[0])):
-      sq = ip_file[r][c]
-      if sq not in excluded:
-        M[(r,c)] = sq
-  return M
 
 # STARTS = [S]
 # ENDS = None  # Leave this empty so the algorithm explores for as long as possible

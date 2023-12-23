@@ -1,5 +1,19 @@
 from time import perf_counter
 
+def matrix_to_dict(ip_file, excluded=['#']):
+  '''Given the parsed input file `ip_file`, which is a list of lists or a list of strings,
+  return a dictionary 
+  whose keys are positions `(r,c)` 
+  and whose values are the content of that square.
+  Don't represent squares whose content is in `excluded`, just ignore them.'''
+  M = {}
+  for r in range(len(ip_file)):
+    for c in range(len(ip_file[0])):
+      sq = ip_file[r][c]
+      if sq not in excluded:
+        M[(r,c)] = sq
+  return M
+
 def chunk_splitlines(s:str) -> list[list[str]]:
   '''Given a string obtained e.g. from `f.read()`, 
   split the file at blank lines, 
