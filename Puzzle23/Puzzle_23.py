@@ -1,7 +1,7 @@
 # https://adventofcode.com/2023/day/23
 
 from Dijkstra import Dijkstra
-from math import ceil, log10
+from math import ceil, log10, inf
 from collections import defaultdict
 
 # My utility functions
@@ -25,12 +25,12 @@ def parse_file(filename):
   f.close()
   return ip_file
 
-# test_input = parse_file("Puzzle23_test.txt")
+test_input = parse_file("Puzzle23_test.txt")
 # input      = parse_file("Puzzle23_input.txt")
 
-# ip = test_input
+ip = test_input
 # ip = input
-# show(ip)
+show(ip)
 
 ################################
 # Part (a)
@@ -126,6 +126,20 @@ def ACCESSIBLE_NEIGHBOURS_b(matrix, st):
   
   # Now filter down to those positions that are actually in `matrix`.
   return [pt for pt in NSWE if pt in matrix]
+
+
+
+# TODO: Let's start by extracting a graph from the given grid; 
+# so rather than traversing through the grid step by step we can hop from vertex to vertex.
+
+M = matrix_to_dict(ip)
+showD(M)
+
+def extract_graph(matrix):
+  '''Given a dictionary `matrix` representing the grid, 
+  return a graph, represented by a dictionary whose keys are vertices
+  and whose values are dictionaries mapping vertices to edge-lengths (or `inf` for disconnection).'''
+  pass
 
 
 
