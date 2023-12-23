@@ -48,7 +48,17 @@ def parse_file(filename):
 
 # What is the longest walk you can take from `S` to `E` without stepping on the same square twice?
 
-def ACCESSIBLE_NEIGHBOURS(matrix, st):
+################################
+################################
+
+# DONE: We're going to run individual mice through the maze.
+# DONE: Each mouse will record its current and previous positions and the distance it has travelled. 
+# DONE: Keep a queue of mice currently running. 
+# DONE: At each step a mouse updates and replaces itself on the queue 
+  # with a copy of itself for each available forward step. 
+# DONE: When a mouse hits `E`, collect its distance and let it fall off the queue.
+
+def ACCESSIBLE_NEIGHBOURS_a(matrix, st):
   '''Given the `matrix` and a particular position `st = (r,c)`, 
   return the list of accessible positions reachable in one step from `st`.'''
   # Just in case we're passed an illegal position
@@ -66,19 +76,9 @@ def ACCESSIBLE_NEIGHBOURS(matrix, st):
   # Now filter down to those positions that are actually in `matrix`.
   return [pt for pt in NSWE if pt in matrix]
 
-################################
-################################
-
-# DONE: We're going to run individual mice through the maze.
-# DONE: Each mouse will record its current and previous positions and the distance it has travelled. 
-# DONE: Keep a queue of mice currently running. 
-# DONE: At each step a mouse updates and replaces itself on the queue 
-  # with a copy of itself for each available forward step. 
-# DONE: When a mouse hits `E`, collect its distance and let it fall off the queue.
-
 def non_previous_neighbours(matrix, pos, prev):
   '''Filter out `prev` from the accesible neighbours of `st`.'''
-  return [pt for pt in ACCESSIBLE_NEIGHBOURS(matrix, pos) if pt != prev]
+  return [pt for pt in ACCESSIBLE_NEIGHBOURS_a(matrix, pos) if pt != prev]
 
 def main_a(ip_filename):
   ip = parse_file(ip_filename)
@@ -110,6 +110,21 @@ def main_a(ip_filename):
 ################################
 # Part (b)
 ################################
+
+def ACCESSIBLE_NEIGHBOURS_b(matrix, st):
+  '''Given the `matrix` and a particular position `st = (r,c)`, 
+  return the list of accessible positions reachable in one step from `st`.'''
+  # Just in case we're passed an illegal position
+  if st not in matrix:
+    return []
+  # We can AT MOST step in the 4 cardinal directions
+  (r,c) = st
+  NSWE = [(r-1, c),(r+1, c),(r, c-1),(r, c+1)]
+  
+  # Now filter down to those positions that are actually in `matrix`.
+  return [pt for pt in NSWE if pt in matrix]
+
+
 
 # def main_b(ip_filename):
 #   ip = parse_file(ip_filename)
