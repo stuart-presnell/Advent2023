@@ -196,11 +196,24 @@ def extract_graph(matrix):
         tendrils.append((pt,pt2,1))
   return vertices, edges
 
-V, E = extract_graph(M)
-V = list(V)
-E = list(E)
-show(V)
-show(E)
+def make_simpler_graph(V, E):
+  '''Given a set of vertices `V` and a set of edges `E` of the form `(v1,v2,w)`, 
+  return a dictionary `G` whose keys are numbers `0,...,|V|`
+  where `G[n]` is a list of pairs indicating all vertices adjacent to vertex `n` and the edge weight.
+  Using an idea from: https://stackoverflow.com/a/29321323
+  '''
+  V = list(V)
+  E = list(E)
+  V.sort()
+  V_dict = {V[i] : i for i in range(len(V))}
+
+  G = defaultdict(list)
+  for (s,t,l) in E:
+    G[V_dict[s]].append((V_dict[t],l))
+    G[V_dict[t]].append((V_dict[s],l))
+  return G
+
+# G = make_simpler_graph(*extract_graph(M))
 
 
 # print(main_b_v1("Puzzle23_test.txt"))  # 154
