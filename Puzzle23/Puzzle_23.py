@@ -151,6 +151,7 @@ def non_previous_neighbours(matrix, pos, prev):
   '''Filter out `prev` from the accesible neighbours of `st`.'''
   return [pt for pt in ACCESSIBLE_NEIGHBOURS(M, pos) if pt != prev]
 
+# TODO: Try something simpler: just run individual mice through the maze, each recording its current and previous positions and the distance it has travelled. Keep a queue of mice currently running. At each step a mouse updates and replaces itself on the queue with a copy of itself for each available forward step. When a mouse hits `E`, collect its distance and let it fall off the queue.
 
 # print(path_lengths)
 # for (pos,prev) in current_sites:
