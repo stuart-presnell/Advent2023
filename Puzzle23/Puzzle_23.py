@@ -1,11 +1,13 @@
 # https://adventofcode.com/2023/day/23
 
 from Dijkstra import Dijkstra
+from math import ceil, log10
 
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, 
+# chunk_splitlines, printT, 
+showM, 
 showD, 
 # unzip, parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
 # Best, 
@@ -26,13 +28,13 @@ input      = parse_file("Puzzle23_input.txt")
 
 ip = test_input
 # ip = input
-show(ip)
+# show(ip)
 
 # "You're currently on the single path tile in the top row; 
 # your goal is to reach the single path tile in the bottom row."
 # By inspection, these are as follows in both `test_input` and `input`:
 S = (0,1)
-# E = (-1,-2)  # But we can't use this as the literal coords of `E`!
+# E = (-1,-2)  # But we can't use this as the literal coords of `E`
 
 STARTS = [S]
 ENDS = None  # Leave this empty so the algorithm explores for as long as possible
@@ -99,10 +101,27 @@ E = (ht-1, wd-2)
 # print(ACCESSIBLE_NEIGHBOURS(M, (4,3)))
 
 (T,P) = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+for pos in T:
+  T[pos] = -T[pos]
 
-print(T[E])
+def dict_to_matrix(D, ht, wd, default='#'):
+  '''Given a dictionary `D` whose keys are pairs `(r,c)`
+  representing a (sparse) `ht * wd` matrix, 
+  and a default value `default` to fill any empty spaces,
+  return a matrix of these values (i.e. a list of lists).'''
+  max_val = max(D.values())
+  max_digits = ceil(log10(max_val))
+  default = ' ' * (max_digits) + default
+  op = []
+  for r in range(ht):
+    op_row = []
+    for c in range(wd):
+      op_row.append(D[(r,c)] if (r,c) in D else default)
+    op.append(op_row)
+  return op
 
-
+M2 = dict_to_matrix(T, ht, wd)
+showM(M2, 1)
 
 # print(main_a("Puzzle23_test.txt"))  # 
 # print(main_a("Puzzle23_input.txt")) # 
