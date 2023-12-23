@@ -32,6 +32,12 @@ E = (-1,-2)
 
 dirs = ['^', '>', 'v', '<']
 
+# What is the longest walk you can take from `S` to `E` without stepping on the same square twice?
+# https://en.wikipedia.org/wiki/Longest_path_problem#Acyclic_graphs
+# "For a [directed acyclic graph], the longest path from a source vertex to all other vertices 
+# can be obtained by running the shortest-path algorithm on −G [...] 
+# derived from G by changing every weight to its negation.""
+
 ################################
 # Part (a)
 ################################
