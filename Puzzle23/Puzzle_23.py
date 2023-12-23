@@ -15,7 +15,7 @@ showD,
 # Best, 
 Timer,
 )
-# TTT = Timer()
+# TTT = Timer(1)
 
 ################################
 
@@ -102,10 +102,10 @@ def main_a(ip_filename):
   # print(complete_path_lengths)
   return max(complete_path_lengths)
   
-print(main_a("Puzzle23_test.txt"))  #   94
-print(main_a("Puzzle23_input.txt")) # 2042
+# print(main_a("Puzzle23_test.txt"))  #   94
+# print(main_a("Puzzle23_input.txt")) # 2042
 
-# TTT.timecheck("Part (a)")  #
+# TTT.timecheck("Part (a)")  # ~ 140 ms
 
 ################################
 # Part (b)
