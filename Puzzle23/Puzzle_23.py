@@ -152,15 +152,15 @@ def non_previous_neighbours(matrix, pos, prev):
   return [pt for pt in ACCESSIBLE_NEIGHBOURS(M, pos) if pt != prev]
 
 
-print(path_lengths)
-for (pos,prev) in current_sites:
-  pls = [x+1 for x in path_lengths[pos]]
-  n = non_previous_neighbours(M, pos, prev)
-  for pt in n:
-    path_lengths[pt] += pls
+# print(path_lengths)
+# for (pos,prev) in current_sites:
+#   pls = [x+1 for x in path_lengths[pos]]
+#   n = non_previous_neighbours(M, pos, prev)
+#   for pt in n:
+#     path_lengths[pt] += pls
 
-print()
-print(path_lengths)
+# print()
+# print(path_lengths)
   
 # print(main_a("Puzzle23_test.txt"))  # 
 # print(main_a("Puzzle23_input.txt")) # 
