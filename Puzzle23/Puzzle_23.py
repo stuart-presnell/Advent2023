@@ -113,9 +113,6 @@ def main_a(ip_filename):
 
 # "Now, treat all slopes as if they were normal paths."
 
-# TODO: Now let each mouse record the path it has taken.
-# TODO: So each mouse is just a trail, with its current position at the end.
-# TODO: When deciding which squares are accessible, don't let it retrace its steps.
 
 def ACCESSIBLE_NEIGHBOURS_b(matrix, st):
   '''Given the `matrix` and a particular position `st = (r,c)`, 
@@ -131,34 +128,37 @@ def ACCESSIBLE_NEIGHBOURS_b(matrix, st):
   return [pt for pt in NSWE if pt in matrix]
 
 
-def main_b(ip_filename):
-  ip = parse_file(ip_filename)
-  ht = len(ip)
-  wd = len(ip[0])
-  S = (0,1)
-  E = (ht-1, wd-2)
-  M = matrix_to_dict(ip)
-  # We start with one mouse at `S`.
-  current_mice = [[S]]
-  # At the start, no mice have escaped to report path lengths
-  complete_path_lengths = []
 
-  while current_mice:
-    mouse_path = current_mice.pop()
-    pos = mouse_path[-1]
-    if pos == E:  # if this mouse has escaped
-      complete_path_lengths.append(len(mouse_path) - 1)  # record the length of the path taken
-    for next_pos in ACCESSIBLE_NEIGHBOURS_b(M, pos):
-      if next_pos not in mouse_path:
-        current_mice.append(mouse_path + [next_pos])
-
-  # print(complete_path_lengths)
-  return max(complete_path_lengths)
-
-
-# print(main_b("Puzzle23_test.txt"))  # 154
-# print(main_b("Puzzle23_input.txt")) # 
+# print(main_b_v1("Puzzle23_test.txt"))  # 154
+# print(main_b_v1("Puzzle23_input.txt")) # 
 
 # TTT.timecheck("Part (b)")  #
 
 ################################
+
+# def main_b_v1(ip_filename):
+#   '''Now let each mouse record the path it has taken. 
+#   So each mouse is just a trail, with its current position at the end. 
+#   When deciding which squares are accessible, don't let it retrace its steps.'''
+#   ip = parse_file(ip_filename)
+#   ht = len(ip)
+#   wd = len(ip[0])
+#   S = (0,1)
+#   E = (ht-1, wd-2)
+#   M = matrix_to_dict(ip)
+#   # We start with one mouse at `S`.
+#   current_mice = [[S]]
+#   # At the start, no mice have escaped to report path lengths
+#   complete_path_lengths = []
+
+#   while current_mice:
+#     mouse_path = current_mice.pop()
+#     pos = mouse_path[-1]
+#     if pos == E:  # if this mouse has escaped
+#       complete_path_lengths.append(len(mouse_path) - 1)  # record the length of the path taken
+#     for next_pos in ACCESSIBLE_NEIGHBOURS_b(M, pos):
+#       if next_pos not in mouse_path:
+#         current_mice.append(mouse_path + [next_pos])
+
+#   # print(complete_path_lengths)
+#   return max(complete_path_lengths)
