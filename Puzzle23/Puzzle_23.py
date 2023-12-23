@@ -24,6 +24,13 @@ ip = test_input
 # ip = input
 show(ip)
 
+# "You're currently on the single path tile in the top row; 
+# your goal is to reach the single path tile in the bottom row."
+# By inspection, these are as follows in both `test_input` and `input`:
+S = (0,1)
+E = (-1,-2)
+
+
 ################################
 # Part (a)
 ################################
