@@ -1,4 +1,5 @@
 from time import perf_counter
+from math import ceil, log10
 
 def matrix_to_dict(ip_file, excluded=['#']):
   '''Given the parsed input file `ip_file`, which is a list of lists or a list of strings,
@@ -13,6 +14,23 @@ def matrix_to_dict(ip_file, excluded=['#']):
       if sq not in excluded:
         M[(r,c)] = sq
   return M
+
+def dict_to_matrix(D, ht, wd, default='#'):
+  '''Given a dictionary `D` whose keys are pairs `(r,c)`
+  representing a (sparse) `ht * wd` matrix, 
+  and a default value `default` to fill any empty spaces,
+  return a matrix of these values (i.e. a list of lists).
+  - Intended for use with `showM`.'''
+  max_val = max(D.values())
+  max_digits = ceil(log10(max_val))
+  default = ' ' * (max_digits) + default
+  op = []
+  for r in range(ht):
+    op_row = []
+    for c in range(wd):
+      op_row.append(D[(r,c)] if (r,c) in D else default)
+    op.append(op_row)
+  return op
 
 def chunk_splitlines(s:str) -> list[list[str]]:
   '''Given a string obtained e.g. from `f.read()`, 

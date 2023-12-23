@@ -66,23 +66,6 @@ def ACCESSIBLE_NEIGHBOURS(matrix, st):
   # Now filter down to those positions that are actually in `matrix`.
   return [pt for pt in NSWE if pt in matrix]
 
-
-def dict_to_matrix(D, ht, wd, default='#'):
-  '''Given a dictionary `D` whose keys are pairs `(r,c)`
-  representing a (sparse) `ht * wd` matrix, 
-  and a default value `default` to fill any empty spaces,
-  return a matrix of these values (i.e. a list of lists).'''
-  max_val = max(D.values())
-  max_digits = ceil(log10(max_val))
-  default = ' ' * (max_digits) + default
-  op = []
-  for r in range(ht):
-    op_row = []
-    for c in range(wd):
-      op_row.append(D[(r,c)] if (r,c) in D else default)
-    op.append(op_row)
-  return op
-
 ################################
 ################################
 
