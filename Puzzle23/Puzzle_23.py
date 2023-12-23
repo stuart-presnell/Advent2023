@@ -121,13 +121,26 @@ def dict_to_matrix(D, ht, wd, default='#'):
   return op
 
 M2 = dict_to_matrix(T, ht, wd)
-showM(M2, 1)
+# showM(M2, 1)
+
+################################
+################################
+
+# TODO: Try a different approach to enumerate (the lengths of) all paths from `S` to `E`.
+# TODO: Start with [0] at S; {S} is the current set of occupied squares.
+# TODO: For each curently occupied square, also record the *previous* square we were at.
+# TODO: For each currently occupied square `x`, find all non-previous squares accesible from it.
+# TODO: If L is the list of path lengths to `x`, for each of these neighbours we *append* map(+1, L).
+# TODO: If we arrive at an already-visited square, appending will combine the sets of paths.
+# TODO: When we arrive at `E` we should have a list of all path lengths from `S` to `E`.
+# TODO: Finally, return the length of the longest path from `S` to `E`.
 
 # print(main_a("Puzzle23_test.txt"))  # 
 # print(main_a("Puzzle23_input.txt")) # 
 
 # TTT.timecheck("Part (a)")  #
 
+################################
 ################################
 # Part (b)
 ################################
