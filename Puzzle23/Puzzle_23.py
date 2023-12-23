@@ -156,7 +156,7 @@ def main_b(ip_filename):
   return max(complete_path_lengths)
 
 
-# print(main_b("Puzzle23_test.txt"))  # 
+# print(main_b("Puzzle23_test.txt"))  # 154
 # print(main_b("Puzzle23_input.txt")) # 
 
 # TTT.timecheck("Part (b)")  #
