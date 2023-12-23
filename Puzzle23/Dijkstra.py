@@ -97,10 +97,10 @@ def recover_path(p, e):
 #   STARTS = [(0,0)]
 #   ENDS = [(4,2)]
 
-#   def ACCESSIBLE_NEIGHBOURS(matrix, st):
-#     (x,y) = st
-#     raw = [(x-1, y),(x+1, y),(x, y-1),(x, y+1)]
-#     return [pt for pt in raw if pt in matrix]
+# def ACCESSIBLE_NEIGHBOURS(matrix, st):
+#   (r,c) = st
+#   NSWE = [(r-1, c),(r+1, c),(r, c-1),(r, c+1)]
+#   return [pt for pt in NSWE if pt in matrix]
 
 #   def STEP_COST(matrix, st, st2):
 #     return 1
