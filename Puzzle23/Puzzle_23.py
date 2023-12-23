@@ -128,9 +128,10 @@ def dict_to_matrix(D, ht, wd, default='#'):
 # TODO: Start with [0] at S; {S} is the current set of occupied squares.
 # TODO: For each curently occupied square, also record the *previous* square we were at.
 # TODO: For each currently occupied square `x`, find all non-previous squares accesible from it.
+# TODO: If L is the list of path lengths to `x`, for each of these neighbours we concat `map(+1, L)`.
+# TODO: If we arrive at an already-visited square, concatting will combine the sets of paths.
 
-# TODO: If L is the list of path lengths to `x`, for each of these neighbours we *append* map(+1, L).
-# TODO: If we arrive at an already-visited square, appending will combine the sets of paths.
+# TODO: Then update the list of currently occupied squares.
 # TODO: When we arrive at `E` we should have a list of all path lengths from `S` to `E`.
 # TODO: Finally, return the length of the longest path from `S` to `E`.
 
@@ -151,11 +152,16 @@ def non_previous_neighbours(matrix, pos, prev):
   return [pt for pt in ACCESSIBLE_NEIGHBOURS(M, pos) if pt != prev]
 
 
+print(path_lengths)
 for (pos,prev) in current_sites:
+  pls = [x+1 for x in path_lengths[pos]]
   n = non_previous_neighbours(M, pos, prev)
-  print(n)
+  for pt in n:
+    path_lengths[pt] += pls
 
-
+print()
+print(path_lengths)
+  
 # print(main_a("Puzzle23_test.txt"))  # 
 # print(main_a("Puzzle23_input.txt")) # 
 
