@@ -37,8 +37,6 @@ E = (-1,-2)
 STARTS = [S]
 ENDS = None  # Leave this empty so the algorithm explores for as long as possible
 
-dirs = ['^', '>', 'v', '<']
-
 # What is the longest walk you can take from `S` to `E` without stepping on the same square twice?
 # https://en.wikipedia.org/wiki/Longest_path_problem#Acyclic_graphs
 # "For a [directed acyclic graph], the longest path from a source vertex to all other vertices 
@@ -65,8 +63,27 @@ def get_matrix(ip_file):
 def ACCESSIBLE_NEIGHBOURS(matrix, st):
   '''Given the `matrix` and a particular position `st = (r,c)`, 
   return the list of accessible positions reachable in one step from `st`.
-  NB: DO WE NEED TO DO SOMETHING TO PREVENT THE ALGORITHM FROM RE-CROSSING ITS PATH?'''
-  pass
+  - NB: DO WE NEED TO DO SOMETHING TO PREVENT THE ALGORITHM FROM RE-CROSSING ITS PATH?
+  OR IS THIS TAKEN CARE OF BY THE USE OF `unvisited`?'''
+  # Just in case we're passed an illegal position
+  if st not in matrix:
+    return []
+  # We can AT MOST step in the 4 cardinal directions
+  (r,c) = st
+  NSWE = [(r-1, c),(r+1, c),(r, c-1),(r, c+1)]
+  
+  # "if you step onto a slope tile, your next step must be (in the direction the arrow is pointing)"
+  dirs = ['^', 'v', '<', '>']
+  if matrix[st] in dirs:
+    idx = dirs.index(matrix[st])
+    NSWE = [NSWE[idx]]
+  # Now filter down to those positions that are actually in `matrix`.
+  return [pt for pt in NSWE if pt in matrix]
+
+# M = get_matrix(test_input)
+# # showD(M)
+# print(ACCESSIBLE_NEIGHBOURS(M, (4,3)))
+
 
 def STEP_COST(matrix, st, st2):
   '''Since we're looking for the longest path, the step cost will be -1.'''
