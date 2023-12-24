@@ -239,7 +239,8 @@ def main_b(ip_filename):
   # but in practice there may be some discrapancies, 
   # so for caution let's look at every consecutive 5-stone run
   op = [magic_trajectory(input[i:i+5]) for i in range(len(ip) - 4)]
-  return op
+  op = Counter(op)
+  return op.most_common(1)
 
   pass
 
