@@ -131,7 +131,7 @@ def cross_or_not_v2(pvh1, pvh2, coord_min, coord_max, verbose=False):
   (x,y,cp) = C
   t1 = cross_time(p1, v1, x)
   t2 = cross_time(p2, v2, x)
-  print("Crossing times: ", t1, t2)
+  if verbose: print("Crossing times: ", t1, t2)
   # According to the penultimate example, where t=0.5, apparently t<1 is the past  (???)
   if (t1 < 0) | (t2 < 0):  
     if verbose: print("Crossed in the past")
@@ -145,6 +145,7 @@ def cross_or_not_v2(pvh1, pvh2, coord_min, coord_max, verbose=False):
     return False
 
 def main_a(ip_filename, coord_min, coord_max, verbose=False):
+  count = 0
   ip = parse_file(ip_filename)
   # Unfold the data into a list of positions, velocities, and hom coords
   (P,V) = unzip(ip)
@@ -152,19 +153,19 @@ def main_a(ip_filename, coord_min, coord_max, verbose=False):
   PVH = list(zip(P, V, H))
   for i in range(len(PVH)):
     for j in range(i+1, len(PVH)):
-      b = cross_or_not_v2(PVH[i], PVH[j], coord_min, coord_max, verbose) 
-      print(i,j,b)
-      print()
+      if cross_or_not_v2(PVH[i], PVH[j], coord_min, coord_max, verbose):
+        count += 1
+  return count
 
 # (cross_or_not(test_input, 7, 27))  # 2
 
-# coord_min = 200000000000000
-# coord_max = 400000000000000
+coord_min = 200000000000000
+coord_max = 400000000000000
 # (cross_or_not(input, coord_min, coord_max))  # 27349 is too high
 
 
-print(main_a("Puzzle24_test.txt", 7, 27, True)) # 
-# print(main_a("Puzzle24_input.txt")) # 
+print(main_a("Puzzle24_test.txt", 7, 27)) # 
+print(main_a("Puzzle24_input.txt", coord_min, coord_max)) # 24627
 
 # TTT.timecheck("Part (a)")  #
 
