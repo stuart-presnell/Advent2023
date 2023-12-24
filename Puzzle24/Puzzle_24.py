@@ -69,8 +69,6 @@ def xy_hom_coord(pos,vel):
 # for stone in ip:
 #   print(stone, "\t", xy_hom_coord(*stone))
 
-hip = [xy_hom_coord(*stone) for stone in ip]
-
 def crossing(st1, st2):
   '''Given the trajectories of two stones as homogeneous coordinates, 
   return the crossing point if it exists, or `None` if they do not cross.
@@ -83,7 +81,18 @@ def crossing(st1, st2):
   else:
     ap = b1*c2 - b2*c1 
     bp = a2*c1 - a1*c2
-    return (-bp/cp, -ap/cp, cp)
+    x = -bp/cp
+    y = -ap/cp
+    return (x, y, cp)
+
+def cross_time(p,v,x):
+  (x0,_,_) = p
+  (vx,_,_) = v
+  return (x - x0)/vx
+
+
+
+hip = [xy_hom_coord(*stone) for stone in ip]
 
 for i in range(len(hip)):
   for j in range(i+1, len(hip)):
