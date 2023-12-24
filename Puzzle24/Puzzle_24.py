@@ -32,13 +32,23 @@ ip = test_input
 # ip = input
 show(ip)
 
+def animate_one_ns(pos,vel):
+  '''Given the `pos`ition and `vel`ocity of a hailstone, 
+  return what its `pos` will be in 1 nanosecond (and its `vel`, which is unchanged).'''
+  new_pos = tuple([pos[i] + vel[i] for i in range(3)])
+  return (new_pos, vel)
+
+
+# animate_one_ns((20, 19, 15), (1, -5, -3))[0] == (21, 14, 12)
+
+
 ################################
 # Part (a)
 ################################
 
-def main_a(ip_filename):
-  ip = parse_file(ip_filename)
-  pass
+# def main_a(ip_filename):
+#   ip = parse_file(ip_filename)
+#   pass
 
 # print(main_a("Puzzle24_test.txt"))  # 
 # print(main_a("Puzzle24_input.txt")) # 
