@@ -145,8 +145,6 @@ coord_max = 400000000000000
 # There is a POS and VEL such that a rock thrown in this way at time t=0
 # will intersect (in 3D) every hailstone!
 
-show(test_input)
-
 GIVEN_POS = (24, 13, 10)
 GIVEN_VEL = (-3, 1, 2)
 
@@ -231,18 +229,21 @@ def magic_trajectory(five_stones):
   VEL = (round(VX), round(VY), round(VZ))
   return POS, VEL
 
-
-(POS, VEL) = magic_trajectory(test_input)
-print(POS == GIVEN_POS)
-print(VEL == GIVEN_VEL)
+# ((194723518367339, 181910661443431, 150675954587450), (148, 159, 249))
 
 
-# def main_b(ip_filename):
-#   ip = parse_file(ip_filename)
-#   pass
+def main_b(ip_filename):
+  ip = parse_file(ip_filename)
+  # In principle we should get the same results for any set of 5 stones, 
+  # but in practice there may be some discrapancies, 
+  # so for caution let's look at every consecutive 5-stone run
+  op = [magic_trajectory(input[i:i+5]) for i in range(len(ip) - 4)]
+  return op
+
+  pass
 
 # print(main_b("Puzzle24_test.txt"))  # 
-# print(main_b("Puzzle24_input.txt")) # 
+print(main_b("Puzzle24_input.txt")) # 
 
 # TTT.timecheck("Part (b)")  #
 
