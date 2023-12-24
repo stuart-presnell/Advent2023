@@ -1,5 +1,7 @@
 # https://adventofcode.com/2023/day/24
 
+import numpy as np
+
 # My utility functions
 from utils import (
 show, 
@@ -145,10 +147,10 @@ coord_max = 400000000000000
 
 show(test_input)
 
-POS = (24, 13, 10)
-VEL = (-3, 1, 2)
+# POS = (24, 13, 10)
+# VEL = (-3, 1, 2)
 
-T = [5,3,4,6,1]
+# T = [5,3,4,6,1]
 
 def animate(pos,vel,n):
   '''Given the `pos`ition and `vel`ocity of a hailstone, 
@@ -156,10 +158,61 @@ def animate(pos,vel,n):
   new_pos = tuple([pos[i] + n*vel[i] for i in range(3)])
   return new_pos
 
-for i in range(5):
-  (p,v) = test_input[i]
-  t = T[i]
-  print(animate(POS,VEL,t) == animate(p,v,t))
+# for i in range(5):
+#   (p,v) = test_input[i]
+#   t = T[i]
+#   print(animate(POS,VEL,t) == animate(p,v,t))
+
+
+# We want to find (PX, PY, VX, VY) for the rock.
+# For the rock to collide with a stone having (ax, ay, vx, vy), we require:
+    # (PX - ax)/(VX - vx) = (PY - ay)/(VY - vy)
+# which gives the equation:
+    # (PX.VY - PY.VX) = ax.VY - ay.VX - vx.PY + vy.PX - ax.vy + ay.vx
+# We have an equation of this form arising from each stone.
+# Thus we have a system of simultaneous equations to solve to get PX, PY, VX, VY.
+# We start by eliminating the unknown (PX.VY - PY.VX) from all equations,
+# by substracting the first equation from all the others.
+
+def extract_coeffs(coeff, stone):
+  '''Given a `stone` with its `pos` and `vel`, and a coefficient position in `{0,1,2}`, 
+  (corresponding to x, y, or z), extract the corresponding pair of values (e.g. x, vx).'''
+  (pos, vel) = stone
+  return pos[coeff], vel[coeff]
+
+(ax0, vx0) = extract_coeffs(0, test_input[0])
+(ay0, vy0) = extract_coeffs(1, test_input[0])
+
+# For each stone, offset the x,y,vx,vy coefficients by subtracting those of stone 0
+M = []
+J = []
+for stone in test_input[1:]:
+  (ax, vx) = extract_coeffs(0, stone)
+  (ay, vy) = extract_coeffs(1, stone)
+  ax -= ax0
+  ay -= ay0
+  vx -= vx0
+  vy -= vy0
+  # print (ax, ay, vx, vy)
+# Stone 0 is no longer useful, but now we have N-1 equations of the form
+    # A.VX + B.VY + C.PX + D.PY = - E
+  A = -ay
+  B =  ax
+  C =  vy
+  D = -vx
+  E = ay*vx - ax*vy
+  M.append([A,B,C,D])
+  J.append(-E)
+# So we want to solve the simultaneous equations M ROCK = J, 
+# where ROCK is the column vector [VX, VY, PX, PY]
+
+# So let's plug these into a simultaneous equation solver from `numpy`:
+M = np.array(M)
+J = np.array(J)
+
+ROCK = np.linalg.solve(M,J)
+print(ROCK)
+
 
 
 # def main_b(ip_filename):
