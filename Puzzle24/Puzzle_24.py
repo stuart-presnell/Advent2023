@@ -147,8 +147,8 @@ coord_max = 400000000000000
 
 show(test_input)
 
-# POS = (24, 13, 10)
-# VEL = (-3, 1, 2)
+GIVEN_POS = (24, 13, 10)
+GIVEN_VEL = (-3, 1, 2)
 
 # T = [5,3,4,6,1]
 
@@ -161,7 +161,7 @@ def animate(pos,vel,n):
 # for i in range(5):
 #   (p,v) = test_input[i]
 #   t = T[i]
-#   print(animate(POS,VEL,t) == animate(p,v,t))
+#   print(animate(GIVEN_POS,GIVEN_VEL,t) == animate(p,v,t))
 
 
 # We want to find (PX, PY, VX, VY) for the rock.
