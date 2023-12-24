@@ -37,9 +37,21 @@ def animate_one_ns(pos,vel):
   return what its `pos` will be in 1 nanosecond (and its `vel`, which is unchanged).'''
   new_pos = tuple([pos[i] + vel[i] for i in range(3)])
   return (new_pos, vel)
-
-
 # animate_one_ns((20, 19, 15), (1, -5, -3))[0] == (21, 14, 12)
+
+
+# "Look for intersections that happen with an X and Y position 
+# each at least 200000000000000 and at most 400000000000000. 
+# Disregard the Z axis entirely."
+
+
+# TODO: But we're not going to run a live simulation of the hailstorm!
+# TODO: A hailstone's path is a straight line in space.
+# TODO: So compute this line for each hailstone and see which lines intersect.
+
+# TODO: Given a point (x0,y0) on a line and a vector (vx,vy) in the direction of the line, 
+#   the Symmetric Equation for the line is (x-x0)/vx = (y-y0)/vy
+# TODO: SO given two such lines, they cross at some (x,y) iff this is a solution to both SEs.
 
 
 ################################
