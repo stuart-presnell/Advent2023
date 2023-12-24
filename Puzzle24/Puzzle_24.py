@@ -241,12 +241,11 @@ def main_b(ip_filename):
   op = [magic_trajectory(ip[i:i+5]) for i in range(len(ip) - 4)]
   op = Counter(op)
   (PX, PY, PZ) = op.most_common(1)[0][0][0]
-  return (PX, PY, PZ)
+  return (PX + PY + PZ)
 
-  pass
 
-print(main_b("Puzzle24_test.txt"))  # 
-print(main_b("Puzzle24_input.txt")) # 
+print(main_b("Puzzle24_test.txt"))  # 47
+print(main_b("Puzzle24_input.txt")) # 527310134398221
 
 # TTT.timecheck("Part (b)")  #
 
