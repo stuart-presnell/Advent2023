@@ -47,13 +47,13 @@ def animate_one_ns(pos,vel):
 # Disregard the Z axis entirely."
 
 
-# TODO: But we're not going to run a live simulation of the hailstorm!
-# TODO: A hailstone's path is a straight line in space.
-# TODO: So compute this line for each hailstone and see which lines intersect.
+# But we're not going to run a live simulation of the hailstorm!
+# A hailstone's path is a straight line in space.
+# So compute this line for each hailstone and see which lines intersect.
 
-# TODO: Given a point (x0,y0) on a line and a vector (vx,vy) in the direction of the line, 
+# Given a point (x0,y0) on a line and a vector (vx,vy) in the direction of the line, 
 #   the Symmetric Equation for the line is (x-x0)/vx = (y-y0)/vy
-# TODO: SO given two such lines, they cross at some (x,y) iff this is a solution to both SEs.
+# So given two such lines, they cross at some (x,y) iff this is a solution to both SEs.
 
 def xy_hom_coord(pos,vel):
   '''Given a position `(x0,y0,z0)` and a velocity `(vx, vy, vz)`, consider just the `(x,y)` parts.
@@ -97,29 +97,6 @@ def cross_time(p,v,x):
 # Part (a)
 ################################
 
-def cross_or_not(ip, coord_min, coord_max, verbose=False):
-  count = 0
-  hip = [xy_hom_coord(*stone) for stone in ip]
-
-  for i in range(len(hip)):
-    (pos, vel) = ip[i]
-    for j in range(i+1, len(hip)):
-      C = crossing(hip[i], hip[j])
-      if not C:
-        if verbose: print("Do not cross")
-        continue
-      (x,y,cp) = C
-      t = cross_time(pos, vel, x)
-      if t < 1:  # According to the penultimate example, where t=0.5, apparently t<1 is the past
-        if verbose: print("Crossed in the past")
-        continue
-      if (coord_min <= x <= coord_max) & (coord_min <= y <= coord_max):
-        if verbose: print(x,y)
-        count += 1
-      else:
-        if verbose: print("Cross outside zone")
-  return count
-
 def cross_or_not_v2(pvh1, pvh2, coord_min, coord_max, verbose=False):
   (p1,v1,h1) = pvh1
   (p2,v2,h2) = pvh2
@@ -129,13 +106,15 @@ def cross_or_not_v2(pvh1, pvh2, coord_min, coord_max, verbose=False):
     if verbose: print("Do not cross")
     return False
   (x,y,cp) = C
+  # When do the two particles occupy that position?
   t1 = cross_time(p1, v1, x)
   t2 = cross_time(p2, v2, x)
   if verbose: print("Crossing times: ", t1, t2)
-  # According to the penultimate example, where t=0.5, apparently t<1 is the past  (???)
+  # If either of them occupied that position in the past, return `False`
   if (t1 < 0) | (t2 < 0):  
     if verbose: print("Crossed in the past")
     return False
+  # Does the crossing point fall within the given search zone?
   if (coord_min <= x <= coord_max) & (coord_min <= y <= coord_max):
     if verbose: 
       print(x,y)
@@ -157,17 +136,13 @@ def main_a(ip_filename, coord_min, coord_max, verbose=False):
         count += 1
   return count
 
-# (cross_or_not(test_input, 7, 27))  # 2
-
 coord_min = 200000000000000
 coord_max = 400000000000000
-# (cross_or_not(input, coord_min, coord_max))  # 27349 is too high
-
 
 print(main_a("Puzzle24_test.txt", 7, 27)) # 
 print(main_a("Puzzle24_input.txt", coord_min, coord_max)) # 24627
 
-# TTT.timecheck("Part (a)")  #
+# TTT.timecheck("Part (a)")  # ~ 45 ms
 
 ################################
 # Part (b)
