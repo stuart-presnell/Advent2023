@@ -30,8 +30,8 @@ def parse_file(filename):
     op.append([pos, vel])
   return op
 
-test_input = parse_file("Puzzle24_test.txt")
-input      = parse_file("Puzzle24_input.txt")
+# test_input = parse_file("Puzzle24_test.txt")
+# input      = parse_file("Puzzle24_input.txt")
 
 # ip = test_input
 # ip = input
@@ -238,13 +238,14 @@ def main_b(ip_filename):
   # In principle we should get the same results for any set of 5 stones, 
   # but in practice there may be some discrapancies, 
   # so for caution let's look at every consecutive 5-stone run
-  op = [magic_trajectory(input[i:i+5]) for i in range(len(ip) - 4)]
+  op = [magic_trajectory(ip[i:i+5]) for i in range(len(ip) - 4)]
   op = Counter(op)
-  return op.most_common(1)
+  (PX, PY, PZ) = op.most_common(1)[0][0][0]
+  return (PX, PY, PZ)
 
   pass
 
-# print(main_b("Puzzle24_test.txt"))  # 
+print(main_b("Puzzle24_test.txt"))  # 
 print(main_b("Puzzle24_input.txt")) # 
 
 # TTT.timecheck("Part (b)")  #
