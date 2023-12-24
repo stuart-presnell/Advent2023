@@ -91,22 +91,45 @@ def cross_time(p,v,x):
   return (x - x0)/vx
 
 
-
-hip = [xy_hom_coord(*stone) for stone in ip]
-
-for i in range(len(hip)):
-  for j in range(i+1, len(hip)):
-    print(crossing(hip[i], hip[j]))
-
 ################################
 # Part (a)
 ################################
 
-# def main_a(ip_filename):
-#   ip = parse_file(ip_filename)
-#   pass
+def main_a(ip_filename):
+  ip = parse_file(ip_filename)
+  pass
 
-# print(main_a("Puzzle24_test.txt"))  # 
+
+def cross_or_not(ip, coord_min, coord_max, verbose=False):
+  count = 0
+  hip = [xy_hom_coord(*stone) for stone in ip]
+
+  for i in range(len(hip)):
+    (pos, vel) = ip[i]
+    for j in range(i+1, len(hip)):
+      C = crossing(hip[i], hip[j])
+      if not C:
+        if verbose: print("Do not cross")
+        continue
+      (x,y,cp) = C
+      t = cross_time(pos, vel, x)
+      if t < 1:  # According to the penultimate example, where t=0.5, apparently t<1 is the past
+        if verbose: print("Crossed in the past")
+        continue
+      if (coord_min <= x <= coord_max) & (coord_min <= y <= coord_max):
+        if verbose: print(x,y)
+        count += 1
+      else:
+        if verbose: print("Cross outside zone")
+  return count
+
+(cross_or_not(test_input, 7, 27))  # 2
+
+coord_min = 200000000000000
+coord_max = 400000000000000
+(cross_or_not(input, coord_min, coord_max))  # 27349 is too high
+
+
 # print(main_a("Puzzle24_input.txt")) # 
 
 # TTT.timecheck("Part (a)")  #
