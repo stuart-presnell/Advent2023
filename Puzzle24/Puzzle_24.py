@@ -180,38 +180,44 @@ def extract_coeffs(coeff, stone):
   (pos, vel) = stone
   return pos[coeff], vel[coeff]
 
-(ax0, vx0) = extract_coeffs(0, test_input[0])
-(ay0, vy0) = extract_coeffs(1, test_input[0])
-e0 = ay0*vx0 - ax0*vy0
-# For each stone, offset the x,y,vx,vy coefficients by subtracting those of stone 0
-M = []
-J = []
-for stone in test_input[1:]:
-  (ax, vx) = extract_coeffs(0, stone)
-  (ay, vy) = extract_coeffs(1, stone)
-  E = ay*vx - ax*vy - e0
-  ax -= ax0
-  ay -= ay0
-  vx -= vx0
-  vy -= vy0
-  # print (ax, ay, vx, vy)
-# Stone 0 is no longer useful, but now we have N-1 equations of the form
-    # A.VX + B.VY + C.PX + D.PY = - E
-  A = -ay
-  B =  ax
-  C =  vy
-  D = -vx
-  M.append([A,B,C,D])
-  J.append(-E)
-# So we want to solve the simultaneous equations M ROCK = J, 
-# where ROCK is the column vector [VX, VY, PX, PY]
 
-# So let's plug these into a simultaneous equation solver from `numpy`:
-M = np.array(M)
-J = np.array(J)
+def compute_two_pairs(c1, c2, ip_file):
+  '''Given `ip_file` containing 5 stones, and `c1`, `c2` in `{0,1,2}` indicating which two of
+  `{x,y,z}` we want to compute, return `Vc1, Vc2, Pc1, Pc2`.
+  NB: Comments below are written on the basis that `c1=0=x` and `c2=1=y`.
+  '''
+  (ax0, vx0) = extract_coeffs(c1, ip_file[0])
+  (ay0, vy0) = extract_coeffs(c2, ip_file[0])
+  e0 = ay0*vx0 - ax0*vy0
+  # For each stone, offset the x,y,vx,vy coefficients by subtracting those of stone 0
+  M = []
+  J = []
+  for stone in ip_file[1:]:
+    (ax, vx) = extract_coeffs(c1, stone)
+    (ay, vy) = extract_coeffs(c2, stone)
+    E = ay*vx - ax*vy - e0
+    ax -= ax0
+    ay -= ay0
+    vx -= vx0
+    vy -= vy0
+    # print (ax, ay, vx, vy)
+  # Stone 0 is no longer useful, but now we have N-1 equations of the form
+      # A.VX + B.VY + C.PX + D.PY = - E
+    A = -ay
+    B =  ax
+    C =  vy
+    D = -vx
+    M.append([A,B,C,D])
+    J.append(-E)
+  # So we want to solve the simultaneous equations M ROCK = J, 
+  # where ROCK is the column vector [VX, VY, PX, PY]
 
-ROCK = np.linalg.solve(M,J)
-print(ROCK)
+  # So let's plug these into a simultaneous equation solver from `numpy`:
+  M = np.array(M)
+  J = np.array(J)
+
+  ROCK = np.linalg.solve(M,J)
+  return (ROCK)
 
 
 
