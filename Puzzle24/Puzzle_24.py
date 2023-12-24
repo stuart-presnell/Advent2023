@@ -221,6 +221,22 @@ def compute_two_pairs(c1, c2, ip_file):
 
 
 
+def magic_trajectory(five_stones):
+  '''Given a list `five_stones`, each element of which is a pair `[pos, vel]`,
+  use `compute_two_pairs` to extract the `POS` and `VEL` of the magic trajectory
+  that hits all five stones.'''
+  (VX, VY, PX, PY) = compute_two_pairs(0,1,five_stones)
+  (VX, VZ, PX, PZ) = compute_two_pairs(0,2,five_stones)
+  POS = (round(PX), round(PY), round(PZ))
+  VEL = (round(VX), round(VY), round(VZ))
+  return POS, VEL
+
+
+(POS, VEL) = magic_trajectory(test_input)
+print(POS == GIVEN_POS)
+print(VEL == GIVEN_VEL)
+
+
 # def main_b(ip_filename):
 #   ip = parse_file(ip_filename)
 #   pass
