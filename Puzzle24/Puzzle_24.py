@@ -182,13 +182,14 @@ def extract_coeffs(coeff, stone):
 
 (ax0, vx0) = extract_coeffs(0, test_input[0])
 (ay0, vy0) = extract_coeffs(1, test_input[0])
-
+e0 = ay0*vx0 - ax0*vy0
 # For each stone, offset the x,y,vx,vy coefficients by subtracting those of stone 0
 M = []
 J = []
 for stone in test_input[1:]:
   (ax, vx) = extract_coeffs(0, stone)
   (ay, vy) = extract_coeffs(1, stone)
+  E = ay*vx - ax*vy - e0
   ax -= ax0
   ay -= ay0
   vx -= vx0
@@ -200,7 +201,6 @@ for stone in test_input[1:]:
   B =  ax
   C =  vy
   D = -vx
-  E = ay*vx - ax*vy
   M.append([A,B,C,D])
   J.append(-E)
 # So we want to solve the simultaneous equations M ROCK = J, 
