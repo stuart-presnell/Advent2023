@@ -12,10 +12,18 @@ Timer,
 ################################
 
 def parse_file(filename):
+  '''Parse the input file into a list of positions and velocities, 
+  each represented as a tuple of three `int`s.'''
   f = open(filename)
   ip_file = f.read().splitlines()
   f.close()
-  return ip_file
+  op = []
+  for line in ip_file:
+    [pos, vel] = line.split(" @ ")
+    pos = tuple([int(x) for x in pos.split(", ")])
+    vel = tuple([int(x) for x in vel.split(", ")])
+    op.append([pos, vel])
+  return op
 
 test_input = parse_file("Puzzle24_test.txt")
 input      = parse_file("Puzzle24_input.txt")
