@@ -6,13 +6,10 @@ from collections import Counter
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, showD, 
 unzip, 
-# parse_nums, rotate90, close_bracket, cmp, qsort, nwise_cycled,
-# Best, 
 Timer,
 )
-# TTT = Timer()
+TTT = Timer(1)
 
 ################################
 
@@ -62,9 +59,6 @@ def xy_hom_coord(pos,vel):
   (x0,y0,_) = pos
   (vx,vy,_) = vel
   return (vx, -vy, y0*vx - x0*vy)
-
-# for stone in ip:
-#   print(stone, "\t", xy_hom_coord(*stone))
 
 def crossing(st1, st2):
   '''Given the trajectories of two stones as homogeneous coordinates, 
@@ -134,10 +128,10 @@ def main_a(ip_filename, coord_min, coord_max, verbose=False):
 coord_min = 200000000000000
 coord_max = 400000000000000
 
-# print(main_a("Puzzle24_test.txt", 7, 27)) # 
-# print(main_a("Puzzle24_input.txt", coord_min, coord_max)) # 24627
+print(main_a("Puzzle24_test.txt", 7, 27)) # 
+print(main_a("Puzzle24_input.txt", coord_min, coord_max)) # 24627
 
-# TTT.timecheck("Part (a)")  # ~ 45 ms
+TTT.timecheck("Part (a)")  # ~ 45 ms
 
 ################################
 # Part (b)
@@ -179,7 +173,6 @@ def extract_coeffs(coeff, stone):
   (pos, vel) = stone
   return pos[coeff], vel[coeff]
 
-
 def compute_two_pairs(c1, c2, ip_file):
   '''Given `ip_file` containing 5 stones, and `c1`, `c2` in `{0,1,2}` indicating which two of
   `{x,y,z}` we want to compute, return `Vc1, Vc2, Pc1, Pc2`.
@@ -218,8 +211,6 @@ def compute_two_pairs(c1, c2, ip_file):
   ROCK = np.linalg.solve(M,J)
   return (ROCK)
 
-
-
 def magic_trajectory(five_stones):
   '''Given a list `five_stones`, each element of which is a pair `[pos, vel]`,
   use `compute_two_pairs` to extract the `POS` and `VEL` of the magic trajectory
@@ -230,23 +221,24 @@ def magic_trajectory(five_stones):
   VEL = (round(VX), round(VY), round(VZ))
   return POS, VEL
 
-# ((194723518367339, 181910661443431, 150675954587450), (148, 159, 249))
-
-
 def main_b(ip_filename):
   ip = parse_file(ip_filename)
   # In principle we should get the same results for any set of 5 stones, 
-  # but in practice there may be some discrapancies, 
+  # but in practice there may be some discrepancies, 
   # so for caution let's look at every consecutive 5-stone run
   op = [magic_trajectory(ip[i:i+5]) for i in range(len(ip) - 4)]
+  # and use the modal result, which should be the correct one
   op = Counter(op)
-  (PX, PY, PZ) = op.most_common(1)[0][0][0]
+  op = op.most_common(1)
+  # Now extract just the values we need
+  (PX, PY, PZ) = op[0][0][0]
+  # Part (b) asks for the sum of the three coordinates:
   return (PX + PY + PZ)
 
 
 print(main_b("Puzzle24_test.txt"))  # 47
 print(main_b("Puzzle24_input.txt")) # 527310134398221
 
-# TTT.timecheck("Part (b)")  #
+TTT.timecheck("Part (b)")  # ~ 8 ms
 
 ################################
