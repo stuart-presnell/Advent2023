@@ -30,17 +30,9 @@ def parse_file(filename):
 test_input = parse_file("Puzzle24_test.txt")
 input      = parse_file("Puzzle24_input.txt")
 
-ip = test_input
+# ip = test_input
 # ip = input
 # show(ip)
-
-def animate_one_ns(pos,vel):
-  '''Given the `pos`ition and `vel`ocity of a hailstone, 
-  return what its `pos` will be in 1 nanosecond (and its `vel`, which is unchanged).'''
-  new_pos = tuple([pos[i] + vel[i] for i in range(3)])
-  return (new_pos, vel)
-# animate_one_ns((20, 19, 15), (1, -5, -3))[0] == (21, 14, 12)
-
 
 # "Look for intersections that happen with an X and Y position 
 # each at least 200000000000000 and at most 400000000000000. 
@@ -139,14 +131,36 @@ def main_a(ip_filename, coord_min, coord_max, verbose=False):
 coord_min = 200000000000000
 coord_max = 400000000000000
 
-print(main_a("Puzzle24_test.txt", 7, 27)) # 
-print(main_a("Puzzle24_input.txt", coord_min, coord_max)) # 24627
+# print(main_a("Puzzle24_test.txt", 7, 27)) # 
+# print(main_a("Puzzle24_input.txt", coord_min, coord_max)) # 24627
 
 # TTT.timecheck("Part (a)")  # ~ 45 ms
 
 ################################
 # Part (b)
 ################################
+
+# There is a POS and VEL such that a rock thrown in this way at time t=0
+# will intersect (in 3D) every hailstone!
+
+show(test_input)
+
+POS = (24, 13, 10)
+VEL = (-3, 1, 2)
+
+T = [5,3,4,6,1]
+
+def animate(pos,vel,n):
+  '''Given the `pos`ition and `vel`ocity of a hailstone, 
+  return what its `pos` will be in 1 nanosecond (and its `vel`, which is unchanged).'''
+  new_pos = tuple([pos[i] + n*vel[i] for i in range(3)])
+  return new_pos
+
+for i in range(5):
+  (p,v) = test_input[i]
+  t = T[i]
+  print(animate(POS,VEL,t) == animate(p,v,t))
+
 
 # def main_b(ip_filename):
 #   ip = parse_file(ip_filename)
