@@ -1,6 +1,7 @@
 # https://adventofcode.com/2023/day/24
 
 import numpy as np
+from collections import Counter
 
 # My utility functions
 from utils import (
