@@ -216,6 +216,11 @@ def make_simpler_graph(V, E):
 # G = make_simpler_graph(*extract_graph(M))
 
 
+# TODO: One more idea: as a path winds through the grid, some squares are to the upper-right 
+#  and some are to the lower-left; these two blocks must be contiguous.
+# Can we enumerate all such contiguous pairs of blocks as a way of enumerating paths?
+
+
 # print(main_b_v1("Puzzle23_test.txt"))  # 154
 # print(main_b_v1("Puzzle23_input.txt")) # 
 
