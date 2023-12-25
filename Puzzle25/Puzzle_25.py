@@ -50,7 +50,8 @@ def make_graph(ip_file):
   return G
 
 def find_cc(G, v):
-  '''Given a graph `G` and a vertex `v` in `G`, return the connected component of `v` in `G`.'''
+  '''Given a graph `G` and a vertex `v` in `G`, 
+  return a list of the vertices in the connected component of `v` in `G`.'''
   # `cc` is a list of all the nodes we visit; it only grows
   cc = [v]
   # `to_consider` is also a list of all the nodes we visit, but we pop items off it until it's empty
@@ -65,6 +66,19 @@ def find_cc(G, v):
     to_consider.extend(uv_nb)
     # break
   return cc
+
+def find_all_ccs(G):
+  '''Given a graph `G`, return a list of all its connected components.'''
+  op = []
+  # Make a deepcopy of the list of vertices in `G`
+  K = deepcopy(list(ip_G.keys()))
+  while K:
+    v = K[0]
+    CC = find_cc(G, v)
+    op.append(CC)
+    # Now remove from `K` all the vertices in that connected component
+    K = [k for k in K if k not in CC]
+  return op
 
 def cut_edge(G, v1, v2, strict=True):
   '''Given two vertices `v1` and `v2` in symmetric graph `G`, 
@@ -102,9 +116,10 @@ showD(ip_G); print()
 # showD(G2); print()
 
 
-# k = list(ip_G.keys())[0]
+k = list(ip_G.keys())[0]
 # print(k)
 # C = find_cc(ip_G, k)
+# print(C)
 # print(set(C) == set(ip_G.keys())) # True -- the whole graph is connected
 
 
