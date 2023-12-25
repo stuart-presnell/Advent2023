@@ -173,6 +173,17 @@ def check_candidate_cut(G, V1, V2):
     sizes = [len(x) for x in CCs]
   return (count, sizes)
 
+def Karger_algorithm(G, verbose=False):
+  '''Keep running `Karger_pass` on `G` until we find a minimal cut, 
+  which in the present case we have been told contains 3 edges.
+  Once we find this, return the sizes of the two connected components.'''
+  cut_size = 0
+  while cut_size != 3:
+    if verbose: print('.', end='')
+    KG = Karger_pass(G)
+    [V1, V2] = get_keys(KG)
+    (cut_size, comps) = check_candidate_cut(ip_G, V1, V2)
+  return comps
 
 
 # TODO: Keep generating candidate cuts until a minimal cut is found
@@ -180,13 +191,15 @@ def check_candidate_cut(G, V1, V2):
 # TODO: Use Karger's algorithm to find a cut: https://en.wikipedia.org/wiki/Karger%27s_algorithm
 
 ip_G = make_graph(ip)
-KG = Karger_pass(ip_G)
+# KG = Karger_pass(ip_G)
+
+Karger_algorithm(ip_G, True)
 
 # showD(ip_G); print()
-[V1, V2] = get_keys(KG)
-print(V1, V2)
+# [V1, V2] = get_keys(KG)
+# print(V1, V2)
 # print("After we discard all edges between these two blocks: ")
-check_candidate_cut(ip_G, V1, V2)
+# check_candidate_cut(ip_G, V1, V2)
 # pick_random_edge(ip_G)
 
 # G2 = contract_edge(ip_G, ('hfx','pzl'))
