@@ -1,5 +1,7 @@
 # https://adventofcode.com/2023/day/25
 
+from collections import defaultdict
+
 # My utility functions
 from utils import (
 show, 
@@ -29,7 +31,19 @@ input      = parse_file("Puzzle25_input.txt")
 
 ip = test_input
 # ip = input
-show(ip)
+# show(ip)
+
+
+def make_graph(ip_file):
+  '''Given a parse input file, make a symmetric graph from it.'''
+  G = defaultdict(list)
+  # Insert the nodes that are named on the left side of a colon
+  for line in ip_file:
+    G[line[0]] = line[1]
+  return G
+
+showD(make_graph(ip))
+
 
 ################################
 # Part (a)
