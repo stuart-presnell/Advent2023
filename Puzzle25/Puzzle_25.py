@@ -28,10 +28,10 @@ def parse_file(filename):
     op.append(line)
   return op
 
-test_input = parse_file("Puzzle25_test.txt")
-input      = parse_file("Puzzle25_input.txt")
+# test_input = parse_file("Puzzle25_test.txt")
+# input      = parse_file("Puzzle25_input.txt")
 
-ip = test_input
+# ip = test_input
 # ip = input
 # show(ip)
 
@@ -74,7 +74,7 @@ def find_all_ccs(G):
   '''Given a graph `G`, return a list of all its connected components.'''
   op = []
   # Make a deepcopy of the list of vertices in `G`
-  K = deepcopy(list(ip_G.keys()))
+  K = deepcopy(list(G.keys()))
   while K:
     v = K[0]
     CC = find_cc(G, v)
@@ -182,7 +182,7 @@ def Karger_algorithm(G, verbose=False):
     if verbose: print('.', end='')
     KG = Karger_pass(G)
     [V1, V2] = get_keys(KG)
-    (cut_size, comps) = check_candidate_cut(ip_G, V1, V2)
+    (cut_size, comps) = check_candidate_cut(G, V1, V2)
   return comps
 
 
@@ -227,13 +227,14 @@ def Karger_algorithm(G, verbose=False):
 # TODO: What do you get if you multiply the sizes of these two groups together?
 
 
-def main_a(ip_filename):
+def main_a(ip_filename, verbose=False):
   ip = parse_file(ip_filename)
   ip_G = make_graph(ip)
-  [a,b] = Karger_algorithm(ip_G, True)
+  [a,b] = Karger_algorithm(ip_G, verbose)
+  if verbose: print()
   return a*b
 
-# print(main_a("Puzzle25_test.txt"))  # 
+# print(main_a("Puzzle25_test.txt", True))  # 54
 # print(main_a("Puzzle25_input.txt")) # 
 
 # TTT.timecheck("Part (a)")  #
