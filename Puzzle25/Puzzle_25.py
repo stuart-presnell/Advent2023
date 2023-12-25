@@ -133,6 +133,14 @@ def pick_random_edge(G):
   v2 = choice(list(G[v1]))
   return (v1,v2)
 
+def Karger_pass(G):
+  '''Given a graph `G`, run one pass of Karger's algorithm on it, 
+  contracting random edges until there are only two vertices remaining.
+  The original vertices corresponding to each of these two vertices
+  are candidates to be the connected components either side of a cut of `G`.
+  * https://en.wikipedia.org/wiki/Karger%27s_algorithm'''
+  pass
+
 # TODO: Find the three wires you need to cut to divide the graph into two separate parts.
 # TODO: What do you get if you multiply the sizes of these two groups together?
 
