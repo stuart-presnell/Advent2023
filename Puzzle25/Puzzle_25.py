@@ -101,6 +101,31 @@ def cut_edge_set(G, edges):
     op_G = cut_edge(op_G, *e)
   return op_G
 
+def contract_edge(G, edge):
+  '''Given an edge `e = (v1,v2)` in graph `G`, 
+  return a graph in which that edge has been contracted, and also the name given to the new vertex.'''
+  opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  (v1,v2) = edge
+  new_v = v1+'-'+v2  # Make a name for the new vertex
+  # The new vertex should be connected to every vertex that was connected to `v1` or `v2`
+  opG[new_v] = opG[v1].union(opG[v2])
+  # For every vertex connected to `v1`, remove the connection to `v1` and replace it with `new_v`
+  for v in opG[v1]:
+    opG[v].discard(v1)
+    opG[v].add(new_v)
+  # and likewise for `v2`
+  for v in opG[v2]:
+    opG[v].discard(v2)
+    opG[v].add(new_v)
+  # Delete the original two vertices
+  del opG[v1]
+  del opG[v2]
+  # If we now have a self-loop on `new_v`, or a link to `v1` or `v2`, remove these
+  opG[new_v].discard(new_v)
+  opG[new_v].discard(v1)
+  opG[new_v].discard(v2)
+  return opG
+
 
 # TODO: Find the three wires you need to cut to divide the graph into two separate parts.
 # TODO: What do you get if you multiply the sizes of these two groups together?
@@ -110,6 +135,9 @@ def cut_edge_set(G, edges):
 ip_G = make_graph(ip)
 showD(ip_G); print()
 
+
+G2 = contract_edge(ip_G, ('hfx','pzl'))
+showD(G2)
 
 # edges_to_cut = [('hfx','pzl'), ('bvb','cmg'), ('nvd','jqt')]
 # G2 = cut_edge_set(ip_G, edges_to_cut)
