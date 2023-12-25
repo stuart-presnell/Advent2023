@@ -139,15 +139,20 @@ def Karger_pass(G):
   The original vertices corresponding to each of these two vertices
   are candidates to be the connected components either side of a cut of `G`.
   * https://en.wikipedia.org/wiki/Karger%27s_algorithm'''
-  pass
+  opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  while len(opG.keys()) > 2:
+    e = pick_random_edge(opG)
+    opG = contract_edge(opG, e)
+  return opG
 
-# TODO: Find the three wires you need to cut to divide the graph into two separate parts.
-# TODO: What do you get if you multiply the sizes of these two groups together?
 
 # TODO: Use Karger's algorithm to find a cut: https://en.wikipedia.org/wiki/Karger%27s_algorithm
 
 ip_G = make_graph(ip)
+KG = Karger_pass(ip_G)
+
 # showD(ip_G); print()
+showD(KG); print()
 # pick_random_edge(ip_G)
 
 # G2 = contract_edge(ip_G, ('hfx','pzl'))
@@ -175,6 +180,10 @@ ip_G = make_graph(ip)
 ################################
 # Part (a)
 ################################
+
+# TODO: Find the three wires you need to cut to divide the graph into two separate parts.
+# TODO: What do you get if you multiply the sizes of these two groups together?
+
 
 # def main_a(ip_filename):
 #   ip = parse_file(ip_filename)
