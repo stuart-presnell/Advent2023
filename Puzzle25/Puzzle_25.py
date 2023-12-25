@@ -48,16 +48,39 @@ def make_graph(ip_file):
       G[v].add(line[0])
   return G
 
-showD(make_graph(ip))
+def find_cc(G, v):
+  '''Given a graph `G` and a vertex `v` in `G`, return the connected component of `v` in `G`.'''
+  # `cc` is a list of all the nodes we visit; it only grows
+  cc = [v]
+  # `to_consider` is also a list of all the nodes we visit, but we pop items off it until it's empty
+  to_consider = [v]
+  while to_consider:
+    curr = to_consider.pop()
+    # Get all the neighbours of `curr` 
+    all_nb = list(G[curr])
+    # Keep just the neighbours that we haven't already seen are in the connected component
+    uv_nb = [x for x in all_nb if x not in cc]
+    cc.extend(uv_nb)
+    to_consider.extend(uv_nb)
+    # break
+  return cc
+
+
+ip_G = make_graph(ip)
+showD(ip_G); print()
+# k = list(ip_G.keys())[0]
+# print(k)
+# C = find_cc(ip_G, k)
+# print(set(C) == set(ip_G.keys())) # True -- the whole graph is connected
 
 
 ################################
 # Part (a)
 ################################
 
-def main_a(ip_filename):
-  ip = parse_file(ip_filename)
-  pass
+# def main_a(ip_filename):
+#   ip = parse_file(ip_filename)
+#   pass
 
 # print(main_a("Puzzle25_test.txt"))  # 
 # print(main_a("Puzzle25_input.txt")) # 
