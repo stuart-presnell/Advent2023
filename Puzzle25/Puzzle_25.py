@@ -110,13 +110,19 @@ def cut_edge_set(G, edges):
 ip_G = make_graph(ip)
 showD(ip_G); print()
 
-# edges_to_cut = [('hfx','pzl'), ('bvb','cmg'), ('nvd','jqt')]
-# G2 = cut_edge_set(ip_G, edges_to_cut)
+
+edges_to_cut = [('hfx','pzl'), ('bvb','cmg'), ('nvd','jqt')]
+G2 = cut_edge_set(ip_G, edges_to_cut)
+find_all_ccs(G2) 
+# [['jqt', 'ntq', 'rhn', 'xhk', 'hfx', 'bvb'],
+#  ['rsh', 'lsr', 'frs', 'rzs', 'pzl', 'nvd', 'qnr', 'cmg', 'lhk']]
+
+
 # showD(ip_G); print()
 # showD(G2); print()
 
 
-k = list(ip_G.keys())[0]
+# k = list(ip_G.keys())[0]
 # print(k)
 # C = find_cc(ip_G, k)
 # print(C)
