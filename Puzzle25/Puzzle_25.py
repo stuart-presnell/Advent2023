@@ -35,6 +35,8 @@ ip = test_input
 # ip = input
 # show(ip)
 
+def get_keys(G):
+  return list(G.keys())
 
 def make_graph(ip_file):
   '''Given a parse input file, make a symmetric graph from it.'''
@@ -164,7 +166,8 @@ ip_G = make_graph(ip)
 KG = Karger_pass(ip_G)
 
 # showD(ip_G); print()
-print(list(KG.keys())); print()
+get_keys(KG)
+
 # pick_random_edge(ip_G)
 
 # G2 = contract_edge(ip_G, ('hfx','pzl'))
