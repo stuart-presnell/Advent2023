@@ -2,6 +2,7 @@
 
 from collections import defaultdict
 from copy import deepcopy
+from random import choice
 
 # My utility functions
 from utils import (
@@ -126,6 +127,11 @@ def contract_edge(G, edge):
   opG[new_v].discard(v2)
   return opG
 
+def pick_random_edge(G):
+  '''Given a graph `G`, return a randomly-selected edge of `G`.'''
+  v1 = choice(list(G.keys()))
+  v2 = choice(list(G[v1]))
+  return (v1,v2)
 
 # TODO: Find the three wires you need to cut to divide the graph into two separate parts.
 # TODO: What do you get if you multiply the sizes of these two groups together?
@@ -133,11 +139,11 @@ def contract_edge(G, edge):
 # TODO: Use Karger's algorithm to find a cut: https://en.wikipedia.org/wiki/Karger%27s_algorithm
 
 ip_G = make_graph(ip)
-showD(ip_G); print()
+# showD(ip_G); print()
+# pick_random_edge(ip_G)
 
-
-G2 = contract_edge(ip_G, ('hfx','pzl'))
-showD(G2)
+# G2 = contract_edge(ip_G, ('hfx','pzl'))
+# showD(G2)
 
 # edges_to_cut = [('hfx','pzl'), ('bvb','cmg'), ('nvd','jqt')]
 # G2 = cut_edge_set(ip_G, edges_to_cut)
