@@ -66,12 +66,19 @@ def find_cc(G, v):
   return cc
 
 
+# TODO: Find the three wires you need to cut to divide the graph into two separate parts.
+# TODO: What do you get if you multiply the sizes of these two groups together?
+
+
+
+
 ip_G = make_graph(ip)
 showD(ip_G); print()
 # k = list(ip_G.keys())[0]
 # print(k)
 # C = find_cc(ip_G, k)
 # print(set(C) == set(ip_G.keys())) # True -- the whole graph is connected
+
 
 
 ################################
