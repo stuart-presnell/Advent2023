@@ -13,7 +13,7 @@ showD,
 # Best, 
 Timer,
 )
-# TTT = Timer()
+TTT = Timer(1)
 
 ################################
 
@@ -86,7 +86,8 @@ def find_all_ccs(G):
 def cut_edge(G, v1, v2, strict=True):
   '''Given two vertices `v1` and `v2` in symmetric graph `G`, 
   return a graph in which that edge has been deleted.'''
-  opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  # opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  opG = G
   if (v1 not in G[v2]) | (v2 not in G[v1]):
     if strict:    # If `strict` is set, require that the vertices are connected
       raise ValueError("Vertices " + v1 + " and " + v2 + "are not connected")
@@ -100,6 +101,7 @@ def cut_edge_set(G, edges):
   '''Given a symmetric graph `G` and a list of `edges` to cut, each given as a pair `(v1,v2)`,
   return a graph in which those edges have been deleted.'''
   op_G = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  op_G = G
   for e in edges:
     op_G = cut_edge(op_G, *e)
   return op_G
@@ -107,7 +109,8 @@ def cut_edge_set(G, edges):
 def contract_edge(G, edge):
   '''Given an edge `e = (v1,v2)` in graph `G`, 
   return a graph in which that edge has been contracted, and also the name given to the new vertex.'''
-  opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  # opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  opG = G
   (v1,v2) = edge
   new_v = v1+'-'+v2  # Make a name for the new vertex
   # The new vertex should be connected to every vertex that was connected to `v1` or `v2`
@@ -142,9 +145,15 @@ def Karger_pass(G):
   are candidates to be the connected components either side of a cut of `G`.
   * https://en.wikipedia.org/wiki/Karger%27s_algorithm'''
   opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  # opG = G
+  # TTT.timecheck("deepcopy")  #
+  edge_count = 0
   while len(opG.keys()) > 2:
     e = pick_random_edge(opG)
+    # TTT.timecheck("pick_random_edge")  #
     opG = contract_edge(opG, e)
+    edge_count += 1
+    # TTT.timecheck("contract_edge")  #
   return opG
 
 def check_candidate_cut(G, V1, V2):
@@ -154,7 +163,8 @@ def check_candidate_cut(G, V1, V2):
   return the number of edges in the cut-set and the sizes of the two connected components.'''
   V1 = V1.split('-')
   V2 = V2.split('-')
-  opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  # opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  opG = G
   # For each pair of vertices, `v1` in `V1` and `v2` in `V2`
   count = 0
   for v1 in V1:
@@ -178,45 +188,19 @@ def Karger_algorithm(G, verbose=False):
   which in the present case we have been told contains 3 edges.
   Once we find this, return the sizes of the two connected components.'''
   cut_size = 0
+  steps = 0
   while cut_size != 3:
+    steps += 1
+    copyG = deepcopy(G)
     if verbose: print('.', end='')
-    KG = Karger_pass(G)
+    KG = Karger_pass(copyG)
+    # TTT.timecheck("Karger_pass")  #
     [V1, V2] = get_keys(KG)
-    (cut_size, comps) = check_candidate_cut(G, V1, V2)
+    # print(V1, V2)
+    (cut_size, comps) = check_candidate_cut(copyG, V1, V2)
+    # print("Sizes of two components are: ", comps)
+  print("\nNumber of steps :", steps)
   return comps
-
-
-# TODO: Keep generating candidate cuts until a minimal cut is found
-
-# TODO: Use Karger's algorithm to find a cut: https://en.wikipedia.org/wiki/Karger%27s_algorithm
-
-# showD(ip_G); print()
-# [V1, V2] = get_keys(KG)
-# print(V1, V2)
-# print("After we discard all edges between these two blocks: ")
-# check_candidate_cut(ip_G, V1, V2)
-# pick_random_edge(ip_G)
-
-# G2 = contract_edge(ip_G, ('hfx','pzl'))
-# showD(G2)
-
-# edges_to_cut = [('hfx','pzl'), ('bvb','cmg'), ('nvd','jqt')]
-# G2 = cut_edge_set(ip_G, edges_to_cut)
-# find_all_ccs(G2) 
-# [['jqt', 'ntq', 'rhn', 'xhk', 'hfx', 'bvb'],
-#  ['rsh', 'lsr', 'frs', 'rzs', 'pzl', 'nvd', 'qnr', 'cmg', 'lhk']]
-
-
-# showD(ip_G); print()
-# showD(G2); print()
-
-
-# k = list(ip_G.keys())[0]
-# print(k)
-# C = find_cc(ip_G, k)
-# print(C)
-# print(set(C) == set(ip_G.keys())) # True -- the whole graph is connected
-
 
 
 ################################
@@ -234,10 +218,10 @@ def main_a(ip_filename, verbose=False):
   if verbose: print()
   return a*b
 
-print(main_a("Puzzle25_test.txt", True))  # 54
+# print(main_a("Puzzle25_test.txt", True))  # 54
 print(main_a("Puzzle25_input.txt", True)) # 551196
 
-# TTT.timecheck("Part (a)")  #
+TTT.timecheck("Part (a)")  #
 
 ################################
 # Part (b)
