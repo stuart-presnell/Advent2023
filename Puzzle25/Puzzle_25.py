@@ -96,14 +96,11 @@ def cut_edge_set(G, edges):
 ip_G = make_graph(ip)
 showD(ip_G); print()
 
-G2 = cut_edge_set(ip_G, [('jqt', 'ntq')])
-
-# 'hfx','pzl'
-# 'bvb','cmg'
-# 'nvd','jqt'
-
-showD(ip_G); print()
+# edges_to_cut = [('hfx','pzl'), ('bvb','cmg'), ('nvd','jqt')]
+# G2 = cut_edge_set(ip_G, edges_to_cut)
+# showD(ip_G); print()
 # showD(G2); print()
+
 
 # k = list(ip_G.keys())[0]
 # print(k)
