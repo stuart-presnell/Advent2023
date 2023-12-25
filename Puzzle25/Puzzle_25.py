@@ -150,15 +150,32 @@ def Karger_pass(G):
 def check_candidate_cut(G, V1, V2):
   '''Given a graph `G` and two composite vertices `V1` and `V2` 
   obtained by contracting vertices of `G` (and whose names are concatenations of names of vertices),
-  check whether this gives a cut of `G`.'''
+  examine the cut of `G` that this produces; 
+  return the number of edges in the cut-set and the sizes of the two connected components.'''
   V1 = V1.split('-')
   V2 = V2.split('-')
-  return V1, V2
-  # pass
+  opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  # For each pair of vertices, `v1` in `V1` and `v2` in `V2`
+  count = 0
+  for v1 in V1:
+    for v2 in V2:
+      # Remove any connections between `v1` and `v2`
+      if v2 in opG[v1]:
+        count += 1
+        opG[v1].discard(v2)
+        opG[v2].discard(v1)
+  CCs = find_all_ccs(opG)
+  if len(CCs) < 2:
+    raise ValueError("Didn't find a cut")
+  elif len(CCs) > 2:
+    raise ValueError("Cut the graph into more than 2 pieces")
+  else:
+    sizes = [len(x) for x in CCs]
+  return (count, sizes)
 
 
-# TODO: Check whether the candidate cut really is a cut
-# TODO: Keep generating candidate cuts until a real cut is found
+
+# TODO: Keep generating candidate cuts until a minimal cut is found
 
 # TODO: Use Karger's algorithm to find a cut: https://en.wikipedia.org/wiki/Karger%27s_algorithm
 
@@ -166,8 +183,10 @@ ip_G = make_graph(ip)
 KG = Karger_pass(ip_G)
 
 # showD(ip_G); print()
-get_keys(KG)
-
+[V1, V2] = get_keys(KG)
+print(V1, V2)
+# print("After we discard all edges between these two blocks: ")
+check_candidate_cut(ip_G, V1, V2)
 # pick_random_edge(ip_G)
 
 # G2 = contract_edge(ip_G, ('hfx','pzl'))
