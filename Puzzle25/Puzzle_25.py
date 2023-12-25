@@ -36,10 +36,16 @@ ip = test_input
 
 def make_graph(ip_file):
   '''Given a parse input file, make a symmetric graph from it.'''
-  G = defaultdict(list)
-  # Insert the nodes that are named on the left side of a colon
+  G = defaultdict(set)
+  # Insert the nodes that are named on the left side of a colon; 
+  # give each an edge to each node on the right of its line
   for line in ip_file:
-    G[line[0]] = line[1]
+    G[line[0]] = set(line[1])
+  # Now ensure that all nodes on the right of a colon are included,
+  # and that each has an edge to the node on the left side of its line
+  for line in ip_file:
+    for v in line[1]:
+      G[v].add(line[0])
   return G
 
 showD(make_graph(ip))
