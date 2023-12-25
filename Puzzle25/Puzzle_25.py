@@ -105,15 +105,15 @@ def cut_edge_set(G, edges):
 # TODO: Find the three wires you need to cut to divide the graph into two separate parts.
 # TODO: What do you get if you multiply the sizes of these two groups together?
 
-
+# TODO: Use Karger's algorithm to find a cut: https://en.wikipedia.org/wiki/Karger%27s_algorithm
 
 ip_G = make_graph(ip)
 showD(ip_G); print()
 
 
-edges_to_cut = [('hfx','pzl'), ('bvb','cmg'), ('nvd','jqt')]
-G2 = cut_edge_set(ip_G, edges_to_cut)
-find_all_ccs(G2) 
+# edges_to_cut = [('hfx','pzl'), ('bvb','cmg'), ('nvd','jqt')]
+# G2 = cut_edge_set(ip_G, edges_to_cut)
+# find_all_ccs(G2) 
 # [['jqt', 'ntq', 'rhn', 'xhk', 'hfx', 'bvb'],
 #  ['rsh', 'lsr', 'frs', 'rzs', 'pzl', 'nvd', 'qnr', 'cmg', 'lhk']]
 
