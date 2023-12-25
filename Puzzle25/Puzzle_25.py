@@ -1,6 +1,7 @@
 # https://adventofcode.com/2023/day/25
 
 from collections import defaultdict
+from copy import deepcopy
 
 # My utility functions
 from utils import (
@@ -65,15 +66,45 @@ def find_cc(G, v):
     # break
   return cc
 
+def cut_edge(G, v1, v2, strict=True):
+  '''Given two vertices `v1` and `v2` in symmetric graph `G`, 
+  return a graph in which that edge has been deleted.'''
+  opG = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  if (v1 not in G[v2]) | (v2 not in G[v1]):
+    if strict:    # If `strict` is set, require that the vertices are connected
+      raise ValueError("Vertices " + v1 + " and " + v2 + "are not connected")
+    else:
+      return G
+  opG[v1].remove(v2)
+  opG[v2].remove(v1)
+  return opG
+
+def cut_edge_set(G, edges):
+  '''Given a symmetric graph `G` and a list of `edges` to cut, each given as a pair `(v1,v2)`,
+  return a graph in which those edges have been deleted.'''
+  op_G = deepcopy(G)  # Make a deepcopy of the input graph to avoid changing it
+  for e in edges:
+    op_G = cut_edge(op_G, *e)
+  return op_G
+
 
 # TODO: Find the three wires you need to cut to divide the graph into two separate parts.
 # TODO: What do you get if you multiply the sizes of these two groups together?
 
 
 
-
 ip_G = make_graph(ip)
 showD(ip_G); print()
+
+G2 = cut_edge_set(ip_G, [('jqt', 'ntq')])
+
+# 'hfx','pzl'
+# 'bvb','cmg'
+# 'nvd','jqt'
+
+showD(ip_G); print()
+# showD(G2); print()
+
 # k = list(ip_G.keys())[0]
 # print(k)
 # C = find_cc(ip_G, k)
