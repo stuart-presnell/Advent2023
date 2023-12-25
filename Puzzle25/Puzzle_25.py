@@ -234,8 +234,8 @@ def main_a(ip_filename, verbose=False):
   if verbose: print()
   return a*b
 
-# print(main_a("Puzzle25_test.txt", True))  # 54
-# print(main_a("Puzzle25_input.txt")) # 
+print(main_a("Puzzle25_test.txt", True))  # 54
+print(main_a("Puzzle25_input.txt", True)) # 551196
 
 # TTT.timecheck("Part (a)")  #
 
