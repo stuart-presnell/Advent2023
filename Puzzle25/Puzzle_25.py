@@ -145,6 +145,16 @@ def Karger_pass(G):
     opG = contract_edge(opG, e)
   return opG
 
+def check_candidate_cut(G, V1, V2):
+  '''Given a graph `G` and two composite vertices `V1` and `V2` 
+  obtained by contracting vertices of `G` (and whose names are concatenations of names of vertices),
+  check whether this gives a cut of `G`.'''
+  V1 = V1.split('-')
+  V2 = V2.split('-')
+  return V1, V2
+  # pass
+
+
 # TODO: Check whether the candidate cut really is a cut
 # TODO: Keep generating candidate cuts until a real cut is found
 
@@ -154,7 +164,7 @@ ip_G = make_graph(ip)
 KG = Karger_pass(ip_G)
 
 # showD(ip_G); print()
-showD(KG); print()
+print(list(KG.keys())); print()
 # pick_random_edge(ip_G)
 
 # G2 = contract_edge(ip_G, ('hfx','pzl'))
