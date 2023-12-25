@@ -145,6 +145,8 @@ def Karger_pass(G):
     opG = contract_edge(opG, e)
   return opG
 
+# TODO: Check whether the candidate cut really is a cut
+# TODO: Keep generating candidate cuts until a real cut is found
 
 # TODO: Use Karger's algorithm to find a cut: https://en.wikipedia.org/wiki/Karger%27s_algorithm
 
