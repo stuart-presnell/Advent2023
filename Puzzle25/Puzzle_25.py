@@ -190,11 +190,6 @@ def Karger_algorithm(G, verbose=False):
 
 # TODO: Use Karger's algorithm to find a cut: https://en.wikipedia.org/wiki/Karger%27s_algorithm
 
-ip_G = make_graph(ip)
-# KG = Karger_pass(ip_G)
-
-Karger_algorithm(ip_G, True)
-
 # showD(ip_G); print()
 # [V1, V2] = get_keys(KG)
 # print(V1, V2)
@@ -232,9 +227,11 @@ Karger_algorithm(ip_G, True)
 # TODO: What do you get if you multiply the sizes of these two groups together?
 
 
-# def main_a(ip_filename):
-#   ip = parse_file(ip_filename)
-#   pass
+def main_a(ip_filename):
+  ip = parse_file(ip_filename)
+  ip_G = make_graph(ip)
+  [a,b] = Karger_algorithm(ip_G, True)
+  return a*b
 
 # print(main_a("Puzzle25_test.txt"))  # 
 # print(main_a("Puzzle25_input.txt")) # 
