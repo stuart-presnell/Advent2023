@@ -42,9 +42,11 @@ def parse_file(filename):
 
 
 test_input = parse_file("Puzzle17_test.txt")
-input      = parse_file("Puzzle17_input.txt")
+# input      = parse_file("Puzzle17_input.txt")
 
-# (M, STARTS, ENDS) = input
+(M, STARTS, ENDS) = test_input
+
+# showD(M)
 
 ################################
 # Part (a)
@@ -59,16 +61,6 @@ dir_lookup = {
 }
 
 # --------------------------------------------------
-
-# def n_steps(ht, wd, pt, dir, n = 1):
-#   step = dir_lookup[dir]
-#   nr = pt[0] + n * step[0]
-#   nc = pt[1] + n * step[1]
-#   if (0 <= nr < ht) & (0 <= nc < wd):
-#     return (nr, nc)
-#   else:
-#     # print(str((nr,nc)) + " is off the grid, so skip this!")
-#     return None
 
 def turn_lt(dir):
   if dir == 'N': return 'W'
