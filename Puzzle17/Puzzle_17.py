@@ -96,10 +96,12 @@ def STEP_COST(matrix, here, other):
   ((r2,c2), _) = other
   if r1 == r2:
     c_steps = range(min(c1,c2)+1, max(c1,c2)+1)  # don't include first square, do include last
+    # The heat loss doesn't depend on direction; just using 'N' as an arbitrary choice
     return sum([matrix[((r1,c), 'N')] for c in c_steps])
   elif c1 == c2:
     pass
     r_steps = range(min(r1,r2)+1, max(r1,r2)+1)  # don't include first square, do include last
+    # The heat loss doesn't depend on direction; just using 'N' as an arbitrary choice
     return sum([matrix[((r,c1), 'N')] for r in r_steps])
   else:
     raise ValueError("Can only move along rows and columns")
