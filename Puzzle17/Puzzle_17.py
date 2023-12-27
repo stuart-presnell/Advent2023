@@ -1,11 +1,13 @@
 # https://adventofcode.com/2023/day/17
 
 from Dijkstra import Dijkstra, recover_path
+from copy import deepcopy
 
 # My utility functions
 from utils import (
 show, 
-# chunk_splitlines, printT, showM, 
+# chunk_splitlines, printT, 
+showM, 
 showD, 
 # parse_nums, rotate90, close_bracket, cmp, qsort, Best, 
 # Timer,
@@ -13,6 +15,12 @@ showD,
 # TTT = Timer()
 
 ################################
+
+def parse_file_basic(filename):
+  f = open(filename)
+  ip_file = [[n for n in list(row)] for row in f.read().splitlines()]
+  f.close()
+  return ip_file
 
 def parse_file(filename):
   f = open(filename)
@@ -39,13 +47,13 @@ def parse_file(filename):
 
   return (M, STARTS, ENDS)
 
-
+grid = parse_file_basic("Puzzle17_test.txt")
+# showM(grid, -1)
 
 test_input = parse_file("Puzzle17_test.txt")
 # input      = parse_file("Puzzle17_input.txt")
 
 (M, STARTS, ENDS) = test_input
-
 # showD(M)
 
 ################################
@@ -113,18 +121,43 @@ def STEP_COST(matrix, here, other):
 # print(STARTS)
 # print(ENDS)
 
-# print(
-#   STEP_COST(M, ((0,0), 'N'),  ((2,0), 'N'))
-# )
-# print(ACCESSIBLE_NEIGHBOURS(M, ((0, 0), 'S')))
 
-(t,p) = Dijkstra(M, STARTS, ENDS, ACCESSIBLE_NEIGHBOURS, STEP_COST)
+SE = ((0,0), 'E')
+EE = ((12,12), 'E')
+(t,p) = Dijkstra(M, 
+                 [SE], 
+                 [((2,10), 'S')], 
+                 ACCESSIBLE_NEIGHBOURS, STEP_COST)
 
-for e in ENDS:
-  print(recover_path(p,e))
+# print(t[EE])
+
+# print([t[e] for e in ENDS])
+# showD(p)
+
+# for e in [EE]:
+#   print(recover_path(p,e))
+
+PPP = recover_path(p,((2,10), 'S'))
+print(PPP)
+
+def show_path(grid, p):
+  translate = {
+    'N':'^', 
+    'S':'V', 
+    'W':'<', 
+    'E':'>' 
+               }
+  d = {k:translate[v] for (k,v) in p}
+  g2 = deepcopy(grid)
+  for r in range(len(g2)):
+    for c in range(len(g2[0])):
+      if (r,c) in d:
+        g2[r][c] = d[(r,c)]
+  showM(g2, -1)
+
+show_path(grid, PPP)
 
 
-# [t[e] for e in ENDS]
 # showD(t)
 
 def main_a(ip_file):
@@ -135,7 +168,6 @@ def main_a(ip_file):
 
 
 
-# showD(p)
 
 # For `test_input` we get the following minimal costs:
 # ((12, 12), 'N')   =>  100
