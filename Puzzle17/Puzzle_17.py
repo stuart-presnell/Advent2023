@@ -47,13 +47,14 @@ def parse_file(filename):
 
   return (M, STARTS, ENDS)
 
-grid = parse_file_basic("Puzzle17_test.txt")
 # showM(grid, -1)
 
-test_input = parse_file("Puzzle17_test.txt")
-# input      = parse_file("Puzzle17_input.txt")
+# test_input = parse_file("Puzzle17_test.txt")
+# grid_test = parse_file_basic("Puzzle17_test.txt")
+input      = parse_file("Puzzle17_input.txt")
+grid_input = parse_file_basic("Puzzle17_input.txt")
 
-(M, STARTS, ENDS) = test_input
+(M, STARTS, ENDS) = input
 # showD(M)
 
 ################################
@@ -116,18 +117,18 @@ def STEP_COST(matrix, here, other):
 
 # --------------------------------------------------
 
-(M, STARTS, ENDS) = test_input
+# (M, STARTS, ENDS) = test_input
 # showD(M)
 # print(STARTS)
 # print(ENDS)
 
 
-SE = ((0,0), 'E')
-EE = ((12,12), 'E')
-(t,p) = Dijkstra(M, 
-                 [SE], 
-                 [((2,10), 'S')], 
-                 ACCESSIBLE_NEIGHBOURS, STEP_COST)
+# SE = ((0,0), 'E')
+# EE = ((12,12), 'E')
+# (t,p) = Dijkstra(M, 
+#                  [SE], 
+#                  [((2,10), 'S')], 
+#                  ACCESSIBLE_NEIGHBOURS, STEP_COST)
 
 # print(t[EE])
 
@@ -137,8 +138,8 @@ EE = ((12,12), 'E')
 # for e in [EE]:
 #   print(recover_path(p,e))
 
-PPP = recover_path(p,((2,10), 'S'))
-print(PPP)
+# PPP = recover_path(p,((2,10), 'S'))
+# print(PPP)
 
 def show_path(grid, p):
   translate = {
@@ -155,7 +156,14 @@ def show_path(grid, p):
         g2[r][c] = d[(r,c)]
   showM(g2, -1)
 
-show_path(grid, PPP)
+
+def path_cost(grid, path):
+  current = path[0]
+  cost = 0
+  for pt in path[1:]:
+    cost += STEP_COST(grid, current, pt)
+    current = pt
+  return cost
 
 
 # showD(t)
@@ -176,6 +184,14 @@ def main_a(ip_file):
 # ((12, 12), 'E')   =>  102
 
 # print(main_a(test_input))  # 
+(t,p) = main_a(input)
+# showD(t)
+print(ENDS[0])
+PPP = recover_path(p,ENDS[0])
+# print(PPP)
+# path_cost(M, PPP)
+show_path(grid_input, PPP)
+
 # print(main_a(input))       # 930 is too low
 
 # TTT.timecheck("Part (a)")  #
