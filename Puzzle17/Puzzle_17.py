@@ -14,31 +14,35 @@ showD,
 
 ################################
 
-def parse_file_a(filename):
+def parse_file(filename):
   f = open(filename)
   ip_file = [[int(n) for n in list(row)] for row in f.read().splitlines()]
   f.close()
   ht = len(ip_file)
   wd = len(ip_file[0])
+  
+  # A state is a pair (pt, dir)
+  # We define a matrix `M`` indexed by points in the grid and cardinal directions:
+  # think of this as 4 copies of the grid stacked on top of each other
+  # The value `ip_file[r][c]` tells us the heat loss incurred for entering square (r,c)
   M = {((r,c), d): ip_file[r][c] for r in range(ht) for c in range(wd) for d in ['N','S','W','E']}
   
-  # State is a pair (pt, dir)
-  # Starting point is top left corner
+  # Starting point is top left corner, destination is bottom right corner
+  # We'll compute these here while we have access to `wd` and `ht`
   TL = (0,0)
+  BR = (ht-1, wd-1)
+
   # Two possible starting states
   STARTS = [(TL, 'E'), (TL, 'S')]
-
-  # Destination is bottom right corner
-  # Compute this here while we have access to `wd` and `ht`
-  BR = (ht-1, wd-1)
+  # Four possible ending states
   ENDS = [(BR, dir) for dir in ['N','S','W','E']]
 
   return (M, STARTS, ENDS)
 
 
 
-test_input = parse_file_a("Puzzle17_test.txt")
-input      = parse_file_a("Puzzle17_input.txt")
+test_input = parse_file("Puzzle17_test.txt")
+input      = parse_file("Puzzle17_input.txt")
 
 # (M, STARTS, ENDS) = input
 
